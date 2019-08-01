@@ -8,4 +8,6 @@ Web server for the Kritikos app.
 
 2. Setup DB: `mix ecto.setup`
 
+3. Setup client: `cd assets && npm install`
+
 3. Run `iex -S mix phx.server` to start server supervised by iex, or `mix phx.server` to start server independently
