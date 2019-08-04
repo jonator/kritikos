@@ -25,11 +25,15 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :ecto_sql, :migration_module, Ecto.Migration
+
 # Configures Guardian
 config :kritikos, Kritikos.Auth.Guardian,
-  issuer: "kritikos", # Name of your app/company/product
-  secret_key: "3a71JsVENIjPNnSmITkDov55BChYIqH2OQK4Q6ri7bWpu4qfdRLdkfHAw6Y3lmr9", #TODO: replace with env var for prod env
-  ttl: { 30, :days },
+  # Name of your app/company/product
+  issuer: "kritikos",
+  # TODO: replace with env var for prod env
+  secret_key: "3a71JsVENIjPNnSmITkDov55BChYIqH2OQK4Q6ri7bWpu4qfdRLdkfHAw6Y3lmr9",
+  ttl: {30, :days},
   verify_issuer: true
 
 # Import environment specific config. This must remain at the bottom
