@@ -17,6 +17,13 @@ defmodule Kritikos.Sessions.LiveSession do
     GenServer.start_link(__MODULE__, live_session, name: name)
   end
 
+  def exists?(keyword) do
+    case Registry.lookup(:sessions_registry, keyword) do
+      [{_, _} | _] -> true
+      [] -> false
+    end
+  end
+
   def submit_vote(keyword, %Vote{} = vote) do
     cast_via_registry(keyword, {:submit_vote, vote})
   end

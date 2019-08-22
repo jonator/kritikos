@@ -1,0 +1,26 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+
+.live-session {
+    width: 80%;
+    margin: 0 auto;
+
+}
+
+.question {
+    font-size: 20px;
+    padding: 50px;
+    text-align: center;
+}
+
+.votes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.votes div {
+    height: 40%;
+    width: 40%;
+    margin: auto;
+}

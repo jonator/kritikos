@@ -45,7 +45,8 @@ defmodule Kritikos.MixProject do
       {:guardian, "~> 1.2.1"},
       {:bcrypt_elixir, "~> 0.12"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:phoenix_inline_svg, "~> 1.3"}
     ]
   end
 

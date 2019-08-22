@@ -21,6 +21,8 @@ defmodule KritikosWeb.Router do
     pipe_through [:browser, :auth]
 
     get "/", PageController, :index
+    get "/:keyword", PageController, :live_session
+    get "/kiosk/:keyword", PageController, :kiosk_live_session
   end
 
   scope "/api", KritikosWeb do
