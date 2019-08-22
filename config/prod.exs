@@ -11,8 +11,16 @@ use Mix.Config
 # before starting your production server.
 config :kritikos, KritikosWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "example.com", port: 80],
+  url: [host: "kritikos.io", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
+
+# Configures Guardian
+config :kritikos, Kritikos.Auth.Guardian,
+  # Name of your app/company/product
+  issuer: "kritikos",
+  secret_key: System.get_env("SECRET"),
+  ttl: {30, :days},
+  verify_issuer: true
 
 # Do not print debug messages in production
 config :logger, level: :info
