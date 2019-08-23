@@ -2,8 +2,8 @@
     <div class="question">What did you think?</div>
 
     <div class="votes">
-        <div class="happy"><%= svg_image("happy") %></div>
-        <div class="surprised"><%= svg_image("surprised") %></div>
-        <div class="sad"><%= svg_image("sad") %></div>
+        <div class="happy"><%= PhoenixInlineSvg.Helpers.svg_image("happy") %></div>
+        <div class="surprised"><%= PhoenixInlineSvg.Helpers.svg_image("surprised") %></div>
+        <div class="sad"><%= PhoenixInlineSvg.Helpers.svg_image("sad") %></div>
     </div>
 </div>
