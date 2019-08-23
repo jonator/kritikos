@@ -13,7 +13,9 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    dashboard: './js/dashboard.js'
+    error: './js/error.js',
+    dashboard: './js/dashboard.js',
+    livesession: './js/livesession.js'
   },
   output: {
     filename: '[name].js',

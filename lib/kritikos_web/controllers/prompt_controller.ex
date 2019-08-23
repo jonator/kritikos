@@ -11,7 +11,7 @@ defmodule KritikosWeb.PromptController do
   end
 
   defp load_template_with_existing_session(conn, template, keyword) do
-    if LiveSession.exists?(keyword) do
+    if LiveSession.exists?(keyword) || Mix.env() == :dev do
       render(conn, template, keyword: keyword)
     else
       conn

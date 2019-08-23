@@ -1,3 +1,6 @@
+<script src="<%= Routes.static_path(@conn, "/js/error.js") %>"></script>
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/error.css") %>"/>
+
 <div class="error-reason">
 
 <%= @reason %>
