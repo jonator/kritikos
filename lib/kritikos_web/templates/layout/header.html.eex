@@ -1,0 +1,9 @@
+<%= render_layout "app.html", assigns do %>
+    <div class="header">
+        <div class="logo-kritikos">
+            <%= svg_image("kritikos", "logo") %>
+        </div>
+    </div>
+
+    <%= render @view_module, @view_template, assigns %>
+<% end %>

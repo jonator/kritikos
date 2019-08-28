@@ -29,7 +29,8 @@ defmodule KritikosWeb do
 
   def view do
     quote do
-      use PhoenixInlineSvg.Helpers, otp_app: :kritikos
+      # use PhoenixInlineSvg.Helpers, otp_app: :kritikos
+      import PhoenixInlineSvg.Helpers
 
       use Phoenix.View,
         root: "lib/kritikos_web/templates",

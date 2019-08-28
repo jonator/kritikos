@@ -20,6 +20,7 @@ defmodule KritikosWeb.Router do
   scope "/", KritikosWeb do
     pipe_through [:browser, :auth]
 
+    get "/", LandingController, :landing
     get "/:keyword", PromptController, :live_session
     get "/kiosk/:keyword", PromptController, :kiosk_live_session
   end

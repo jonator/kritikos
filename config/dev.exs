@@ -69,7 +69,7 @@ config :phoenix, :plug_init_mode, :runtime
 # Configure your database
 config :kritikos, Kritikos.Repo,
   username: "postgres",
-  password: "admin",
+  password: "postgres",
   database: "kritikos_db",
   hostname: "localhost",
   pool_size: 10

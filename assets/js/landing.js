@@ -1,0 +1,1 @@
+import landingCss from "../css/landing.css"

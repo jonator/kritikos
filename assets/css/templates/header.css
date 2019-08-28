@@ -1,0 +1,10 @@
+.header {
+    height: 100px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.logo-kritikos {
+    margin: auto;
+    font-size: 2em;
+}

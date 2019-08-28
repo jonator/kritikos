@@ -14,6 +14,7 @@ module.exports = (env, options) => ({
   },
   entry: {
     error: './js/error.js',
+    landing: './js/landing.js',
     dashboard: './js/dashboard.js',
     livesession: './js/livesession.js'
   },
