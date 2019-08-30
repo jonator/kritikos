@@ -1,2 +1,37 @@
 @import "./templates/header.css";
 @import "./templates/global.css";
+
+.saw:after {
+    right: 2%;
+    left: auto;
+    bottom: -60px;
+    content: '';
+    position: absolute;
+    border-top: 60px #fff solid;
+    border-left: transparent 60px solid;
+    border-right: transparent 60px solid;
+    z-index: 2;
+}
+
+.wrap {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+section .wrap {
+    min-height: 200px;
+    padding: 80px 0;
+    width: 55%;
+    padding-right: 25%;
+}
+
+section .wrap.reverse {
+    padding-right: 0;
+    padding-left: 25%;
+}
+
+#hero {
+    background-color: aliceblue;
+}
