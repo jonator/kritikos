@@ -1,16 +1,40 @@
 @import "./templates/header.css";
 @import "./templates/global.css";
 
+
 .saw:after {
-    right: 2%;
-    left: auto;
     bottom: -60px;
     content: '';
     position: absolute;
-    border-top: 60px #fff solid;
     border-left: transparent 60px solid;
     border-right: transparent 60px solid;
     z-index: 2;
+}
+
+#hero {
+    background-color: aliceblue;
+    position: relative;
+}
+
+.row {
+    position: relative;
+}
+
+.insert {
+    position: absolute;
+}
+
+.insert.right {
+    right: 0;
+}
+
+.insert.bottom {
+    bottom: 0;
+}
+
+svg.cliff {
+    height: auto;
+    width: 28vw;
 }
 
 .wrap {
@@ -20,18 +44,28 @@
     position: relative;
 }
 
+article {
+    overflow-y: hidden;
+}
+
 section .wrap {
-    min-height: 200px;
-    padding: 80px 0;
+    min-height: 280px;
+    padding: 80px 0 0 0;
     width: 55%;
     padding-right: 25%;
+}
+section .wrap:after {
+    left: 2%;
+    right: auto;
+    border-top: 60px aliceblue solid;
 }
 
 section .wrap.reverse {
     padding-right: 0;
     padding-left: 25%;
 }
-
-#hero {
-    background-color: aliceblue;
+section .wrap.reverse:after {
+    right: 2%;
+    left: auto;
+    border-top: 60px white solid;
 }

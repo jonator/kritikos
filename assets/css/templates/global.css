@@ -1,5 +1,19 @@
+/* reference: http://snapsvg.io/ */
+
 body {
     margin: 0;
+}
+
+.clickable {
+    user-select: none;
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: "grec";
+    font-style: normal;
+    font-weight: 300;
+    src: url("/fonts/grec/grec.ttf") format("truetype");
 }
 
 *[href] {
