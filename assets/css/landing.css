@@ -24,6 +24,10 @@
     position: absolute;
 }
 
+.insert.left {
+    left: 0;
+}
+
 .insert.right {
     right: 0;
 }
@@ -35,6 +39,11 @@
 svg.cliff {
     height: auto;
     width: 28vw;
+}
+
+svg.parthenon {
+    height: auto;
+    width: 10vw;
 }
 
 .wrap {

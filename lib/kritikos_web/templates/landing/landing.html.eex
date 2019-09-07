@@ -11,6 +11,7 @@
         <div class="wrap saw reverse">
             <h1>Instant feedback</h1>
             <h4>See what people are saying live</h4>
+            <%= svg_image("parthenon", "landing", class: "parthenon insert left bottom") %>
         </div>
     </section>
 </article>
