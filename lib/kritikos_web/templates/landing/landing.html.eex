@@ -2,7 +2,7 @@
     <section id="hero">
         <div class="wrap saw">
             <h1>Kritikos</h1>
-            <h4>Collect instant feedback from your audience</h4>
+            <h4>The easiest way to hear from your audience</h4>
             <%= svg_image("cliff", "landing", class: "cliff insert right bottom") %>
         </div>
         
@@ -13,5 +13,19 @@
             <h4>See what people are saying live</h4>
             <%= svg_image("parthenon", "landing", class: "parthenon insert left bottom") %>
         </div>
+    </section>
+    <section id="hero">
+        <div class="wrap saw">
+            <h1>Maximize participation</h1>
+            <h4>Hear from those who you normally wouldn't</h4>
+            <%= svg_image("amphitheatre", "landing", class: "amphitheatre insert right bottom") %>
+        </div>
+    </section>
+    <section>
+        <div class="wrap saw reverse">
+            <h1>Get the details</h1>
+            <h4>Give your audience the opportunity to elaborate</h4>
+            <%= svg_image("quill-drawing-a-line", "landing", class: "quill-drawing-a-line insert left bottom") %>
+        <div>
     </section>
 </article>
