@@ -24,7 +24,7 @@
     <section>
         <div class="wrap saw reverse">
             <h1>Get the details</h1>
-            <h4>Give your audience the opportunity to elaborate</h4>
+            <h4>Give your audience the opportunity to elaborate on their experience</h4>
             <%= svg_image("quill-drawing-a-line", "landing", class: "quill-drawing-a-line insert left bottom") %>
         <div>
     </section>

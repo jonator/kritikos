@@ -4,9 +4,8 @@ body {
     margin: 0;
 }
 
-.clickable {
-    user-select: none;
-    cursor: pointer;
+a {
+    color: black;
 }
 
 @font-face {
