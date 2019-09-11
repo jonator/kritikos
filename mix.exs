@@ -42,7 +42,6 @@ defmodule Kritikos.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:comeonin, ">= 4.1.2"},
-      {:guardian, "~> 1.2.1"},
       {:bcrypt_elixir, "~> 0.12"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},

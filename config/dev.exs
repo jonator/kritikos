@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -73,11 +73,3 @@ config :kritikos, Kritikos.Repo,
   database: "kritikos_db",
   hostname: "localhost",
   pool_size: 10
-
-# Configures Guardian
-config :kritikos, Kritikos.Auth.Guardian,
-  # Name of your app/company/product
-  issuer: "kritikos",
-  secret_key: "3a71JsVENIjPNnSmITkDov55BChYIqH2OQK4Q6ri7bWpu4qfdRLdkfHAw6Y3lmr9",
-  ttl: {30, :days},
-  verify_issuer: true

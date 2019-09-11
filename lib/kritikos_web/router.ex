@@ -13,12 +13,8 @@ defmodule KritikosWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :auth do
-    plug Kritikos.Auth.Pipeline
-  end
-
   scope "/", KritikosWeb do
-    pipe_through [:browser, :auth]
+    pipe_through [:browser]
 
     get "/", LandingController, :landing
     get "/:keyword", PromptController, :live_session
@@ -26,7 +22,7 @@ defmodule KritikosWeb.Router do
   end
 
   scope "/api", KritikosWeb do
-    pipe_through [:api, :auth]
+    pipe_through [:api]
 
     post "/users/login", SessionController, :create
     post "/user", UserController, :create

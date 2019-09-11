@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -14,13 +14,9 @@ config :kritikos, KritikosWeb.Endpoint,
   url: [host: "kritikos.io", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-# Configures Guardian
-config :kritikos, Kritikos.Auth.Guardian,
-  # Name of your app/company/product
-  issuer: "kritikos",
-  secret_key: System.get_env("SECRET"),
-  ttl: {30, :days},
-  verify_issuer: true
+config :kritikos, Kritikos.Auth.Authenticator,
+  seed: "user token"
+  secret: System.get_env("SECRET")
 
 # Do not print debug messages in production
 config :logger, level: :info
