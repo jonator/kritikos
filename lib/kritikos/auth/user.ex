@@ -8,6 +8,7 @@ defmodule Kritikos.Auth.User do
     field :is_active, :boolean, default: false
     field :password, :string, virtual: true
     field :password_hash, :string
+    has_many :auth_tokens, Kritikos.Auth.Token
 
     timestamps()
   end

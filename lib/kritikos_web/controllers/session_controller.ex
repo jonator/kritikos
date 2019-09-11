@@ -4,21 +4,16 @@ defmodule KritikosWeb.SessionController do
   alias Kritikos.Auth
 
   def create(conn, %{"user" => %{"email" => email, "password" => password}}) do
-    Auth.authenticate_user(email, password)
-    |> login_reply(conn)
-  end
+    case Auth.authenticate_user(email, password) do
+      {:ok, user} ->
+        conn
+        |> put_status(:ok)
+        |> render("show.json", message: user)
 
-  defp login_reply({:ok, user}, conn) do
-    {:ok, jwt, _full_claims} = Auth.Guardian.encode_and_sign(user, %{}, token_type: :token)
-
-    conn
-    |> put_status(:created)
-    |> render("login.json", jwt: jwt, user: user)
-  end
-
-  defp login_reply({:error, error}, conn) do
-    conn
-    |> put_status(:unauthorized)
-    |> render("error.json", message: error)
+      {:error, msg} ->
+        conn
+        |> put_status(:unauthorized)
+        |> render("error.json", message: msg)
+    end
   end
 end

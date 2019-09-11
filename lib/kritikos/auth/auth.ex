@@ -6,7 +6,7 @@ defmodule Kritikos.Auth do
   import Ecto.Query, warn: false
   alias Kritikos.Repo
   alias Comeonin.Bcrypt
-  alias Kritikos.Auth.User
+  alias Kritikos.Auth.{User, Token}
 
   def list_users do
     Repo.all(User)
@@ -15,16 +15,31 @@ defmodule Kritikos.Auth do
   def get_user!(id), do: Repo.get!(User, id)
 
   def authenticate_user(email, plain_text_password) do
-    query = from u in User, where: u.email == ^email
+    case check_password(email, plain_text_password) do
+      {:ok, user} = valid_result ->
+        create_token(user)
 
-    Repo.one(query)
-    |> check_password(plain_text_password)
+        valid_result
+
+      {:error, _msg} ->
+        {:error, "Invalid username or password"}
+    end
+  end
+
+  def unauthenticate_user(conn) do
+    IO.inspect(conn.cookies)
   end
 
   def register_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    case %User{} |> User.changeset(attrs) |> Repo.insert() do
+      {:ok, user} = valid_result ->
+        create_token(user)
+
+        valid_result
+
+      {:error, _changeset} = error_result ->
+        error_result
+    end
   end
 
   def update_user(%User{} = user, attrs) do
@@ -41,13 +56,16 @@ defmodule Kritikos.Auth do
     User.changeset(user, %{})
   end
 
-  defp check_password(nil, _), do: {:error, "Incorrect email or password"}
+  defp check_password(email, plain_text_password) do
+    Repo.get_by!(User, email: email)
+    |> Bcrypt.check_pass(plain_text_password)
+  end
 
-  defp check_password(user, plain_text_password) do
-    if Bcrypt.checkpw(plain_text_password, user.password_hash) do
-      {:ok, user}
-    else
-      {:error, "Incorrect email or password"}
-    end
+  defp create_token(user) do
+    token = Token.sign(user.id)
+
+    Ecto.build_assoc(user, :auth_tokens)
+    |> Token.changeset(%{token: token})
+    |> Repo.insert()
   end
 end
