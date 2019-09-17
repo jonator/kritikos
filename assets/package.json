@@ -1,5 +1,6 @@
 {
-  "repository": {},
+  "repository": "https://github.com/jonator/kritikos",
+  "description": "Client assets for kritikos",
   "license": "MIT",
   "scripts": {
     "deploy": "webpack --mode production",

@@ -15,11 +15,13 @@ config :kritikos, KritikosWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :kritikos, Kritikos.Auth.Authenticator,
-  seed: "user token"
+  seed: "user token",
   secret: System.get_env("SECRET")
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+default_release: NAME
 
 # ## SSL Support
 #
@@ -60,7 +62,7 @@ config :logger, level: :info
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start the server for all endpoints:
 #
-#     config :phoenix, :serve_endpoints, true
+config :phoenix, :serve_endpoints, true
 #
 # Alternatively, you can configure exactly which server to
 # start per endpoint:
