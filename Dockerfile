@@ -36,7 +36,7 @@ RUN \
 
 RUN \
     mkdir -p /opt/built && \
-    mix release prod && \
+    mix release && \
     cp _build/${MIX_ENV}/rel/${APP_NAME}/bin/${APP_NAME} /opt/built
 
 FROM alpine:${ALPINE_VERSION}

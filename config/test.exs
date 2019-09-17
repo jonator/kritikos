@@ -13,6 +13,6 @@ config :logger, level: :warn
 config :kritikos, Kritikos.Repo,
   username: "postgres",
   password: "postgres",
-  database: "pong_test",
+  database: "kritikos_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
