@@ -38,7 +38,7 @@ main {
     font-size: 32px;
 }
 
-.log-in {
+#log-in {
     float: right;
     width: 100px;
     align-self: center;

@@ -6,4 +6,10 @@ defmodule KritikosWeb.LandingController do
   def landing(conn, _params) do
     render(conn, "landing.html")
   end
+
+  def portal(conn, _params) do
+    conn
+    |> put_layout("app.html")
+    |> render("portal.html")
+  end
 end

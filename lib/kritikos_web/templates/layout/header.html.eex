@@ -2,7 +2,7 @@
     <header id="header">
         <div class="wrap">
             <span class="logo"><a href="/">Kritikos</a></span>
-            <button class="log-in">Log in</button>
+            <button id="log-in">Log in</button>
         </div>
     </header>
 

@@ -87,3 +87,14 @@ section .wrap.reverse:after {
     left: auto;
     border-top: 60px white solid;
 }
+
+/* Portal */
+
+form {
+    width: 10%;
+    margin: 0 auto;
+}
+
+form h1 {
+    font-family: "grec";
+}

@@ -17,8 +17,15 @@ defmodule KritikosWeb.Router do
     pipe_through [:browser]
 
     get "/", LandingController, :landing
+    get "/portal", LandingController, :portal
     get "/:keyword", PromptController, :live_session
     get "/kiosk/:keyword", PromptController, :kiosk_live_session
+  end
+
+  scope "/dashboard", KritikosWeb do
+    pipe_through [:browser]
+
+    get "/", DashboardController, :home
   end
 
   scope "/api", KritikosWeb do

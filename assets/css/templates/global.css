@@ -7,6 +7,10 @@ body {
 a {
     color: black;
 }
+a:hover {
+    cursor: pointer;
+    user-select: none;
+}
 
 @font-face {
     font-family: "grec";
