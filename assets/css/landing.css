@@ -91,10 +91,15 @@ section .wrap.reverse:after {
 /* Portal */
 
 form {
-    width: 10%;
+    width: 20%;
     margin: 0 auto;
 }
 
 form h1 {
     font-family: "grec";
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }

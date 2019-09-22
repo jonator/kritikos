@@ -14,10 +14,6 @@ config :kritikos, KritikosWeb.Endpoint,
   url: [host: "kritikos.io", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-config :kritikos, Kritikos.Auth.Authenticator,
-  seed: "user token"
-  secret: System.get_env("SECRET")
-
 # Do not print debug messages in production
 config :logger, level: :info
 

@@ -1,7 +1,10 @@
 defmodule KritikosWeb.DashboardController do
   use KritikosWeb, :controller
+  use KritikosWeb.GuardedController
 
-  def home(conn, _params) do
+  plug KritikosWeb.Plug.EnsureAuthenticated
+
+  def home(conn, _params, _user) do
     render(conn, "home.html")
   end
 end
