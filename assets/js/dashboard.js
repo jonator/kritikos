@@ -28,5 +28,5 @@ document.getElementById("log-out").onclick = () => {
         },
         redirect: "follow",
         referrer: "no-referrer"
-    }).then(resp => window.location.href = resp.url)
+    }).then(resp => window.location.href = resp.redirect)
 }
