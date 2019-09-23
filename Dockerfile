@@ -5,7 +5,8 @@ ARG ALPINE_VERSION=3.9
 FROM elixir:alpine as builder
 
 ARG APP_NAME=kritikos
-ARG APP_VSN=0.0.1
+# must match mix.env project version
+ARG APP_VSN=0.1.0
 ARG MIX_ENV=prod
 
 ENV \
@@ -25,19 +26,23 @@ RUN apk update && \
     mix local.rebar --force && \
     mix local.hex --force
 
+# excludes what is in .dockerignore
 COPY . .
 
 RUN \
+    mix deps.get --only prod && \
     cd ./assets && \
     npm install && \
     npm run deploy && \
     cd .. && \
     mix phx.digest
 
+RUN SECRET=`mix phx.gen.secret` echo $SECRET >> ./config/prod.env
+
 RUN \
     mkdir -p /opt/built && \
     mix release && \
-    cp _build/${MIX_ENV}/rel/${APP_NAME}/bin/${APP_NAME} /opt/built
+    cp -r _build/${MIX_ENV}/rel/ /opt/built
 
 FROM alpine:${ALPINE_VERSION}
 
@@ -51,6 +56,8 @@ RUN apk update && \
 ENV REPLACE_OS_VARS=true \
     APP_NAME=${APP_NAME}
 
-WORKDIR /opt/app
-
 COPY --from=builder /opt/built .
+
+COPY ./priv/deploy.sh .
+
+CMD [ "./deploy.sh"]

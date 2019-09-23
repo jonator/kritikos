@@ -12,13 +12,12 @@ defmodule Kritikos.MixProject do
       aliases: aliases(),
       deps: deps(),
       releases: [
-        prod: [
+        deployable: [
           include_executables_for: [:unix],
           applications: [runtime_tools: :permanent]
         ]
       ]
     ]
-
   end
 
   # Configuration for the OTP application.

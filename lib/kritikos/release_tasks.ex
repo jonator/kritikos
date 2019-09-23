@@ -1,5 +1,5 @@
 defmodule Kritikos.ReleaseTasks do
-  @repos Application.get_env(Kritikos, :ecto_repos)
+  @repos Application.get_env(:kritikos, :ecto_repos)
 
   def migrate_database do
     case Application.ensure_all_started(:kritikos) do
@@ -8,6 +8,7 @@ defmodule Kritikos.ReleaseTasks do
 
       {:error, {_app, _term}} ->
         IO.puts(:stderr, "Migration failed; apps not started")
+        System.stop(1)
     end
   end
 
