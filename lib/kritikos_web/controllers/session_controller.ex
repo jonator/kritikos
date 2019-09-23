@@ -7,13 +7,21 @@ defmodule KritikosWeb.SessionController do
     case Auth.authenticate_user(email, password) do
       {:ok, user} ->
         conn
+        |> put_session(:user, user)
         |> put_status(:ok)
-        |> render("show.json", message: user)
+        |> render("login.json", user: user)
 
       {:error, msg} ->
         conn
+        |> put_view(KritikosWeb.ErrorView)
         |> put_status(:unauthorized)
         |> render("error.json", message: msg)
     end
+  end
+
+  def drop(conn, _params) do
+    clear_session(conn)
+    |> configure_session(drop: true)
+    |> redirect(to: "/")
   end
 end

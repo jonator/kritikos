@@ -1,0 +1,13 @@
+form {
+    width: 20%;
+    margin: 0 auto;
+}
+
+form h1 {
+    font-family: "grec";
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}

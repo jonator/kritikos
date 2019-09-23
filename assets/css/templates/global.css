@@ -19,6 +19,18 @@ a:hover {
     src: url("/fonts/grec/grec.ttf") format("truetype");
 }
 
+.clickable:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 *[href] {
     cursor: pointer;
+}
+
+.wrap {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
 }

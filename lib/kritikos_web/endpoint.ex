@@ -39,8 +39,12 @@ defmodule KritikosWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_pong_key",
-    signing_salt: "XMwElk3D"
+    key: "_kritikos_key",
+    signing_salt: "XMwElk3D",
+    encryption_salt: "cookie store encryption salt",
+    key_length: 64,
+    max_age: 86400,
+    log: :debug
 
   plug KritikosWeb.Router
 end

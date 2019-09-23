@@ -2,7 +2,7 @@
     <header id="header">
         <div class="wrap">
             <span class="logo"><a href="/">Kritikos</a></span>
-            <button id="log-in">Log in</button>
+            <button id="<%= @button.id %>" class="landing-action" onclick="window.location.href='<%= @button.href %>'"><%= @button.text %></button>
         </div>
     </header>
 

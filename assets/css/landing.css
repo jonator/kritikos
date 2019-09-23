@@ -1,5 +1,6 @@
 @import "./templates/header.css";
 @import "./templates/global.css";
+@import "./portal.css";
 
 
 .saw:after {
@@ -55,13 +56,6 @@ svg.quill-drawing-a-line {
     width: 7vw;
 }
 
-.wrap {
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-}
-
 article {
     overflow-y: hidden;
 }
@@ -86,15 +80,4 @@ section .wrap.reverse:after {
     right: 2%;
     left: auto;
     border-top: 60px white solid;
-}
-
-/* Portal */
-
-form {
-    width: 10%;
-    margin: 0 auto;
-}
-
-form h1 {
-    font-family: "grec";
 }

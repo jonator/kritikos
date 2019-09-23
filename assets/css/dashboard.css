@@ -1,1 +1,2 @@
-@import "./phoenix.css";
+@import "./templates/global.css";
+@import "./templates/header.css";

@@ -38,8 +38,15 @@ main {
     font-size: 32px;
 }
 
-#log-in {
+.landing-action {
     float: right;
-    width: 100px;
     align-self: center;
+}
+
+button #dashboard {
+    width: 150px;
+}
+
+button #portal {
+    width: 100px;
 }
