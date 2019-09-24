@@ -3,16 +3,16 @@ defmodule KritikosWeb.DashboardController do
   use KritikosWeb.GuardedController
 
   plug KritikosWeb.Plug.EnsureAuthenticated
+  plug :put_layout, "header.html"
+
+  plug KritikosWeb.Plug.PutAssigns, button: %{id: "log-out", href: "/", text: "Log out"}
 
   def home(conn, _params, _user) do
-    log_out_button = %{
-      id: "log-out",
-      href: "/",
-      text: "Log out"
-    }
+    render(conn, "home.html")
+  end
 
-    conn
-    |> put_layout("header.html")
-    |> render("home.html", button: log_out_button)
+  def new_session(conn, _params, _user) do
+    IO.inspect(conn)
+    render(conn, "new_session.html")
   end
 end

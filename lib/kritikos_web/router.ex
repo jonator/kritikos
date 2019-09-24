@@ -18,6 +18,7 @@ defmodule KritikosWeb.Router do
     pipe_through [:browser]
 
     get "/", DashboardController, :home
+    get "/newSession", DashboardController, :new_session
   end
 
   scope "/api", KritikosWeb do

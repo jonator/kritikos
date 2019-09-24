@@ -1,2 +1,29 @@
 @import "./templates/global.css";
 @import "./templates/header.css";
+
+section#activities .wrap {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 20vh;
+}
+
+.menu-item {
+    display: flex;
+    text-align: center;
+    margin: auto;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    height: 90%;
+    width: 90%;
+}
+
+.menu-item:hover {
+    background-color: #f2fffe;
+    cursor: pointer;
+}
+
+.menu-item div {
+    margin: auto;
+}

@@ -66,6 +66,7 @@ section .wrap {
     width: 55%;
     padding-right: 25%;
 }
+
 section .wrap:after {
     left: 2%;
     right: auto;

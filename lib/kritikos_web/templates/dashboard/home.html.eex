@@ -1,5 +1,15 @@
-<article class="wrap">
-    
-
-
+<article>
+    <section id="activities">
+        <div class="wrap">
+            <div class="menu-item">
+                <div>Create new session</div>
+            </div>
+            <div class="menu-item">
+                <div>View previous sessions</div>
+            </div>
+            <div class="menu-item">
+                <div>View all sessions</div>
+            </div>
+        </div>
+    </section>
 </article>
