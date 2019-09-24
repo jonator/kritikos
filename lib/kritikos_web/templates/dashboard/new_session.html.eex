@@ -1,1 +1,16 @@
-<a>hi</a>
+<article id="proposed-session" class="wrap">
+    <section>
+        <div id="session-keyword">
+            <h2>Session keyword: <div class="session-url"><%= @keyword %></div><h2>
+        </div>
+    </section>
+    <section>
+        <h2>Kiosk url: <div class="session-url"><%= @conn.host %>/kiosk/<%= @keyword %></div></h2>
+    </section>
+    <section>
+        <h2>User devices: <div class="session-url"><%= @conn.host %>/<%= @keyword %></div></h2>
+    </section>
+    <section>
+        <button id="launch-session">Launch session</button>
+    </section>
+</article>

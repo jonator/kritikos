@@ -28,3 +28,19 @@ section#activities .wrap {
 .menu-item div {
     margin: auto;
 }
+
+#proposed-session {
+    text-align: center;
+}
+
+#proposed-session section {
+    padding-top: 20px;
+}
+
+#session-keyword {
+    border-bottom: 3px solid #f2fffe;
+}
+
+.session-url {
+    font-family: monospace;
+}

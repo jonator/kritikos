@@ -12,7 +12,7 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def new_session(conn, _params, _user) do
-    render(conn, "new_session.html")
+    render(conn, "new_session.html", keyword: "hi")
   end
 
   def previous_sessions(conn, _params, _user) do

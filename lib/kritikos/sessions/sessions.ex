@@ -2,11 +2,7 @@ defmodule Kritikos.Sessions do
   import Ecto.Query, warn: false
   alias Kritikos.Repo
 
-  alias Kritikos.Sessions.ResolvedSession
-
-  def list_resolved_sessions do
-    Repo.all(ResolvedSession)
-  end
+  alias Kritikos.Sessions.{LiveSession, ResolvedSession}
 
   def get_resolved_session!(id), do: Repo.get!(ResolvedSession, id)
 
