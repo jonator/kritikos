@@ -7,6 +7,8 @@ import Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :kritikos, KritikosWeb.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "ZqlOOOs/G6dbTot3SpxziwEtIkex8K+Yx+VVXM6vVSod/45HPkRj4wVHeeNGdds/",
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,

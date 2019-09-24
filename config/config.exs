@@ -7,13 +7,8 @@
 # General application configuration
 import Config
 
-config :kritikos,
-  ecto_repos: [Kritikos.Repo]
-
 # Configures the endpoint
 config :kritikos, KritikosWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "ZqlOOOs/G6dbTot3SpxziwEtIkex8K+Yx+VVXM6vVSod/45HPkRj4wVHeeNGdds/",
   render_errors: [view: KritikosWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Kritikos.PubSub, adapter: Phoenix.PubSub.PG2]
 
