@@ -3,6 +3,7 @@
 // its own CSS file.
 import dashboardCss from "../css/dashboard.css"
 
+
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
@@ -15,3 +16,17 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
+
+document.getElementById("log-out").onclick = () => {
+    fetch("/api/users/logout", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "text/html"
+        },
+        redirect: "follow",
+        referrer: "no-referrer"
+    }).then(resp => window.location.href = resp.redirect)
+}

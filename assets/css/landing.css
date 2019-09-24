@@ -1,5 +1,6 @@
 @import "./templates/header.css";
 @import "./templates/global.css";
+@import "./portal.css";
 
 
 .saw:after {
@@ -53,13 +54,6 @@ svg.amphitheatre {
 svg.quill-drawing-a-line {
     height: auto;
     width: 7vw;
-}
-
-.wrap {
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
 }
 
 article {

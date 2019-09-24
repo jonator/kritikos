@@ -1,0 +1,9 @@
+<form id="portal" @submit.prevent="handleSubmit">
+    <h1 class="clickable" onclick="window.location.href='/'">Kritikos</h1>
+    <input placeholder="email" type="email" name="email" v-model="email">
+    <input placeholder="password" type="password" name="password" v-model="password">
+    <input v-if="isRegistering" placeholder="password confirmation" type="password" v-model="passwordConfirmation">
+    <button type="submit">{{ isRegistering ? "Register" : "Log in" }}</button><br>
+    <p v-for="e in errors" class="error">{{e}}</p>
+    <a v-on:click="togglePortalMode">{{ isRegistering ? "Log in" : "Don't have an account? Register" }}</a>
+</form>

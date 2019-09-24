@@ -11,21 +11,30 @@ defmodule KritikosWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
-  scope "/", KritikosWeb do
+  scope "/dashboard", KritikosWeb do
     pipe_through [:browser]
 
-    get "/", LandingController, :landing
-    get "/:keyword", PromptController, :live_session
-    get "/kiosk/:keyword", PromptController, :kiosk_live_session
+    get "/", DashboardController, :home
   end
 
   scope "/api", KritikosWeb do
     pipe_through [:api]
 
     post "/users/login", SessionController, :create
+    post "/users/logout", SessionController, :drop
     post "/user", UserController, :create
     put "/user", UserController, :update
+  end
+
+  scope "/", KritikosWeb do
+    pipe_through [:browser]
+
+    get "/", LandingController, :landing
+    get "/portal", LandingController, :portal
+    get "/:keyword", PromptController, :live_session
+    get "/kiosk/:keyword", PromptController, :kiosk_live_session
   end
 end
