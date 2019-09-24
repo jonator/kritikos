@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :kritikos,
+  ecto_repos: [Kritikos.Repo]
+
 # Configures the endpoint
 config :kritikos, KritikosWeb.Endpoint,
   render_errors: [view: KritikosWeb.ErrorView, accepts: ~w(html json)],

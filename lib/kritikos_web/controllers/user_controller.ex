@@ -7,7 +7,8 @@ defmodule KritikosWeb.UserController do
     case Auth.register_user(user_params) do
       {:ok, user} ->
         conn
-        |> put_status(:created)
+        |> put_session(:user, user)
+        |> put_status(:ok)
         |> render("login.json", user: user)
 
       {:error, changeset} ->
