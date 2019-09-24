@@ -1,14 +1,9 @@
 <article id="proposed-session" class="wrap">
     <section>
-        <div id="session-keyword">
-            <h2>Session keyword: <div class="session-url"><%= @keyword %></div><h2>
-        </div>
-    </section>
-    <section>
-        <h2>Kiosk url: <div class="session-url"><%= @conn.host %>/kiosk/<%= @keyword %></div></h2>
-    </section>
-    <section>
-        <h2>User devices: <div class="session-url"><%= @conn.host %>/<%= @keyword %></div></h2>
+        <h1>Launch a new feedback session</h1>
+        <p>Users will be able to visit the link to immediately give feedback once a session is launched<p>
+        <p>The session will last until it is closed by you<p>
+        <p>Once closed, you will be able to view the feedback</p>
     </section>
     <section>
         <button id="launch-session">Launch session</button>

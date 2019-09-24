@@ -31,6 +31,16 @@ document.getElementById("log-out").addEventListener("click", () => {
     })
 }, true)
 
-document.getElementById("create-new-session").onclick = () => { window.location.href = "/dashboard/newSession" }
-document.getElementById("view-previous-sessions").onclick = () => { window.location.href = "/dashboard/previousSessions" }
-document.getElementById("view-all-sessions").onclick = () => { window.location.href = "/dashboard/allSessions" }
+if (document.getElementById("create-new-session")) {
+    document.getElementById("create-new-session").onclick = () => { window.location.href = "/dashboard/newSession" }
+}
+if (document.getElementById("view-previous-sessions")) {
+    document.getElementById("view-previous-sessions").onclick = () => { window.location.href = "/dashboard/previousSessions" }
+}
+if (document.getElementById("view-all-sessions")) {
+    document.getElementById("view-all-sessions").onclick = () => { window.location.href = "/dashboard/allSessions" }
+}
+
+if (document.getElementById("launch-session")) {
+    document.getElementById("launch-session").onclick = () => { window.location.href = "/" }
+}

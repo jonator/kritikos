@@ -36,11 +36,3 @@ section#activities .wrap {
 #proposed-session section {
     padding-top: 20px;
 }
-
-#session-keyword {
-    border-bottom: 3px solid #f2fffe;
-}
-
-.session-url {
-    font-family: monospace;
-}
