@@ -1,13 +1,13 @@
 <article>
     <section id="activities">
         <div class="wrap">
-            <div class="menu-item">
+            <div id="create-new-session" class="menu-item">
                 <div>Create new session</div>
             </div>
-            <div class="menu-item">
+            <div id="view-previous-sessions" class="menu-item">
                 <div>View previous sessions</div>
             </div>
-            <div class="menu-item">
+            <div id="view-all-sessions" class="menu-item">
                 <div>View all sessions</div>
             </div>
         </div>

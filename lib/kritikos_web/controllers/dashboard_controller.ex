@@ -7,12 +7,19 @@ defmodule KritikosWeb.DashboardController do
 
   plug KritikosWeb.Plug.PutAssigns, button: %{id: "log-out", href: "/", text: "Log out"}
 
-  def home(conn, _params, _user) do
-    render(conn, "home.html")
+  def dashboard(conn, _params, _user) do
+    render(conn, "dashboard.html")
   end
 
   def new_session(conn, _params, _user) do
-    IO.inspect(conn)
     render(conn, "new_session.html")
+  end
+
+  def previous_sessions(conn, _params, _user) do
+    render(conn, "previous_sessions.html")
+  end
+
+  def all_sessions(conn, _params, _user) do
+    render(conn, "all_sessions.html")
   end
 end

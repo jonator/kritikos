@@ -17,7 +17,7 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-document.getElementById("log-out").onclick = () => {
+document.getElementById("log-out").addEventListener("click", () => {
     fetch("/api/users/logout", {
         method: "POST",
         mode: "cors",
@@ -28,5 +28,9 @@ document.getElementById("log-out").onclick = () => {
         },
         redirect: "follow",
         referrer: "no-referrer"
-    }).then(resp => window.location.href = resp.redirect)
-}
+    })
+}, true)
+
+document.getElementById("create-new-session").onclick = () => { window.location.href = "/dashboard/newSession" }
+document.getElementById("view-previous-sessions").onclick = () => { window.location.href = "/dashboard/previousSessions" }
+document.getElementById("view-all-sessions").onclick = () => { window.location.href = "/dashboard/allSessions" }

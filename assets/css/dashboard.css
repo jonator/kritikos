@@ -17,6 +17,7 @@ section#activities .wrap {
     border-width: 1px;
     height: 90%;
     width: 90%;
+    font-size: 20px;
 }
 
 .menu-item:hover {
