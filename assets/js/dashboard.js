@@ -42,5 +42,5 @@ if (document.getElementById("view-all-sessions")) {
 }
 
 if (document.getElementById("launch-session")) {
-    document.getElementById("launch-session").onclick = () => { window.location.href = "/" }
+    document.getElementById("launch-session").onclick = () => { window.location.href = "/dashboard/currentSession?spawn=true" }
 }

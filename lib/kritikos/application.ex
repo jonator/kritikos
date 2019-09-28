@@ -5,7 +5,8 @@ defmodule Kritikos.Application do
     children = [
       Kritikos.Repo,
       KritikosWeb.Endpoint,
-      {Registry, [{:keys, :unique}, {:name, :sessions_registry}]}
+      {Registry, [{:keys, :unique}, {:name, :sessions_registry}]},
+      Kritikos.Sessions.KeywordFactory
     ]
 
     opts = [strategy: :one_for_one, name: Kritikos.Supervisor]

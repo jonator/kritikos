@@ -15,6 +15,9 @@ config :kritikos, KritikosWeb.Endpoint,
   render_errors: [view: KritikosWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Kritikos.PubSub, adapter: Phoenix.PubSub.PG2]
 
+config :kritikos, Kritikos.Sessions.KeywordFactory,
+  keyword_file_path: "./priv/static/session_keywords.txt"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

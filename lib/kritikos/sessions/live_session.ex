@@ -1,4 +1,7 @@
 defmodule Kritikos.Sessions.LiveSession do
+  @moduledoc """
+  GenServer that represents a live session taking incoming feedback for a host
+  """
   use GenServer
   alias Kritikos.{Sessions.ResolvedSession, Votes, Votes.Vote}
 
@@ -12,8 +15,9 @@ defmodule Kritikos.Sessions.LiveSession do
           votes: [Votes.Vote.t()] | []
         }
 
-  def start_link(%__MODULE__{keyword: k} = live_session) do
-    name = via_registry(k)
+  def start_link(%__MODULE__{keyword: k, host_id: hid} = live_session) do
+    {:via, Registry, reg} = via_registry(k)
+    name = {:via, Registry, Tuple.append(reg, hid)}
     GenServer.start_link(__MODULE__, live_session, name: name)
   end
 
@@ -30,7 +34,12 @@ defmodule Kritikos.Sessions.LiveSession do
 
   @impl GenServer
   def init(%__MODULE__{host_id: _, keyword: _} = live_session) do
-    {:ok, Map.put(live_session, :start_datetime, DateTime.utc_now())}
+    init_session =
+      live_session
+      |> Map.put(:start_datetime, DateTime.utc_now())
+      |> Map.put(:votes, [])
+
+    {:ok, init_session}
   end
 
   @impl GenServer

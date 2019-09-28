@@ -21,6 +21,7 @@ defmodule KritikosWeb.Router do
     get "/newSession", DashboardController, :new_session
     get "/previousSessions", DashboardController, :previous_sessions
     get "/allSessions", DashboardController, :all_sessions
+    get "/currentSession", DashboardController, :current_session
   end
 
   scope "/api", KritikosWeb do
