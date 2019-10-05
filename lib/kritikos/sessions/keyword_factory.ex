@@ -26,7 +26,8 @@ defmodule Kritikos.Sessions.KeywordFactory do
           {word, MapSet.new(words)}
 
         [] ->
-          {nil, MapSet.new()}
+          id = Ecto.UUID.generate() |> String.split("-") |> hd()
+          {id, map_set}
       end
     end)
   end

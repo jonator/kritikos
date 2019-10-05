@@ -22,7 +22,7 @@ defmodule Kritikos.Sessions.LiveSession do
   end
 
   def exists?(keyword) do
-    case Registry.lookup(:sessions_registry, keyword) do
+    case Registry.lookup(Kritikos.SessionsRegistry, keyword) do
       [{_, _} | _] -> true
       [] -> false
     end
@@ -58,6 +58,6 @@ defmodule Kritikos.Sessions.LiveSession do
   end
 
   defp via_registry(keyword) do
-    {:via, Registry, {:sessions_registry, keyword}}
+    {:via, Registry, {Kritikos.SessionsRegistry, keyword}}
   end
 end

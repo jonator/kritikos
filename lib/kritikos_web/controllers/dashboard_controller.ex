@@ -17,26 +17,17 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def current_session(conn, params, user) do
-    user_sessions =
-      Registry.select(:sessions_registry, [
-        {{:"$1", :"$2", :"$3"}, [{:==, :"$3", user.id}], [{{:"$2"}}]}
-      ])
+    case get_user_sessions(user.id) do
+      {:ok, pid} ->
+        render_session(conn, pid)
 
-    IO.inspect(user_sessions)
-
-    if params["spawn"] == "true" && Enum.count(user_sessions) == 0 do
-      {:ok, pid} = Sessions.start(user.id)
-      live_session = :sys.get_state(pid)
-      render(conn, "current_session.html", live_session: live_session)
-    else
-      case user_sessions do
-        [{pid}] ->
-          live_session = :sys.get_state(pid)
-          render(conn, "current_session.html", live_session: live_session)
-
-        _ ->
-          redirect(conn, to: "/dashboard")
-      end
+      :not_found ->
+        if params["spawn"] == "true" do
+          {:ok, pid} = Sessions.start(user.id)
+          render_session(conn, pid)
+        else
+          conn |> redirect(to: "/dashboard")
+        end
     end
   end
 
@@ -46,5 +37,22 @@ defmodule KritikosWeb.DashboardController do
 
   def all_sessions(conn, _params, _user) do
     render(conn, "all_sessions.html")
+  end
+
+  defp get_user_sessions(user_id) do
+    case Registry.select(Kritikos.SessionsRegistry, [
+           {{:"$1", :"$2", :"$3"}, [{:==, :"$3", user_id}], [:"$2"]}
+         ]) do
+      [pid] when is_pid(pid) ->
+        {:ok, pid}
+
+      _ ->
+        :not_found
+    end
+  end
+
+  defp render_session(conn, pid) do
+    live_session = :sys.get_state(pid)
+    render(conn, "current_session.html", live_session: live_session)
   end
 end

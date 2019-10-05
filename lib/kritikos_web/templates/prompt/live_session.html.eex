@@ -1,12 +1,13 @@
-<script src="<%= Routes.static_path(@conn, "/js/livesession.js") %>"></script>
-<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession.css") %>"/>
-
+<script>const keyword = "<%= @keyword %>";</script>
 <div class="live-session">
     <div class="question">What did you think?</div>
 
     <div class="votes">
-        <div class="happy"><%= svg_image("happy") %></div>
-        <div class="surprised"><%= svg_image("surprised") %></div>
-        <div class="sad"><%= svg_image("sad") %></div>
+        <div id="happy"><%= svg_image("happy") %></div>
+        <div id="surprised"><%= svg_image("surprised") %></div>
+        <div id="sad"><%= svg_image("sad") %></div>
     </div>
 </div>
+
+<script src="<%= Routes.static_path(@conn, "/js/livesession.js") %>"></script>
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession.css") %>"/>

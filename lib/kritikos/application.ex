@@ -5,7 +5,7 @@ defmodule Kritikos.Application do
     children = [
       Kritikos.Repo,
       KritikosWeb.Endpoint,
-      {Registry, [{:keys, :unique}, {:name, :sessions_registry}]},
+      {Registry, [{:keys, :unique}, {:name, Kritikos.SessionsRegistry}]},
       Kritikos.Sessions.KeywordFactory
     ]
 

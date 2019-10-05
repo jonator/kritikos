@@ -11,12 +11,26 @@ defmodule KritikosWeb.PromptController do
   end
 
   defp load_template_with_existing_session(conn, template, keyword) do
-    if LiveSession.exists?(keyword) || Mix.env() == :dev do
+    if LiveSession.exists?(keyword) do
       render(conn, template, keyword: keyword)
     else
       conn
       |> put_view(KritikosWeb.ErrorView)
       |> render("error.html", reason: "Feedback session #{keyword} doesn't exist!")
     end
+  end
+
+  def vote(conn, %{"keyword" => keyword, "level" => level}) do
+    {int_level, ""} = Integer.parse(level)
+
+    new_vote = %Kritikos.Votes.Vote{
+      session_keyword: keyword,
+      vote_level_id: int_level,
+      vote_datetime: DateTime.utc_now()
+    }
+
+    LiveSession.submit_vote(keyword, new_vote)
+
+    conn |> put_status(:ok) |> text("ok")
   end
 end

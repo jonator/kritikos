@@ -24,15 +24,6 @@ defmodule KritikosWeb.Router do
     get "/currentSession", DashboardController, :current_session
   end
 
-  scope "/api", KritikosWeb do
-    pipe_through [:api]
-
-    post "/users/login", SessionController, :create
-    post "/users/logout", SessionController, :drop
-    post "/user", UserController, :create
-    put "/user", UserController, :update
-  end
-
   scope "/", KritikosWeb do
     pipe_through [:browser]
 
@@ -40,5 +31,15 @@ defmodule KritikosWeb.Router do
     get "/portal", LandingController, :portal
     get "/:keyword", PromptController, :live_session
     get "/kiosk/:keyword", PromptController, :kiosk_live_session
+  end
+
+  scope "/api", KritikosWeb do
+    pipe_through [:api]
+
+    post "/users/login", SessionController, :create
+    post "/users/logout", SessionController, :drop
+    post "/user", UserController, :create
+    put "/user", UserController, :update
+    post "/vote/:keyword/:level", PromptController, :vote
   end
 end
