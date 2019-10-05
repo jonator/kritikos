@@ -30,6 +30,7 @@ defmodule KritikosWeb.Router do
     get "/", LandingController, :landing
     get "/portal", LandingController, :portal
     get "/:keyword", PromptController, :live_session
+    get "/:keyword/form", PromptController, :live_session_form
     get "/kiosk/:keyword", PromptController, :kiosk_live_session
   end
 
@@ -41,5 +42,6 @@ defmodule KritikosWeb.Router do
     post "/user", UserController, :create
     put "/user", UserController, :update
     post "/vote/:keyword/:level", PromptController, :vote
+    post "/api/:keyword/submit_form", PromptController, :submit_form
   end
 end

@@ -1,0 +1,10 @@
+@import "./templates/global.css";
+@import "./phoenix.css";
+
+#session-form {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 2%;
+    max-width: 800px;
+    text-align: center;
+}

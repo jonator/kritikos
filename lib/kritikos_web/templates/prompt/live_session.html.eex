@@ -1,6 +1,6 @@
 <script>const keyword = "<%= @keyword %>";</script>
-<div class="live-session">
-    <div class="question">What did you think?</div>
+<div id="live-session">
+    <div id="question">What did you think?</div>
 
     <div class="votes">
         <div id="happy"><%= svg_image("happy") %></div>

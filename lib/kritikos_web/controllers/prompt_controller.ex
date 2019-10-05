@@ -3,21 +3,26 @@ defmodule KritikosWeb.PromptController do
   alias Kritikos.Sessions.LiveSession
 
   def live_session(conn, %{"keyword" => keyword}) do
-    load_template_with_existing_session(conn, "live_session.html", keyword)
+    render_existing_session(conn, "live_session.html", keyword: keyword)
   end
 
   def kiosk_live_session(conn, %{"keyword" => keyword}) do
-    load_template_with_existing_session(conn, "kiosk_live_session.html", keyword)
+    render_existing_session(conn, "kiosk_live_session.html", keyword: keyword)
   end
 
-  defp load_template_with_existing_session(conn, template, keyword) do
-    if LiveSession.exists?(keyword) do
-      render(conn, template, keyword: keyword)
-    else
-      conn
-      |> put_view(KritikosWeb.ErrorView)
-      |> render("error.html", reason: "Feedback session #{keyword} doesn't exist!")
-    end
+  def live_session_form(conn, %{"keyword" => keyword}) do
+    vote_level = conn.query_params["voteLevel"]
+
+    render_existing_session(conn, "live_session_form.html",
+      keyword: keyword,
+      vote_level: vote_level
+    )
+  end
+
+  def submit_form(conn, %{"keyword" => _keyword}) do
+    IO.inspect(conn)
+
+    conn |> put_status(:ok) |> text("ok")
   end
 
   def vote(conn, %{"keyword" => keyword, "level" => level}) do
@@ -32,5 +37,15 @@ defmodule KritikosWeb.PromptController do
     LiveSession.submit_vote(keyword, new_vote)
 
     conn |> put_status(:ok) |> text("ok")
+  end
+
+  defp render_existing_session(conn, template, params) do
+    if LiveSession.exists?(params[:keyword]) do
+      render(conn, template, params)
+    else
+      conn
+      |> put_view(KritikosWeb.ErrorView)
+      |> render("error.html", reason: "Feedback session #{params[:keyword]} doesn't exist!")
+    end
   end
 end

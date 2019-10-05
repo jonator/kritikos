@@ -1,12 +1,13 @@
 @import "./templates/global.css";
+@import "./phoenix.css";
 
-.live-session {
+#live-session {
     width: 80%;
     margin: 0 auto;
-
+    max-width: 800px;
 }
 
-.question {
+#question {
     font-size: 3em;
     padding: 50px;
     text-align: center;
@@ -21,4 +22,8 @@
     height: 60%;
     width: 60%;
     margin: auto;
+}
+
+.votes div svg:hover {
+    cursor: pointer;
 }

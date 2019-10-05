@@ -47,10 +47,10 @@ new Vue({
 
 function register(email, password, passwordConfirmation) {
     const payload = { user: { email: email, password: password, password_confirmation: passwordConfirmation } }
-    return utils.fetchData("POST", "/api/user", payload)
+    return utils.fetchData("POST", "/api/user", payload).then()
 }
 
 function signin(email, password) {
     const payload = { user: { email: email, password: password } }
-    return utils.fetchData("POST", "api/users/login", payload)
+    return utils.fetchData("POST", "api/users/login", payload).then()
 }

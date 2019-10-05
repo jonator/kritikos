@@ -28,7 +28,7 @@ document.getElementById("log-out").addEventListener("click", () => {
         },
         redirect: "follow",
         referrer: "no-referrer"
-    })
+    }).then()
 }, true)
 
 if (document.getElementById("create-new-session")) {
