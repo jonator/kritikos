@@ -7,6 +7,7 @@ defmodule Kritikos.Votes.ResolvedVote do
     field :vote_datetime, :utc_datetime
     field :session_id, :id
     field :vote_level_id, :id
+    field :voter_number, :integer
 
     timestamps()
   end

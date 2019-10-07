@@ -11,32 +11,45 @@ defmodule KritikosWeb.PromptController do
   end
 
   def live_session_form(conn, %{"keyword" => keyword}) do
-    vote_level = conn.query_params["voteLevel"]
+    vote_level = get_session(conn, :vote_level)
+    voter_number = get_session(conn, :voter_number)
 
-    render_existing_session(conn, "live_session_form.html",
-      keyword: keyword,
-      vote_level: vote_level
-    )
+    if vote_level && voter_number do
+      render_existing_session(conn, "live_session_form.html",
+        keyword: keyword,
+        vote_level: vote_level,
+        voter_number: voter_number
+      )
+    else
+      conn |> redirect(to: "/" <> keyword)
+    end
   end
 
-  def submit_form(conn, %{"keyword" => _keyword}) do
+  def submit_form(conn, %{"keyword" => keyword}) do
     IO.inspect(conn)
 
     conn |> put_status(:ok) |> text("ok")
   end
 
   def vote(conn, %{"keyword" => keyword, "level" => level}) do
-    {int_level, ""} = Integer.parse(level)
+    if get_session(conn, :vote_level) && get_session(conn, :voter_number) do
+      conn |> redirect(to: "/" <> keyword <> "/form")
+    else
+      {int_level, ""} = Integer.parse(level)
 
-    new_vote = %Kritikos.Votes.Vote{
-      session_keyword: keyword,
-      vote_level_id: int_level,
-      vote_datetime: DateTime.utc_now()
-    }
+      new_vote = %Kritikos.Votes.Vote{
+        session_keyword: keyword,
+        vote_level_id: int_level,
+        vote_datetime: DateTime.utc_now()
+      }
 
-    LiveSession.submit_vote(keyword, new_vote)
+      voter_number = LiveSession.submit_vote(keyword, new_vote)
 
-    conn |> put_status(:ok) |> text("ok")
+      conn
+      |> put_session(:vote_level, int_level)
+      |> put_session(:voter_number, voter_number)
+      |> redirect(to: "/" <> keyword <> "/form")
+    end
   end
 
   defp render_existing_session(conn, template, params) do

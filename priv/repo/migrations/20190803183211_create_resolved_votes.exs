@@ -6,6 +6,7 @@ defmodule Kritikos.Repo.Migrations.CreateResolvedVotes do
       add :vote_datetime, :utc_datetime
       add :session_id, references(:resolved_sessions, on_delete: :nothing)
       add :vote_level_id, references(:vote_levels, on_delete: :nothing)
+      add :voter_number, :integer
 
       timestamps()
     end

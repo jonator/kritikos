@@ -24,7 +24,6 @@ new Vue({
             this.isRegistering = !this.isRegistering;
         },
         processResponse(response) {
-            console.log(response)
             if (response.error) this.errors.push(response.error)
             if (response.redirect) window.location.href = response.redirect
             for (var error_prop in response.errors) {
@@ -47,10 +46,10 @@ new Vue({
 
 function register(email, password, passwordConfirmation) {
     const payload = { user: { email: email, password: password, password_confirmation: passwordConfirmation } }
-    return utils.fetchData("POST", "/api/user", payload).then()
+    return utils.fetchData("POST", "/api/user", payload).then(r => r.json())
 }
 
 function signin(email, password) {
     const payload = { user: { email: email, password: password } }
-    return utils.fetchData("POST", "api/users/login", payload).then()
+    return utils.fetchData("POST", "api/users/login", payload).then(r => r.json())
 }
