@@ -1,6 +1,5 @@
 <script>
     const keyword = "<%= @keyword %>";
-    const voteLevel = "<%= @vote_level %>";  
     const voterNumber = "<%= @voter_number %>";  
 </script>
 <form id="session-form">

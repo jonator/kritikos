@@ -4,8 +4,10 @@ import utils from "./utils.js"
 document.getElementById("submit-form").onclick = () => {
     const url = "/api/" + keyword + "/submit_form"
     const body = {
-        vote_level: voteLevel,
-        input: document.getElementById("input").value
+        text: document.getElementById("input").value,
+        voter_number: voterNumber
     }
-    utils.fetchData("POST", url, body).then()
+    utils.fetchData("POST", url, body).then(r => r.json()).then(r =>
+        window.location.href = r.redirect
+    )
 }

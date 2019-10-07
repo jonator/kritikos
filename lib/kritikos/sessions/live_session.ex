@@ -29,12 +29,12 @@ defmodule Kritikos.Sessions.LiveSession do
     end
   end
 
-  def submit_vote(keyword, %Vote{} = vote) do
-    call_via_registry(keyword, {:submit_vote, vote})
+  def submit_vote(%Vote{} = vote) do
+    call_via_registry(vote.session_keyword, {:submit_vote, vote})
   end
 
-  def submit_text(keyword, %Text{} = text) do
-    cast_via_registry(keyword, {:submit_text, text})
+  def submit_text(%Text{} = text) do
+    cast_via_registry(text.session_keyword, {:submit_text, text})
   end
 
   @impl GenServer

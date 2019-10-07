@@ -13,9 +13,9 @@ defmodule Kritikos.Sessions.KeywordFactory do
         words = String.split(binary, "\n", trim: true)
         Agent.start_link(fn -> MapSet.new(words) end, name: __MODULE__)
 
-      {:error, _} ->
+      {:error, reason} ->
         Logger.error("failed to read keyword file")
-        {:error, "failed to read file"}
+        {:error, "webpack not run: " <> reason}
     end
   end
 

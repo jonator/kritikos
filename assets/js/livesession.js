@@ -16,5 +16,5 @@ document.getElementById("sad").children[0].onclick = () => {
 }
 
 function toForm(response) {
-    window.location.href = response.url
+    response.json().then(r => window.location.href = r.redirect)
 }

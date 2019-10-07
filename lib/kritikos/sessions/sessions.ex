@@ -1,6 +1,5 @@
 defmodule Kritikos.Sessions do
   import Ecto.Query, warn: false
-  alias Kritikos.Repo
 
   alias Kritikos.Sessions.{LiveSession, KeywordFactory}
 
