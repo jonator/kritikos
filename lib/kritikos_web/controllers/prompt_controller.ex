@@ -26,11 +26,11 @@ defmodule KritikosWeb.PromptController do
   end
 
   def submit_form(conn, %{"keyword" => keyword} = params) do
-    if conn_already_voted?(conn) do
-      conn |> render("redirect.json", redirect: "/")
-    else
-      {voter_number, ""} = Integer.parse(params["voter_number"])
+    {voter_number, ""} = Integer.parse(params["voter_number"])
 
+    if already_voted?(conn) do
+      LiveSession.update_text(keyword, voter_number, params["text"])
+    else
       new_text = %Kritikos.Votes.Text{
         session_keyword: keyword,
         text: params["text"],
@@ -38,29 +38,41 @@ defmodule KritikosWeb.PromptController do
       }
 
       LiveSession.submit_text(new_text)
-
-      conn |> render("redirect.json", redirect: "/")
     end
+
+    conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
   def vote(conn, %{"keyword" => keyword, "level" => level}) do
-    if conn_already_voted?(conn) do
-      conn |> render("redirect.json", redirect: "/" <> keyword <> "/form")
+    conn =
+      if already_voted?(conn) do
+        voter_number = get_session(conn, :voter_number)
+        LiveSession.update_vote(keyword, voter_number, level)
+        conn
+      else
+        {int_level, ""} = Integer.parse(level)
+
+        new_vote = %Kritikos.Votes.Vote{
+          session_keyword: keyword,
+          vote_level_id: int_level,
+          vote_datetime: DateTime.utc_now()
+        }
+
+        voter_number = LiveSession.submit_vote(new_vote)
+
+        conn
+        |> put_session(:vote_level, int_level)
+        |> put_session(:voter_number, voter_number)
+      end
+
+    conn |> render("redirect.json", redirect: "/" <> keyword <> "/form")
+  end
+
+  def thanks(conn, %{"keyword" => keyword}) do
+    if !already_voted?(conn) do
+      conn |> redirect(to: "/" <> keyword)
     else
-      {int_level, ""} = Integer.parse(level)
-
-      new_vote = %Kritikos.Votes.Vote{
-        session_keyword: keyword,
-        vote_level_id: int_level,
-        vote_datetime: DateTime.utc_now()
-      }
-
-      voter_number = LiveSession.submit_vote(new_vote)
-
-      conn
-      |> put_session(:vote_level, int_level)
-      |> put_session(:voter_number, voter_number)
-      |> render("redirect.json", redirect: "/" <> keyword <> "/form")
+      conn |> render("thanks.html")
     end
   end
 
@@ -74,7 +86,7 @@ defmodule KritikosWeb.PromptController do
     end
   end
 
-  defp conn_already_voted?(conn) do
+  defp already_voted?(conn) do
     get_session(conn, :vote_level) && get_session(conn, :voter_number)
   end
 end

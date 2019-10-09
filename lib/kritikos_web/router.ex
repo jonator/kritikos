@@ -31,6 +31,7 @@ defmodule KritikosWeb.Router do
     get "/portal", LandingController, :portal
     get "/:keyword", PromptController, :live_session
     get "/:keyword/form", PromptController, :live_session_form
+    get "/:keyword/thanks", PromptController, :thanks
     get "/kiosk/:keyword", PromptController, :kiosk_live_session
   end
 

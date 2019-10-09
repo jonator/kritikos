@@ -32,10 +32,13 @@ main {
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-.logo {
+#logo {
     float: left;
     font-family: "grec";
     font-size: 32px;
+}
+#logo:hover {
+    cursor: pointer;
 }
 
 .landing-action {

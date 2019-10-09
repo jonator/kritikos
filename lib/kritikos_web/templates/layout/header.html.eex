@@ -1,7 +1,7 @@
 <%= render_layout "app.html", assigns do %>
     <header id="header">
         <div class="wrap">
-            <span class="logo"><a href="/">Kritikos</a></span>
+            <span id="logo" onclick="buttonOnClick('/')">Kritikos</span>
             <button id="<%= @button.id %>" class="landing-action" onclick="buttonOnClick('<%= @button.href %>')"><%= @button.text %></button>
             <script>
                 function buttonOnClick(url) {

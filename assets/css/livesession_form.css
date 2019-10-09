@@ -8,3 +8,9 @@
     max-width: 800px;
     text-align: center;
 }
+
+/* Thanks prompt */
+
+article section svg {
+    max-width: 300px;
+}

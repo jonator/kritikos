@@ -2,11 +2,11 @@
     const keyword = "<%= @keyword %>";
     const voterNumber = "<%= @voter_number %>";  
 </script>
-<form id="session-form">
+<div id="session-form">
     <h3 class="form-details">Any details of your experience?</h3>
     <textarea id="input" rows="4" cols="50"></textarea><br>
     <button id="submit-form">Submit</button>
-</form>
+</div>
 
 <script src="<%= Routes.static_path(@conn, "/js/livesession_form.js") %>"></script>
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>

@@ -15,7 +15,7 @@ defmodule Kritikos.Sessions.KeywordFactory do
 
       {:error, reason} ->
         Logger.error("failed to read keyword file")
-        {:error, "webpack not run: " <> reason}
+        {:error, "webpack not run: " <> Atom.to_string(reason)}
     end
   end
 

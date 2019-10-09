@@ -37,6 +37,14 @@ defmodule Kritikos.Sessions.LiveSession do
     cast_via_registry(text.session_keyword, {:submit_text, text})
   end
 
+  def update_vote(keyword, voter_number, new_vote_level) do
+    cast_via_registry(keyword, {:update_vote, voter_number, new_vote_level})
+  end
+
+  def update_text(keyword, voter_number, new_text) do
+    cast_via_registry(keyword, {:update_text, voter_number, new_text})
+  end
+
   @impl GenServer
   def init(%__MODULE__{host_id: _, keyword: _} = live_session) do
     init_session =
@@ -58,6 +66,34 @@ defmodule Kritikos.Sessions.LiveSession do
   @impl GenServer
   def handle_cast({:submit_text, %Text{} = text}, state) do
     {:noreply, %{state | texts: [text | state.texts]}}
+  end
+
+  @impl GenServer
+  def handle_cast({:update_vote, voter_number, new_vote_level}, state) do
+    new_votes =
+      Enum.map(state.votes, fn vote ->
+        if vote.voter_number == voter_number do
+          %{vote | vote_level_id: new_vote_level}
+        else
+          vote
+        end
+      end)
+
+    {:noreply, %{state | votes: new_votes}}
+  end
+
+  @impl GenServer
+  def handle_cast({:update_text, voter_number, new_text}, state) do
+    new_texts =
+      Enum.map(state.texts, fn text ->
+        if text.voter_number == voter_number do
+          %{text | text: new_text}
+        else
+          text
+        end
+      end)
+
+    {:noreply, %{state | texts: new_texts}}
   end
 
   @impl GenServer

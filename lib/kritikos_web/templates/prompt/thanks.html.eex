@@ -1,0 +1,9 @@
+<article id="session-form">
+    <section>
+    <%= svg_image("quill-drawing-a-line", "landing") %>
+    <h1>Thanks for the feedback!</h1><br/>
+    <a href="/">> What is Kritikos? <</a>
+    </section>
+</article>
+
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
