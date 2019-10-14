@@ -17,6 +17,7 @@ defmodule Kritikos.Sessions.ResolvedSession do
     resolved_session
     |> cast(attrs, [:keyword, :start_datetime, :end_datetime, :host_id])
     |> validate_required([:keyword, :start_datetime, :end_datetime, :host_id])
+    |> foreign_key_constraint(:host_id)
   end
 
   def create(%LiveSession{} = live_session) do
@@ -25,6 +26,7 @@ defmodule Kritikos.Sessions.ResolvedSession do
       |> Map.put(:end_datetime, DateTime.utc_now())
 
     changeset(%__MODULE__{}, resolved_session_attrs)
-    |> Kritikos.Repo.insert!(returning: :id)
+    |> Kritikos.Repo.insert!(returning: true)
+    |> Map.get(:id)
   end
 end

@@ -4,6 +4,7 @@ defmodule Kritikos.Sessions.LiveSession do
   """
   use GenServer
   alias Kritikos.{Sessions.ResolvedSession, Votes, Votes.Vote, Votes.Text}
+  require Logger
 
   @enforce_keys [:keyword, :host_id]
   defstruct [:keyword, :host_id, :start_datetime, :votes, :texts]
@@ -29,77 +30,80 @@ defmodule Kritikos.Sessions.LiveSession do
     end
   end
 
-  def submit_vote(%Vote{} = vote) do
-    call_via_registry(vote.session_keyword, {:submit_vote, vote})
+  def submit_vote(keyword, %Vote{} = vote) do
+    call_via_registry(keyword, {:submit_vote, vote})
   end
 
-  def submit_text(%Text{} = text) do
-    cast_via_registry(text.session_keyword, {:submit_text, text})
+  def submit_text(keyword, %Text{} = text) do
+    cast_via_registry(keyword, {:submit_text, text})
   end
 
-  def update_vote(keyword, voter_number, new_vote_level) do
-    cast_via_registry(keyword, {:update_vote, voter_number, new_vote_level})
-  end
-
-  def update_text(keyword, voter_number, new_text) do
-    cast_via_registry(keyword, {:update_text, voter_number, new_text})
+  def conclude(keyword) do
+    GenServer.stop(via_registry(keyword))
   end
 
   @impl GenServer
-  def init(%__MODULE__{host_id: _, keyword: _} = live_session) do
+  def init(%__MODULE__{host_id: _, keyword: keyword} = live_session) do
     init_session =
       live_session
       |> Map.put(:start_datetime, DateTime.utc_now())
       |> Map.put(:votes, [])
       |> Map.put(:texts, [])
 
+    Logger.info("Launching session: " <> keyword)
+
     {:ok, init_session}
   end
 
   @impl GenServer
   def handle_call({:submit_vote, %Vote{} = vote}, _from, state) do
-    voter_number = Enum.count(state.votes)
-    vote = %{vote | voter_number: voter_number}
-    {:reply, voter_number, %{state | votes: [vote | state.votes]}}
+    if has_already_voted?(state.votes, vote.voter_number) do
+      new_votes =
+        Enum.map(state.votes, fn vote_ ->
+          if vote_.voter_number == vote.voter_number do
+            %{vote_ | vote_level_id: vote.vote_level_id}
+          else
+            vote_
+          end
+        end)
+
+      {:reply, vote.voter_number, %{state | votes: new_votes}}
+    else
+      voter_number = Enum.count(state.votes)
+      vote = %{vote | voter_number: voter_number}
+      {:reply, voter_number, %{state | votes: [vote | state.votes]}}
+    end
   end
 
   @impl GenServer
   def handle_cast({:submit_text, %Text{} = text}, state) do
-    {:noreply, %{state | texts: [text | state.texts]}}
-  end
+    if has_already_voted?(state.texts, text.voter_number) do
+      new_texts =
+        Enum.map(state.texts, fn text_ ->
+          if text_.voter_number == text.voter_number do
+            %{text_ | text: text.text}
+          else
+            text_
+          end
+        end)
 
-  @impl GenServer
-  def handle_cast({:update_vote, voter_number, new_vote_level}, state) do
-    new_votes =
-      Enum.map(state.votes, fn vote ->
-        if vote.voter_number == voter_number do
-          %{vote | vote_level_id: new_vote_level}
-        else
-          vote
-        end
-      end)
-
-    {:noreply, %{state | votes: new_votes}}
-  end
-
-  @impl GenServer
-  def handle_cast({:update_text, voter_number, new_text}, state) do
-    new_texts =
-      Enum.map(state.texts, fn text ->
-        if text.voter_number == voter_number do
-          %{text | text: new_text}
-        else
-          text
-        end
-      end)
-
-    {:noreply, %{state | texts: new_texts}}
+      {:noreply, %{state | texts: new_texts}}
+    else
+      {:noreply, %{state | texts: [text | state.texts]}}
+    end
   end
 
   @impl GenServer
   def terminate(_reason, state) do
-    session_id = ResolvedSession.create(state)
-    Votes.ResolvedVote.create_all(session_id, state[:votes])
+    resolved_session_id = ResolvedSession.create(state)
+
+    Logger.info(
+      "Terminating session: " <>
+        state.keyword <> ", stored as id: " <> Integer.to_string(resolved_session_id)
+    )
+
+    {_count, resolved_votes} = Votes.ResolvedVote.create_all(resolved_session_id, state.votes)
+    Votes.ResolvedTextual.create_all(state.texts, resolved_votes)
   end
 
   defp call_via_registry(keyword, request) do
@@ -112,5 +116,11 @@ defmodule Kritikos.Sessions.LiveSession do
 
   defp via_registry(keyword) do
     {:via, Registry, {Kritikos.SessionsRegistry, keyword}}
+  end
+
+  defp has_already_voted?(enum, voter_number) do
+    Enum.find_value(enum, false, fn e ->
+      e.voter_number == voter_number
+    end)
   end
 end

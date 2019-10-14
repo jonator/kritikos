@@ -36,3 +36,8 @@ section#activities .wrap {
 section {
     padding-top: 20px;
 }
+
+#current-session-label {
+    color: red;
+    font-weight: bold;
+}

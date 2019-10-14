@@ -1,9 +1,16 @@
 <article>
     <section id="activities">
         <div class="wrap">
-            <div id="create-new-session" class="menu-item">
-                <div>Create new session</div>
-            </div>
+            <%= if @current_session do %>
+                <div id="open-current-session" class="menu-item">
+                    <div>Current session:<br/><span id="current-session-label"><%= @current_session.keyword %></span>
+                    </div>
+                </div>
+            <% else %>
+                <div id="create-new-session" class="menu-item">
+                    <div>Create new session</div>
+                </div>
+            <% end %>
             <div id="view-previous-sessions" class="menu-item">
                 <div>View previous sessions</div>
             </div>

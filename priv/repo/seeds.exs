@@ -14,6 +14,6 @@ alias Kritikos.Repo
 alias Kritikos.Votes.VoteLevel
 
 Repo.delete_all(VoteLevel)
-Repo.insert!(%VoteLevel{level: -1, description: "frown"})
-Repo.insert!(%VoteLevel{level: 0, description: "neutral"})
-Repo.insert!(%VoteLevel{level: 1, description: "happy"})
+Repo.insert!(%VoteLevel{description: "frown"})
+Repo.insert!(%VoteLevel{description: "neutral"})
+Repo.insert!(%VoteLevel{description: "happy"})

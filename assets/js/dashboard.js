@@ -34,6 +34,9 @@ document.getElementById("log-out").addEventListener("click", () => {
 if (document.getElementById("create-new-session")) {
     document.getElementById("create-new-session").onclick = () => { window.location.href = "/dashboard/newSession" }
 }
+if (document.getElementById("open-current-session")) {
+    document.getElementById("open-current-session").onclick = () => { window.location.href = "/dashboard/currentSession" }
+}
 if (document.getElementById("view-previous-sessions")) {
     document.getElementById("view-previous-sessions").onclick = () => { window.location.href = "/dashboard/previousSessions" }
 }
@@ -43,4 +46,20 @@ if (document.getElementById("view-all-sessions")) {
 
 if (document.getElementById("launch-session")) {
     document.getElementById("launch-session").onclick = () => { window.location.href = "/dashboard/currentSession?spawn=true" }
+}
+
+if (document.getElementById("close-current-session")) {
+    document.getElementById("close-current-session").onclick = () => {
+        fetch("/api/closeCurrentSession", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            redirect: "follow",
+            referrer: "no-referrer"
+        }).then(r => r.json()).then(r => window.location.href = r.redirect)
+    }
 }

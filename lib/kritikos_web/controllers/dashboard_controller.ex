@@ -8,12 +8,27 @@ defmodule KritikosWeb.DashboardController do
 
   plug KritikosWeb.Plug.PutAssigns, button: %{id: "log-out", href: "/", text: "Log out"}
 
-  def dashboard(conn, _params, _user) do
-    render(conn, "dashboard.html")
+  def dashboard(conn, _params, user) do
+    current_session =
+      case get_user_sessions(user.id) do
+        {:ok, livesession_pid} ->
+          :sys.get_state(livesession_pid)
+
+        :not_found ->
+          nil
+      end
+
+    render(conn, "dashboard.html", current_session: current_session)
   end
 
-  def new_session(conn, _params, _user) do
-    render(conn, "new_session.html")
+  def new_session(conn, _params, user) do
+    case get_user_sessions(user.id) do
+      {:ok, _} ->
+        redirect(conn, to: "/dashboard/currentSession")
+
+      :not_found ->
+        render(conn, "new_session.html")
+    end
   end
 
   def current_session(conn, params, user) do
@@ -29,6 +44,15 @@ defmodule KritikosWeb.DashboardController do
           conn |> redirect(to: "/dashboard")
         end
     end
+  end
+
+  def close_current_session(conn, _params, user) do
+    case get_user_sessions(user.id) do
+      {:ok, session_pid} ->
+        Process.exit(session_pid, :kill)
+    end
+
+    conn |> json(%{redirect: "/dashboard"})
   end
 
   def previous_sessions(conn, _params, _user) do

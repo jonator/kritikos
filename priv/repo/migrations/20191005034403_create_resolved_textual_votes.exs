@@ -4,12 +4,9 @@ defmodule Kritikos.Repo.Migrations.CreateResolvedTextualVotes do
   def change do
     create table(:resolved_textual_votes) do
       add :text, :string
-      add :voter_number, :integer
-      add :vote, references(:resolved_votes, on_delete: :nothing)
-
-      timestamps()
+      add :vote_id, references(:resolved_votes, on_delete: :nothing)
     end
 
-    create index(:resolved_textual_votes, [:vote])
+    create index(:resolved_textual_votes, [:vote_id])
   end
 end

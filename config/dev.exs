@@ -53,8 +53,8 @@ config :kritikos, KritikosWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/pong_web/views/.*(ex)$},
-      ~r{lib/pong_web/templates/.*(eex)$}
+      ~r{lib/kritikos_web/views/.*(ex)$},
+      ~r{lib/kritikos_web/templates/.*(eex)$}
     ]
   ]
 

@@ -28,51 +28,39 @@ defmodule KritikosWeb.PromptController do
   def submit_form(conn, %{"keyword" => keyword} = params) do
     {voter_number, ""} = Integer.parse(params["voter_number"])
 
-    if already_voted?(conn) do
-      LiveSession.update_text(keyword, voter_number, params["text"])
-    else
-      new_text = %Kritikos.Votes.Text{
-        session_keyword: keyword,
-        text: params["text"],
-        voter_number: voter_number
-      }
+    new_text = %Kritikos.Votes.Text{
+      text: params["text"],
+      voter_number: voter_number
+    }
 
-      LiveSession.submit_text(new_text)
-    end
+    LiveSession.submit_text(keyword, new_text)
 
     conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
   def vote(conn, %{"keyword" => keyword, "level" => level}) do
-    conn =
-      if already_voted?(conn) do
-        voter_number = get_session(conn, :voter_number)
-        LiveSession.update_vote(keyword, voter_number, level)
-        conn
-      else
-        {int_level, ""} = Integer.parse(level)
+    {int_level, ""} = Integer.parse(level)
+    voter_number_nullable = get_session(conn, :voter_number)
 
-        new_vote = %Kritikos.Votes.Vote{
-          session_keyword: keyword,
-          vote_level_id: int_level,
-          vote_datetime: DateTime.utc_now()
-        }
+    new_vote = %Kritikos.Votes.Vote{
+      vote_level_id: int_level,
+      vote_datetime: DateTime.utc_now(),
+      voter_number: voter_number_nullable
+    }
 
-        voter_number = LiveSession.submit_vote(new_vote)
+    voter_number = LiveSession.submit_vote(keyword, new_vote)
 
-        conn
-        |> put_session(:vote_level, int_level)
-        |> put_session(:voter_number, voter_number)
-      end
-
-    conn |> render("redirect.json", redirect: "/" <> keyword <> "/form")
+    conn
+    |> put_session(:vote_level, int_level)
+    |> put_session(:voter_number, voter_number)
+    |> render("redirect.json", redirect: "/" <> keyword <> "/form")
   end
 
   def thanks(conn, %{"keyword" => keyword}) do
     if !already_voted?(conn) do
       conn |> redirect(to: "/" <> keyword)
     else
-      conn |> render("thanks.html")
+      conn |> render_existing_session("thanks.html", keyword: keyword)
     end
   end
 

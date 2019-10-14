@@ -26,3 +26,8 @@ body {
     margin: 0 auto;
     position: relative;
 }
+
+button.warning {
+    background-color: red;
+    border-color: lightsalmon;
+}

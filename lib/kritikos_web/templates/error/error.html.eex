@@ -5,4 +5,7 @@
 
 <%= @reason %>
 
+
+<br/>
+<a href="/">Home</a>
 </div>
