@@ -7,6 +7,7 @@ defmodule KritikosWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Kritikos.Plug.NoCache
   end
 
   pipeline :api do

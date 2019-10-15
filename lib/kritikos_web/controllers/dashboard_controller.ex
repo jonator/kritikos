@@ -11,7 +11,7 @@ defmodule KritikosWeb.DashboardController do
   def dashboard(conn, _params, user) do
     current_session =
       case get_user_sessions(user.id) do
-        {:ok, livesession_pid} ->
+        {:ok, _keyword, livesession_pid} ->
           :sys.get_state(livesession_pid)
 
         :not_found ->
@@ -23,7 +23,7 @@ defmodule KritikosWeb.DashboardController do
 
   def new_session(conn, _params, user) do
     case get_user_sessions(user.id) do
-      {:ok, _} ->
+      {:ok, _, _} ->
         redirect(conn, to: "/dashboard/currentSession")
 
       :not_found ->
@@ -33,7 +33,7 @@ defmodule KritikosWeb.DashboardController do
 
   def current_session(conn, params, user) do
     case get_user_sessions(user.id) do
-      {:ok, pid} ->
+      {:ok, _keyword, pid} ->
         render_session(conn, pid)
 
       :not_found ->
@@ -48,8 +48,8 @@ defmodule KritikosWeb.DashboardController do
 
   def close_current_session(conn, _params, user) do
     case get_user_sessions(user.id) do
-      {:ok, session_pid} ->
-        Process.exit(session_pid, :kill)
+      {:ok, keyword, _session_pid} ->
+        Kritikos.Sessions.LiveSession.conclude(keyword)
     end
 
     conn |> json(%{redirect: "/dashboard"})
@@ -65,10 +65,10 @@ defmodule KritikosWeb.DashboardController do
 
   defp get_user_sessions(user_id) do
     case Registry.select(Kritikos.SessionsRegistry, [
-           {{:"$1", :"$2", :"$3"}, [{:==, :"$3", user_id}], [:"$2"]}
+           {{:"$1", :"$2", :"$3"}, [{:==, :"$3", user_id}], [{{:"$1", :"$2"}}]}
          ]) do
-      [pid] when is_pid(pid) ->
-        {:ok, pid}
+      [{keyword, pid}] when is_pid(pid) ->
+        {:ok, keyword, pid}
 
       _ ->
         :not_found
