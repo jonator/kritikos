@@ -1,1 +1,10 @@
-<a>HIIII</a>
+<article id="previous-sessions">
+    <p>These are all <%= Enum.count(@sessions) %> session(s) you have hosted:</p>
+    <%= for session <- @sessions do %>
+    <section class="session">
+        <div id="keyword"><%= session.keyword %></div>
+        <div id="started-datetime"><%= session.start_datetime %></div>
+        <div id></div>
+    <section>
+    <% end %>
+</article>

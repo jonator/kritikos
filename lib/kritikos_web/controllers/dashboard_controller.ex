@@ -55,8 +55,9 @@ defmodule KritikosWeb.DashboardController do
     conn |> json(%{redirect: "/dashboard"})
   end
 
-  def previous_sessions(conn, _params, _user) do
-    render(conn, "previous_sessions.html")
+  def previous_sessions(conn, _params, user) do
+    sessions = Sessions.summaries_for_user(user.id)
+    render(conn, "previous_sessions.html", sessions: sessions)
   end
 
   def all_sessions(conn, _params, _user) do
