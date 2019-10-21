@@ -30,4 +30,6 @@ defmodule Kritikos.Votes.ResolvedVote do
 
     Kritikos.Repo.insert_all(__MODULE__, resolved_votes, returning: true)
   end
+
+  def create_all(_, []), do: {0, []}
 end

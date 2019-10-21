@@ -29,4 +29,6 @@ defmodule Kritikos.Votes.ResolvedTextual do
 
     Kritikos.Repo.insert_all(__MODULE__, resolved_texts)
   end
+
+  def create_all(_, []), do: []
 end

@@ -41,3 +41,22 @@ section {
     color: red;
     font-weight: bold;
 }
+
+/* previous sessions */
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 200px 50px;
+}
+
+.summary svg {
+    height: 40px;
+}
+
+.summary#header {
+    border-bottom: 1px solid black;
+}
+
+#summaries .summary.entry:nth-child(even) {
+    background: lightcyan;
+}

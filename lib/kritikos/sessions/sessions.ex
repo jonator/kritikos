@@ -11,14 +11,28 @@ defmodule Kritikos.Sessions do
 
   def summaries_for_user(user_id) do
     Enum.map(all(from rs in ResolvedSession, where: rs.host_id == ^user_id), fn session ->
-      res_votes_verdict =
+      res_votes_verdict_id =
         get_resolved_votes_for_session(session.id)
-        |> resolved_votes_verdict()
+        |> resolved_votes_verdict_id()
+
+      verdict_desc =
+        case res_votes_verdict_id do
+          id when is_integer(id) ->
+            one(
+              from vl in VoteLevel, where: vl.id == ^res_votes_verdict_id, select: vl.description
+            )
+
+          :empty ->
+            :empty
+        end
 
       text_resp_votes_count =
         get_resolved_texts_for_session(session.id)
         |> Enum.count()
+
+      %{session: session, texts_count: text_resp_votes_count, vote_verdict: verdict_desc}
     end)
+    |> Enum.sort(&(DateTime.compare(&1.session.end_datetime, &2.session.end_datetime) == :gt))
   end
 
   def fetch_previous_session_overview(keyword, user_id) do
@@ -49,11 +63,13 @@ defmodule Kritikos.Sessions do
     )
   end
 
-  defp resolved_votes_verdict(res_votes) do
-    available_levels = all(VoteLevel) |> Map.new(fn vl -> {vl.id, vl} end)
-
-    # Enum.reduce(res_votes, available_levels, fn rv ->
-    #   nil
-    # end)
+  defp resolved_votes_verdict_id([_ | _] = res_votes) do
+    Enum.reduce(res_votes, %{}, fn rv, acc ->
+      Map.update(acc, rv.vote_level_id, 1, &(&1 + 1))
+    end)
+    |> Enum.max()
+    |> elem(0)
   end
+
+  defp resolved_votes_verdict_id([]), do: :empty
 end

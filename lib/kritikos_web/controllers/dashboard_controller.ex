@@ -50,14 +50,17 @@ defmodule KritikosWeb.DashboardController do
     case get_user_sessions(user.id) do
       {:ok, keyword, _session_pid} ->
         Kritikos.Sessions.LiveSession.conclude(keyword)
+
+      _ ->
+        nil
     end
 
     conn |> json(%{redirect: "/dashboard"})
   end
 
   def previous_sessions(conn, _params, user) do
-    sessions = Sessions.summaries_for_user(user.id)
-    render(conn, "previous_sessions.html", sessions: sessions)
+    summaries = Sessions.summaries_for_user(user.id)
+    render(conn, "previous_sessions.html", summaries: summaries)
   end
 
   def all_sessions(conn, _params, _user) do
