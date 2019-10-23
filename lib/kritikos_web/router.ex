@@ -21,6 +21,7 @@ defmodule KritikosWeb.Router do
     get "/", DashboardController, :dashboard
     get "/newSession", DashboardController, :new_session
     get "/previousSessions", DashboardController, :previous_sessions
+    get "/previousSessions/:keyword", DashboardController, :previous_session
     get "/allSessions", DashboardController, :all_sessions
     get "/currentSession", DashboardController, :current_session
   end

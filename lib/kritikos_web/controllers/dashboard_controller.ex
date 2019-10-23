@@ -63,6 +63,12 @@ defmodule KritikosWeb.DashboardController do
     render(conn, "previous_sessions.html", summaries: summaries)
   end
 
+  def previous_session(conn, %{"keyword" => keyword}, user) do
+    {:ok, session, votes, texts} = Sessions.fetch_previous_session_overview(keyword, user.id)
+
+    render(conn, "previous_session.html", session: session, votes: votes, texts: texts)
+  end
+
   def all_sessions(conn, _params, _user) do
     render(conn, "all_sessions.html")
   end

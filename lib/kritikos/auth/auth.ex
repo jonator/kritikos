@@ -11,7 +11,7 @@ defmodule Kritikos.Auth do
     Repo.all(User)
   end
 
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id), do: Repo.get(User, id)
 
   def authenticate_user(email, plain_text_password) do
     if String.length(email) == 0 || String.length(plain_text_password) == 0 do

@@ -1,8 +1,7 @@
 defmodule KritikosWeb.Plug.EnsureAuthenticated do
   @behaviour Plug
   import Plug.Conn
-  import Ecto.Query, only: [from: 2]
-  alias Kritikos.Auth.User
+  alias Kritikos.Auth
 
   def init(opts), do: opts
 
@@ -12,13 +11,11 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
         redirect_to_portal(conn)
 
       user ->
-        query = from u in User, where: u.id == ^user.id
-
-        case Kritikos.Repo.one(query) do
+        case Auth.get_user(user.id) do
           nil ->
             redirect_to_portal(conn)
 
-          %User{is_active: false} ->
+          %Auth.User{is_active: false} ->
             redirect_to_portal(conn)
 
           _ ->
