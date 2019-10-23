@@ -5,12 +5,16 @@ defmodule Kritikos.Sessions do
   alias Kritikos.Votes.{ResolvedVote, ResolvedTextual, VoteLevel}
 
   def start(host_id) do
-    keyword = KeywordFactory.next_available()
+    keyword = KeywordFactory.next_available_for_user(host_id)
     LiveSession.start_link(%LiveSession{host_id: host_id, keyword: keyword})
   end
 
+  def sessions_for_user(user_id) do
+    all(from rs in ResolvedSession, where: rs.host_id == ^user_id)
+  end
+
   def summaries_for_user(user_id) do
-    Enum.map(all(from rs in ResolvedSession, where: rs.host_id == ^user_id), fn session ->
+    Enum.map(sessions_for_user(user_id), fn session ->
       res_votes_verdict_id =
         get_resolved_votes_for_session(session.id)
         |> resolved_votes_verdict_id()
