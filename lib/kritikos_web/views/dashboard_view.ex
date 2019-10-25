@@ -18,4 +18,8 @@ defmodule KritikosWeb.DashboardView do
         svg_image(verdict, class: verdict)
     end
   end
+
+  def correlated_vote_from_text(text, votes) do
+    Enum.find(votes, fn v -> v.id == text.vote_id end)
+  end
 end

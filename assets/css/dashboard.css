@@ -49,7 +49,7 @@ section {
     grid-template-columns: 1fr 200px 50px;
 }
 
-.summary svg {
+svg {
     height: 40px;
 }
 
@@ -59,4 +59,43 @@ section {
 
 #summaries .summary.entry:nth-child(even) {
     background: lightcyan;
+}
+
+/* previous session */
+
+#previous-session {
+    text-align: center;
+}
+
+#previous-session .list {
+    padding-top: 20px;
+}
+
+#previous-session section#votes .list {
+    display: flex;
+    justify-content: center;
+}
+
+#previous-session section#texts .list #text {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    column-gap: 10px;
+}
+
+#previous-session section#texts .list #text h3 {
+    text-align: left;
+}
+
+#previous-session section#texts .list #text svg {
+    float: right;
+}
+
+#previous-session #texts #quotation-mark {
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#previous-session #texts span {
+    font-size: 15px;
 }

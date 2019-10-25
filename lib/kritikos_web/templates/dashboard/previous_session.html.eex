@@ -1,3 +1,41 @@
 <article id="previous-session">
-    
+    <div class="wrap">
+        <section id="session">
+            <h2>Keyword: <%= @session.keyword %></h2>
+            <h3>Started: <%= @session.start_datetime %></h3>
+            <h3>Ended: <%= @session.end_datetime %></h3>
+        </section>
+
+        <section id="votes">
+            <h2>Votes</h2>
+            <h3>Number of unique voters: <%= Enum.count(@votes) %></h3>
+            <div class="list">
+                <%= for vote <- @votes do %>
+                    <div id="vote">
+                        <%= svg_image(@levels[vote.vote_level_id]) %>
+                    </div>
+                <% end %>
+            </div>
+        </section>
+
+        <section id="texts">
+            <h2>Text responses</h2>
+            <h3>Number of text responses: <%= Enum.count(@texts) %></h3>
+            <span>Each correspond to one of the votes above.</span>
+            <div class="list">
+                <%= for text <- @texts do %>
+                    <div id="text">
+                        <div id="vote">
+                            <%= svg_image(@levels[correlated_vote_from_text(text, @votes).vote_level_id]) %>
+                        </div>
+                        <h3>
+                            <span id="quotation-mark">"</span>
+                            <%= text.text %>
+                            <span id="quotation-mark">"</span>  
+                        </h3>
+                    </div>
+                <% end %>
+            </div>
+        </section>
+    </div>
 </article>

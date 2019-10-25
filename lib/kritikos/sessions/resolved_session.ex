@@ -8,8 +8,6 @@ defmodule Kritikos.Sessions.ResolvedSession do
     field :keyword, :string
     field :start_datetime, :utc_datetime
     field :host_id, :id
-
-    timestamps()
   end
 
   @doc false

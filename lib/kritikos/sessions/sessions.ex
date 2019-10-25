@@ -49,8 +49,14 @@ defmodule Kritikos.Sessions do
            get_resolved_texts_for_session(res_session.id) do
       {:ok, res_session, res_votes, res_text_votes}
     else
+      nil ->
+        {:error, "Keyword doesn't have a closed session"}
+
+      [] ->
+        {:error, "No votes for this session"}
+
       _ ->
-        {:error, "Problems fetching previous session"}
+        {:error, "Problems opening session information"}
     end
   end
 

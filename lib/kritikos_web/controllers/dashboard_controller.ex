@@ -64,9 +64,22 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def previous_session(conn, %{"keyword" => keyword}, user) do
-    {:ok, session, votes, texts} = Sessions.fetch_previous_session_overview(keyword, user.id)
+    case Sessions.fetch_previous_session_overview(keyword, user.id) do
+      {:ok, session, votes, texts} ->
+        levels = Kritikos.Votes.vote_levels_descriptions()
 
-    render(conn, "previous_session.html", session: session, votes: votes, texts: texts)
+        render(conn, "previous_session.html",
+          session: session,
+          votes: votes,
+          texts: texts,
+          levels: levels
+        )
+
+      {:error, msg} ->
+        conn
+        |> put_view(KritikosWeb.ErrorView)
+        |> render("error.html", reason: msg)
+    end
   end
 
   def all_sessions(conn, _params, _user) do
