@@ -1,4 +1,9 @@
-.error-reason {
+@import "./templates/global.css";
+@import "./templates/header.css";
+@import "./phoenix.css";
+
+#error-reason {
+    padding-top: 20px;
     text-align: center;
-    font-size: 2em;
+    /* font-size: 2em; */
 }

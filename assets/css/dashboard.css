@@ -44,6 +44,10 @@ section {
 
 /* previous sessions */
 
+article#summaries {
+    padding-top: 20px;
+}
+
 .summary {
     display: grid;
     grid-template-columns: 1fr 200px 50px;
@@ -98,4 +102,10 @@ svg {
 
 #previous-session #texts span {
     font-size: 15px;
+}
+
+/* all sessions */
+
+#all-sessions {
+    text-align: center;
 }

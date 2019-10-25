@@ -39,7 +39,7 @@ defmodule Kritikos.Sessions do
     |> Enum.sort(&(DateTime.compare(&1.session.end_datetime, &2.session.end_datetime) == :gt))
   end
 
-  def fetch_previous_session_overview(keyword, user_id) do
+  def previous_overview(keyword, user_id) do
     with %ResolvedSession{} = res_session <-
            one(
              from rs in ResolvedSession, where: rs.host_id == ^user_id and rs.keyword == ^keyword
@@ -58,6 +58,16 @@ defmodule Kritikos.Sessions do
       _ ->
         {:error, "Problems opening session information"}
     end
+  end
+
+  def all_overview(user_id) do
+    user_votes = resolved_votes_for_user(user_id)
+
+    votes_verdict =
+      user_votes
+      |> resolved_votes_verdict_id()
+
+    %{votes_verdict: votes_verdict, vote_count: Enum.count(user_votes)}
   end
 
   defp get_resolved_votes_for_session(session_id) do
@@ -82,4 +92,12 @@ defmodule Kritikos.Sessions do
   end
 
   defp resolved_votes_verdict_id([]), do: :empty
+
+  defp resolved_votes_for_user(user_id) do
+    all(
+      from rv in ResolvedVote,
+        join: rs in ResolvedSession,
+        on: rs.id == rv.session_id and rs.host_id == ^user_id
+    )
+  end
 end

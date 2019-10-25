@@ -1,1 +1,9 @@
-<a> all sessoins are here </a>
+<article id="all-sessions">
+    <div class="wrap">
+        <section id="overview">
+            <h1>Overview</h1>
+            <h3>Most common vote: <%= render_verdict(@levels[@overview[:votes_verdict]]) %></h3>
+            <h3>Number of vote(s): <%= @overview[:vote_count] %></h3>
+        </section>
+    </div>
+</article>

@@ -64,7 +64,7 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def previous_session(conn, %{"keyword" => keyword}, user) do
-    case Sessions.fetch_previous_session_overview(keyword, user.id) do
+    case Sessions.previous_overview(keyword, user.id) do
       {:ok, session, votes, texts} ->
         levels = Kritikos.Votes.vote_levels_descriptions()
 
@@ -82,8 +82,10 @@ defmodule KritikosWeb.DashboardController do
     end
   end
 
-  def all_sessions(conn, _params, _user) do
-    render(conn, "all_sessions.html")
+  def all_sessions(conn, _params, user) do
+    overview = Sessions.all_overview(user.id)
+    levels = Kritikos.Votes.vote_levels_descriptions()
+    render(conn, "all_sessions.html", overview: overview, levels: levels)
   end
 
   defp get_user_sessions(user_id) do

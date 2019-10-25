@@ -7,11 +7,11 @@ document.getElementById("happy").children[0].onclick = () => {
     utils.fetchData("POST", keywordApiPath + "/3").then(toForm)
 }
 
-document.getElementById("surprised").children[0].onclick = () => {
+document.getElementById("neutral").children[0].onclick = () => {
     utils.fetchData("POST", keywordApiPath + "/2").then(toForm)
 }
 
-document.getElementById("sad").children[0].onclick = () => {
+document.getElementById("frown").children[0].onclick = () => {
     utils.fetchData("POST", keywordApiPath + "/1").then(toForm)
 }
 

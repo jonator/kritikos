@@ -9,7 +9,7 @@ defmodule KritikosWeb.DashboardView do
     Routes.static_path(assigns[:conn], "/js/dashboard.js")
   end
 
-  def summary_verdict(verdict) do
+  def render_verdict(verdict) do
     case verdict do
       :empty ->
         ~E(<span>No votes</span>)
