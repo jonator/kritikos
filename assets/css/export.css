@@ -1,0 +1,8 @@
+@import "./templates/global.css";
+@import "./templates/header.css";
+
+article {
+    justify-content: center;
+    text-align: center;
+    padding-top: 20px;
+}

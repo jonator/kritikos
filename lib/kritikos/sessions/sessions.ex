@@ -6,7 +6,7 @@ defmodule Kritikos.Sessions do
 
   def start(host_id) do
     keyword = KeywordFactory.next_available_for_user(host_id)
-    LiveSession.start_link(%LiveSession{host_id: host_id, keyword: keyword})
+    LiveSession.register(%LiveSession{host_id: host_id, keyword: keyword})
   end
 
   def sessions_for_user(user_id) do

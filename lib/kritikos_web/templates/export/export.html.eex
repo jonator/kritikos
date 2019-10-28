@@ -1,0 +1,18 @@
+<article>
+    <div class="wrap">
+        <section id="fullscreen">
+            <h3>Display session access information fullscreen</h3>
+            <button id="open-fullscreen">Fullscreen</button>
+        </section>
+        <hr>
+        <section id="png-download">
+            <h3>Download PNG image of session information, <br>useful for displaying on external medium such as a PowerPoint presentation</h3>
+            <button id="png-download-start">Download PNG</button>
+        </section>
+        <hr>
+        <section id="pdf-downlaod">
+            <h3>Download PDF of session information</h3>
+            <button id="pdf-download-start">Download PDF</button>
+        </section>
+    </div>
+</article>

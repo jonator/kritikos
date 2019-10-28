@@ -24,6 +24,7 @@ defmodule KritikosWeb.Router do
     get "/previousSessions/:keyword", DashboardController, :previous_session
     get "/allSessions", DashboardController, :all_sessions
     get "/currentSession", DashboardController, :current_session
+    get "/currentSession/export", ExportController, :export_options
   end
 
   scope "/", KritikosWeb do

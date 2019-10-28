@@ -18,7 +18,8 @@ module.exports = (env, options) => ({
     landing: './js/landing.js',
     dashboard: './js/dashboard.js',
     livesession: './js/livesession.js',
-    livesession_form: './js/livesession_form.js'
+    livesession_form: './js/livesession_form.js',
+    export: './js/export.js'
   },
   output: {
     filename: '[name].js',

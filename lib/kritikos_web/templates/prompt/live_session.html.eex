@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession.css") %>"/>
+
 <script>const keyword = "<%= @keyword %>";</script>
 <div id="live-session">
     <div id="question">What did you think?</div>
@@ -10,4 +12,3 @@
 </div>
 
 <script src="<%= Routes.static_path(@conn, "/js/livesession.js") %>"></script>
-<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession.css") %>"/>

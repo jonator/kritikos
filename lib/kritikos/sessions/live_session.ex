@@ -3,7 +3,7 @@ defmodule Kritikos.Sessions.LiveSession do
   GenServer that represents a live session taking incoming feedback for a host
   """
   use GenServer
-  alias Kritikos.{Sessions.ResolvedSession, Votes, Votes.Vote, Votes.Text}
+  alias Kritikos.{Auth, Auth.User, Sessions.ResolvedSession, Votes, Votes.Vote, Votes.Text}
   require Logger
 
   @enforce_keys [:keyword, :host_id]
@@ -17,17 +17,45 @@ defmodule Kritikos.Sessions.LiveSession do
           texts: [Text.t()] | []
         }
 
-  def start_link(%__MODULE__{keyword: k, host_id: host_id, start_datetime: _} = live_session) do
+  @registry Kritikos.SessionsRegistry
+
+  def register(%__MODULE__{keyword: k, host_id: host_id, start_datetime: _} = live_session) do
     {:via, Registry, reg} = via_registry(k)
     name = {:via, Registry, Tuple.append(reg, host_id)}
     GenServer.start_link(__MODULE__, live_session, name: name)
   end
 
   def exists?(keyword) do
-    case Registry.lookup(Kritikos.SessionsRegistry, keyword) do
+    case Registry.lookup(@registry, keyword) do
       [{_, _} | _] -> true
       [] -> false
     end
+  end
+
+  def take_state(id, keys) when is_bitstring(id) do
+    case Registry.lookup(@registry, id) do
+      [{pid, _user_id} | _] ->
+        GenServer.call(pid, {:take_state, keys})
+
+      [] ->
+        :not_found
+    end
+  end
+
+  def take_state(id, keys) when is_number(id) do
+    with [{_keyword, pid} | _] <-
+           Registry.select(@registry, [
+             {{:"$1", :"$2", :"$3"}, [{:==, :"$3", id}], [{{:"$1", :"$2"}}]}
+           ]),
+         %User{} <- Auth.get_user(id) do
+      GenServer.call(pid, {:take_state, keys})
+    else
+      _ -> :not_found
+    end
+  end
+
+  def take_state(id, keys) when is_pid(id) do
+    GenServer.call(id, {:take_state, keys})
   end
 
   def submit_vote(keyword, %Vote{} = vote) do
@@ -53,6 +81,17 @@ defmodule Kritikos.Sessions.LiveSession do
     Logger.info("Launching session: " <> keyword)
 
     {:ok, init_session}
+  end
+
+  @impl GenServer
+  def handle_call({:take_state, keys}, _from, state) do
+    taken = Map.take(state, keys)
+
+    if Enum.count(taken) == 0 do
+      {:reply, :not_found, state}
+    else
+      {:reply, taken, state}
+    end
   end
 
   @impl GenServer
@@ -115,7 +154,7 @@ defmodule Kritikos.Sessions.LiveSession do
   end
 
   defp via_registry(keyword) do
-    {:via, Registry, {Kritikos.SessionsRegistry, keyword}}
+    {:via, Registry, {@registry, keyword}}
   end
 
   defp has_already_voted?(enum, voter_number) do

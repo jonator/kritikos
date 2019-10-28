@@ -1,9 +1,9 @@
 <article>
     <section id="activities">
         <div class="wrap">
-            <%= if @current_session do %>
+            <%= if @keyword do %>
                 <div id="open-current-session" class="menu-item">
-                    <div>Current session:<br/><span id="current-session-label"><%= @current_session.keyword %></span>
+                    <div>Current session:<br/><span id="current-session-label"><%= @keyword %></span>
                     </div>
                 </div>
             <% else %>

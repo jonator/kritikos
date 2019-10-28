@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
 <article id="session-form">
     <section>
     <%= svg_image("quill-drawing-a-line", "landing") %>
@@ -5,5 +6,3 @@
     <a href="/">> What is Kritikos? <</a>
     </section>
 </article>
-
-<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>

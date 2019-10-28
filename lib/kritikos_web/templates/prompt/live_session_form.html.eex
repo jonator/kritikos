@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
 <script>
     const keyword = "<%= @keyword %>";
     const voterNumber = "<%= @voter_number %>";  
@@ -9,4 +10,3 @@
 </div>
 
 <script src="<%= Routes.static_path(@conn, "/js/livesession_form.js") %>"></script>
-<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>

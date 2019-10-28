@@ -17,7 +17,16 @@ import "phoenix_html"
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-document.getElementById("log-out").addEventListener("click", () => {
+var logOutBtn = document.getElementById("log-out")
+var createNewSessionBtn = document.getElementById("create-new-session")
+var exportOptionsBtn = document.getElementById("export-options")
+var openCurrentSessionBtn = document.getElementById("open-current-session")
+var viewPreviousSessionsBtn = document.getElementById("view-previous-sessions")
+var viewAllSessionsBtn = document.getElementById("view-all-sessions")
+var launchSessionBtn = document.getElementById("launch-session")
+var closeCurrentSessionBtn = document.getElementById("close-current-session")
+
+logOutBtn.addEventListener("click", () => {
     fetch("/api/users/logout", {
         method: "POST",
         mode: "cors",
@@ -30,26 +39,26 @@ document.getElementById("log-out").addEventListener("click", () => {
         referrer: "no-referrer"
     }).then()
 }, true)
-
-if (document.getElementById("create-new-session")) {
-    document.getElementById("create-new-session").onclick = () => { window.location.href = "/dashboard/newSession" }
+if (createNewSessionBtn) {
+    createNewSessionBtn.onclick = () => { window.location.href = "/dashboard/newSession" }
 }
-if (document.getElementById("open-current-session")) {
-    document.getElementById("open-current-session").onclick = () => { window.location.href = "/dashboard/currentSession" }
+if (exportOptionsBtn) {
+    exportOptionsBtn.onclick = () => { window.location.href = "/dashboard/currentSession/export" }
 }
-if (document.getElementById("view-previous-sessions")) {
-    document.getElementById("view-previous-sessions").onclick = () => { window.location.href = "/dashboard/previousSessions" }
+if (openCurrentSessionBtn) {
+    openCurrentSessionBtn.onclick = () => { window.location.href = "/dashboard/currentSession" }
 }
-if (document.getElementById("view-all-sessions")) {
-    document.getElementById("view-all-sessions").onclick = () => { window.location.href = "/dashboard/allSessions" }
+if (viewPreviousSessionsBtn) {
+    viewPreviousSessionsBtn.onclick = () => { window.location.href = "/dashboard/previousSessions" }
 }
-
-if (document.getElementById("launch-session")) {
-    document.getElementById("launch-session").onclick = () => { window.location.href = "/dashboard/currentSession?spawn=true" }
+if (viewAllSessionsBtn) {
+    viewAllSessionsBtn.onclick = () => { window.location.href = "/dashboard/allSessions" }
 }
-
-if (document.getElementById("close-current-session")) {
-    document.getElementById("close-current-session").onclick = () => {
+if (launchSessionBtn) {
+    launchSessionBtn.onclick = () => { window.location.href = "/dashboard/currentSession?spawn=true" }
+}
+if (closeCurrentSessionBtn) {
+    closeCurrentSessionBtn.onclick = () => {
         fetch("/api/closeCurrentSession", {
             method: "POST",
             mode: "cors",

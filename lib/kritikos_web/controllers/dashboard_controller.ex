@@ -5,25 +5,24 @@ defmodule KritikosWeb.DashboardController do
 
   plug KritikosWeb.Plug.EnsureAuthenticated
   plug :put_layout, "header.html"
-
   plug KritikosWeb.Plug.PutAssigns, button: %{id: "log-out", href: "/", text: "Log out"}
 
   def dashboard(conn, _params, user) do
-    current_session =
-      case get_user_sessions(user.id) do
-        {:ok, _keyword, livesession_pid} ->
-          :sys.get_state(livesession_pid)
+    keyword =
+      case Sessions.LiveSession.take_state(user.id, [:keyword]) do
+        %{keyword: keyword} ->
+          keyword
 
-        :not_found ->
+        %{} ->
           nil
       end
 
-    render(conn, "dashboard.html", current_session: current_session)
+    render(conn, "dashboard.html", keyword: keyword)
   end
 
   def new_session(conn, _params, user) do
-    case get_user_sessions(user.id) do
-      {:ok, _, _} ->
+    case Sessions.LiveSession.take_state(user.id, []) do
+      %{keyword: _} ->
         redirect(conn, to: "/dashboard/currentSession")
 
       :not_found ->
@@ -32,14 +31,13 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def current_session(conn, params, user) do
-    case get_user_sessions(user.id) do
-      {:ok, _keyword, pid} ->
-        render_session(conn, pid)
+    case Sessions.LiveSession.take_state(user.id, [:keyword, :votes]) do
+      %{keyword: _, votes: _} = live_session_state ->
+        render(conn, "current_session.html", live_session: live_session_state)
 
-      :not_found ->
+      _ ->
         if params["spawn"] == "true" do
-          {:ok, pid} = Sessions.start(user.id)
-          render_session(conn, pid)
+          start_new_session(conn, user.id)
         else
           conn |> redirect(to: "/dashboard")
         end
@@ -47,9 +45,9 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def close_current_session(conn, _params, user) do
-    case get_user_sessions(user.id) do
-      {:ok, keyword, _session_pid} ->
-        Kritikos.Sessions.LiveSession.conclude(keyword)
+    case Sessions.LiveSession.take_state(user.id, [:keyword]) do
+      %{keyword: keyword} ->
+        :ok = Kritikos.Sessions.LiveSession.conclude(keyword)
 
       _ ->
         nil
@@ -88,20 +86,17 @@ defmodule KritikosWeb.DashboardController do
     render(conn, "all_sessions.html", overview: overview, levels: levels)
   end
 
-  defp get_user_sessions(user_id) do
-    case Registry.select(Kritikos.SessionsRegistry, [
-           {{:"$1", :"$2", :"$3"}, [{:==, :"$3", user_id}], [{{:"$1", :"$2"}}]}
-         ]) do
-      [{keyword, pid}] when is_pid(pid) ->
-        {:ok, keyword, pid}
+  def start_new_session(conn, user_id) do
+    {:ok, pid} = Sessions.start(user_id)
+
+    case Sessions.LiveSession.take_state(pid, [:keyword, :votes]) do
+      %{keyword: _, votes: _} = live_session_state ->
+        render(conn, "current_session.html", live_session: live_session_state)
 
       _ ->
-        :not_found
+        conn
+        |> put_view(KritikosWeb.ErrorView)
+        |> render("error.html", reason: "Problem starting session")
     end
-  end
-
-  defp render_session(conn, pid) do
-    live_session = :sys.get_state(pid)
-    render(conn, "current_session.html", live_session: live_session)
   end
 end
