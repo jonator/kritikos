@@ -12,9 +12,5 @@
             <button id="png-download-start" download="/export/qrcode/<%= @keyword %>.jpg">Download PNG</button>
         </section>
         <hr>
-        <section id="pdf-downlaod">
-            <h3>Download PDF of session information</h3>
-            <button id="pdf-download-start">Download PDF</button>
-        </section>
     </div>
 </article>
