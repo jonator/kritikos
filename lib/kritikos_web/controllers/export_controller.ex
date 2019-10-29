@@ -8,8 +8,15 @@ defmodule KritikosWeb.ExportController do
   plug :put_layout, "header.html"
   plug KritikosWeb.Plug.PutAssigns, button: %{id: "log-out", href: "/", text: "Log out"}
 
-  def export_options(conn, _params, _user) do
-    render(conn, "export.html")
+  def export_options(conn, _params, user) do
+    case LiveSession.take_state(user.id, [:keyword]) do
+      %{keyword: keyword} ->
+        render(conn, "export.html", keyword: keyword)
+
+      _ ->
+        conn
+        |> redirect(to: "/dashboard")
+    end
   end
 
   def fullscreen(conn, _params, user) do
@@ -31,7 +38,7 @@ defmodule KritikosWeb.ExportController do
       conn
       |> send_download({:binary, png_binary}, filename: keyword_png)
     else
-      {:error, reason} when is_binary(reason) ->
+      {:error, reason} when is_bitstring(reason) ->
         conn
         |> put_status(:not_found)
         |> text(reason)

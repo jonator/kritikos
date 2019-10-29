@@ -54,7 +54,7 @@ defmodule KritikosWeb.Router do
   end
 
   scope "/export", KritikosWeb do
-    pipe_through [:browser]
+    pipe_through [:api]
 
     get "/qrcode/:image", ExportController, :qr_code_image
   end
