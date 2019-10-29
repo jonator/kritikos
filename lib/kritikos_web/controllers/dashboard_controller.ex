@@ -13,7 +13,7 @@ defmodule KritikosWeb.DashboardController do
         %{keyword: keyword} ->
           keyword
 
-        %{} ->
+        :not_found ->
           nil
       end
 
@@ -35,7 +35,7 @@ defmodule KritikosWeb.DashboardController do
       %{keyword: _, votes: _} = live_session_state ->
         render(conn, "current_session.html", live_session: live_session_state)
 
-      _ ->
+      :not_found ->
         if params["spawn"] == "true" do
           start_new_session(conn, user.id)
         else
@@ -49,7 +49,7 @@ defmodule KritikosWeb.DashboardController do
       %{keyword: keyword} ->
         :ok = Kritikos.Sessions.LiveSession.conclude(keyword)
 
-      _ ->
+      :not_found ->
         nil
     end
 

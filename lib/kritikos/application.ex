@@ -6,8 +6,7 @@ defmodule Kritikos.Application do
       Kritikos.Repo,
       KritikosWeb.Endpoint,
       {Registry, keys: :unique, name: Kritikos.SessionsRegistry},
-      Kritikos.Sessions.KeywordFactory,
-      {DynamicSupervisor, strategy: :one_for_one, name: Kritikos.ExporterSupervisor}
+      Kritikos.Sessions.KeywordFactory
     ]
 
     opts = [strategy: :one_for_one, name: Kritikos.Supervisor]

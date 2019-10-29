@@ -7,28 +7,39 @@ defmodule Kritikos.Sessions.LiveSession do
   require Logger
 
   @enforce_keys [:keyword, :host_id]
-  defstruct [:keyword, :host_id, :start_datetime, :votes, :texts]
+  defstruct [:keyword, :host_id, :start_datetime, :votes, :texts, :exporter_sup]
 
   @type t() :: %__MODULE__{
           keyword: String.t(),
           host_id: integer(),
           start_datetime: DateTime.t(),
           votes: [Vote.t()] | [],
-          texts: [Text.t()] | []
+          texts: [Text.t()] | [],
+          exporter_sup: pid()
         }
 
   @registry Kritikos.SessionsRegistry
 
-  def register(%__MODULE__{keyword: k, host_id: host_id, start_datetime: _} = live_session) do
+  def start_link(%__MODULE__{keyword: k, host_id: host_id, start_datetime: _} = live_session) do
     {:via, Registry, reg} = via_registry(k)
     name = {:via, Registry, Tuple.append(reg, host_id)}
     GenServer.start_link(__MODULE__, live_session, name: name)
   end
 
-  def exists?(keyword) do
-    case Registry.lookup(@registry, keyword) do
+  def exists?(id) when is_bitstring(id) do
+    case Registry.lookup(@registry, id) do
       [{_, _} | _] -> true
       [] -> false
+    end
+  end
+
+  def exists?(id) when is_pid(id) do
+    case Registry.select(@registry, [{{:"$1", :"$2", :"$3"}, [{:==, :"$2", id}], [:"$2"]}]) do
+      [pid] when is_pid(pid) ->
+        true
+
+      _ ->
+        false
     end
   end
 
@@ -58,6 +69,18 @@ defmodule Kritikos.Sessions.LiveSession do
     GenServer.call(id, {:take_state, keys})
   end
 
+  def get_exporter_pid(keyword) do
+    with [{pid, _user_id}] <- Registry.lookup(@registry, keyword),
+         %{exporter_sup: sup_pid} <- take_state(pid, [:exporter_sup]),
+         [{_id, child_pid, _type, _modules}] when is_pid(child_pid) <-
+           Supervisor.which_children(sup_pid) do
+      {:ok, child_pid}
+    else
+      err ->
+        {:error, err}
+    end
+  end
+
   def submit_vote(keyword, %Vote{} = vote) do
     call_via_registry(keyword, {:submit_vote, vote})
   end
@@ -72,9 +95,13 @@ defmodule Kritikos.Sessions.LiveSession do
 
   @impl GenServer
   def init(%__MODULE__{host_id: _, keyword: keyword} = live_session) do
+    child = [{Kritikos.Exporter, self()}]
+    {:ok, exporter_sup_pid} = Supervisor.start_link(child, strategy: :one_for_one)
+
     init_session =
       live_session
       |> Map.put(:start_datetime, DateTime.utc_now())
+      |> Map.put(:exporter_sup, exporter_sup_pid)
       |> Map.put(:votes, [])
       |> Map.put(:texts, [])
 

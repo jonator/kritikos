@@ -13,6 +13,8 @@ defmodule KritikosWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
+    plug :put_secure_browser_headers
+    plug Kritikos.Plug.NoCache
   end
 
   scope "/dashboard", KritikosWeb do
@@ -25,6 +27,7 @@ defmodule KritikosWeb.Router do
     get "/allSessions", DashboardController, :all_sessions
     get "/currentSession", DashboardController, :current_session
     get "/currentSession/export", ExportController, :export_options
+    get "/currentSession/export/fullscreen", ExportController, :fullscreen
   end
 
   scope "/", KritikosWeb do
@@ -48,5 +51,11 @@ defmodule KritikosWeb.Router do
     post "/vote/:keyword/:level", PromptController, :vote
     post "/:keyword/submit_form", PromptController, :submit_form
     post "/closeCurrentSession", DashboardController, :close_current_session
+  end
+
+  scope "/export", KritikosWeb do
+    pipe_through [:browser]
+
+    get "/qrcode/:image", ExportController, :qr_code_image
   end
 end

@@ -5,7 +5,7 @@
             <h3>Started: <%= @session.start_datetime %></h3>
             <h3>Ended: <%= @session.end_datetime %></h3>
         </section>
-
+        <hr>
         <section id="votes">
             <h2>Votes</h2>
             <h3>Number of unique voters: <%= Enum.count(@votes) %></h3>
@@ -17,7 +17,7 @@
                 <% end %>
             </div>
         </section>
-
+        <hr>
         <section id="texts">
             <h2>Text responses</h2>
             <h3>Number of text responses: <%= Enum.count(@texts) %></h3>

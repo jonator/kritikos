@@ -6,3 +6,7 @@ article {
     text-align: center;
     padding-top: 20px;
 }
+
+#host {
+    font-weight: bold;
+}
