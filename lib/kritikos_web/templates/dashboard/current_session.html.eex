@@ -1,5 +1,5 @@
 <article>
-    <section>
+    <section id="current-session">
         <div class="wrap text-center">
             <h2>Current session: <%= @live_session.keyword %></h2>
             <h3>Vote count: <%= Enum.count(@live_session.votes) %></h3>

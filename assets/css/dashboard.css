@@ -1,23 +1,28 @@
 @import "./templates/global.css";
 @import "./templates/header.css";
 
+article {
+    padding-top: 20px;
+}
+
 section#activities .wrap {
-    display: grid;
-    gap: 30px;
-    grid-template-columns: 1fr 1fr 1fr;
-    height: 20vh;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .menu-item {
     display: flex;
     text-align: center;
-    margin: auto;
     border-style: solid;
     border-color: lightgray;
     border-width: 1px;
-    height: 90%;
-    width: 90%;
-    font-size: 20px;
+    max-height: 450px;
+    max-width: 450px;
+    min-height: 90px;
+    min-width: 90px;
+    width: 18vw;
+    height: 18vw;
+    font-size: calc(1.5vw + 10px);
 }
 
 .menu-item:hover {
@@ -33,9 +38,7 @@ section#activities .wrap {
     text-align: center;
 }
 
-section {
-    padding-top: 20px;
-}
+/* current session */
 
 #current-session-label {
     color: red;
@@ -44,13 +47,9 @@ section {
 
 /* previous sessions */
 
-article#summaries {
-    padding-top: 20px;
-}
-
 .summary {
     display: grid;
-    grid-template-columns: 1fr 200px 50px;
+    grid-template-columns: 1fr 200px 100px;
 }
 
 svg {
@@ -59,6 +58,18 @@ svg {
 
 .summary#header {
     border-bottom: 1px solid black;
+}
+
+#summaries .summary.entry {
+    height: 80px;
+}
+
+#summaries .summary.entry div {
+    margin: auto 0;
+}
+
+#summaries #keyword {
+    padding-left: 20px;
 }
 
 #summaries .summary.entry:nth-child(even) {
@@ -102,10 +113,4 @@ svg {
 
 #previous-session #texts span {
     font-size: 15px;
-}
-
-/* all sessions */
-
-#all-sessions {
-    text-align: center;
 }

@@ -8,8 +8,7 @@
         </section>
         <%= for summary <- @summaries do %>
             <section class="summary entry clickable"
-                onclick="window.location.href='/dashboard/previousSessions/<%= summary.session.keyword %>'"
-            >
+                onclick="window.location.href='/dashboard/previousSessions/<%= summary.session.keyword %>'">
                 <div id="keyword"><%= summary.session.keyword %></div>
                 <div id="end-datetime"><%= summary.session.end_datetime %></div>
                 <div id="verdict"><%= render_verdict(summary.vote_verdict) %></div>

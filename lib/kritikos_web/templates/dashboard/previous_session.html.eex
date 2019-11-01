@@ -1,4 +1,4 @@
-<article id="previous-session">
+<article id="previous-session" class="text-center">
     <div class="wrap">
         <section id="session">
             <h2>Keyword: <%= @session.keyword %></h2>

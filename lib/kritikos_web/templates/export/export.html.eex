@@ -11,6 +11,5 @@
             <h3>Download PNG image of session information, <br>useful for displaying on external medium such as a PowerPoint presentation</h3>
             <button id="png-download-start" download="/export/qrcode/<%= @keyword %>.jpg">Download PNG</button>
         </section>
-        <hr>
     </div>
 </article>

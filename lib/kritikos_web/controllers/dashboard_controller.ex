@@ -21,7 +21,7 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def new_session(conn, _params, user) do
-    case Sessions.LiveSession.take_state(user.id, []) do
+    case Sessions.LiveSession.take_state(user.id, [:keyword]) do
       %{keyword: _} ->
         redirect(conn, to: "/dashboard/currentSession")
 
