@@ -2,8 +2,8 @@
     <div class="wrap">
         <section id="session">
             <h2>Keyword: <%= @session.keyword %></h2>
-            <h3>Started: <%= @session.start_datetime %></h3>
-            <h3>Ended: <%= @session.end_datetime %></h3>
+            <h3>Started: <%= pretty_print_date_time(@session.start_datetime) %></h3>
+            <h3>Ended: <%= pretty_print_date_time(@session.end_datetime) %></h3>
         </section>
         <hr>
         <section id="votes">

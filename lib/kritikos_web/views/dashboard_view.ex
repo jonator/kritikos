@@ -22,4 +22,22 @@ defmodule KritikosWeb.DashboardView do
   def correlated_vote_from_text(text, votes) do
     Enum.find(votes, fn v -> v.id == text.vote_id end)
   end
+
+  def pretty_print_date_time(date_time) do
+    year =
+      if DateTime.utc_now().year == date_time.year do
+        ""
+      else
+        "#{date_time.year}/"
+      end
+
+    minutes =
+      if date_time.minute < 10 do
+        "0#{date_time.minute}"
+      else
+        "#{date_time.minute}"
+      end
+
+    year <> "#{date_time.month}/#{date_time.day} #{date_time.hour}:" <> minutes
+  end
 end
