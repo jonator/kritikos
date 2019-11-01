@@ -57,10 +57,10 @@ defmodule KritikosWeb.PromptController do
   end
 
   def thanks(conn, %{"keyword" => keyword}) do
-    if !already_voted?(conn) do
-      conn |> redirect(to: "/" <> keyword)
-    else
+    if already_voted?(conn) do
       conn |> render_existing_session("thanks.html", keyword: keyword)
+    else
+      conn |> redirect(to: "/" <> keyword)
     end
   end
 

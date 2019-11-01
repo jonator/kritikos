@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Plug.PutAssigns do
+  @moduledoc """
+  Adds key-vals to Plug.Conn struct
+  """
   @behaviour Plug
 
   def init(opts), do: opts

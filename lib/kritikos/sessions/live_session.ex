@@ -114,7 +114,7 @@ defmodule Kritikos.Sessions.LiveSession do
   def handle_call({:take_state, keys}, _from, state) do
     taken = Map.take(state, keys)
 
-    if Enum.count(taken) == 0 do
+    if Enum.empty?(taken) do
       {:reply, :not_found, state}
     else
       {:reply, taken, state}

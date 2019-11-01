@@ -1,4 +1,7 @@
 defmodule Kritikos.Auth.User do
+  @moduledoc """
+  Represents a user that will host feedback sessions
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

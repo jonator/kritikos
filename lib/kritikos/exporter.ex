@@ -1,4 +1,7 @@
 defmodule Kritikos.Exporter do
+  @moduledoc """
+  Manages generation of export assets for LiveSessions
+  """
   use GenServer
   alias Kritikos.Sessions.LiveSession
 

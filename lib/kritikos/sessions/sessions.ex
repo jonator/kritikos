@@ -1,4 +1,7 @@
 defmodule Kritikos.Sessions do
+  @moduledoc """
+  Contains API for accessing sessions data.
+  """
   import Ecto.Query, warn: false
   import Kritikos.Repo
   alias Kritikos.Sessions.{LiveSession, KeywordFactory, ResolvedSession}

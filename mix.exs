@@ -52,7 +52,8 @@ defmodule Kritikos.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_inline_svg, "~> 1.3.1"},
-      {:eqrcode, "~> 0.1.6"}
+      {:eqrcode, "~> 0.1.6"},
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false}
     ]
   end
 

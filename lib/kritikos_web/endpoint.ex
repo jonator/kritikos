@@ -43,7 +43,7 @@ defmodule KritikosWeb.Endpoint do
     signing_salt: "XMwElk3D",
     encryption_salt: "cookie store encryption salt",
     key_length: 64,
-    max_age: 86400,
+    max_age: 86_400,
     log: :debug
 
   plug KritikosWeb.Router
