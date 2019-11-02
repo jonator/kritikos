@@ -46,3 +46,6 @@ npm-debug.log
 
 # Mac finder configuration
 .DS_Store
+
+# Dont commit release artifacts
+/rel/
