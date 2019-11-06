@@ -1,35 +1,26 @@
 defmodule Kritikos.ReleaseTasks do
-  @repos Application.get_env(:kritikos, :ecto_repos)
+  @app :kritikos
 
   def migrate_database do
-    case Application.ensure_all_started(:kritikos) do
-      {:ok, _app_list} ->
-        Enum.each(@repos, &run_migrations_for/1)
-
-      {:error, {_app, _term}} ->
-        IO.puts(:stderr, "Migration failed; apps not started")
-        System.stop(1)
+    for repo <- repos() do
+      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))
     end
   end
 
-  defp run_migrations_for(repo) do
-    app = Keyword.get(repo.config(), :otp_app)
-    IO.puts("Running migrations for #{app}")
-    migrations_path = priv_path_for(repo, "migrations")
-    Ecto.Migrator.run(repo, migrations_path, :up, all: true)
+  def reset_database do
+    for repo <- repos() do
+      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, all: true))
+    end
+
+    _ = migrate_database()
   end
 
-  defp priv_path_for(repo, filename) do
-    app = Keyword.get(repo.config(), :otp_app)
+  def rollback_database(repo, version) do
+    {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
+  end
 
-    repo_underscore =
-      repo
-      |> Module.split()
-      |> List.last()
-      |> Macro.underscore()
-
-    priv_dir = "#{:code.priv_dir(app)}"
-
-    Path.join([priv_dir, repo_underscore, filename])
+  defp repos do
+    Application.load(@app)
+    Application.fetch_env!(@app, :ecto_repos)
   end
 end

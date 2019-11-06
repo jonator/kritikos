@@ -16,7 +16,7 @@ config :kritikos, KritikosWeb.Endpoint,
   pubsub: [name: Kritikos.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :kritikos, Kritikos.Sessions.KeywordFactory,
-  keyword_file_path: "./priv/static/session_keywords.txt"
+  keyword_file_path: "priv/static/session_keywords.txt"
 
 # Configures Elixir's Logger
 config :logger, :console,

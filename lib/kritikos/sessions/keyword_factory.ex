@@ -9,14 +9,17 @@ defmodule Kritikos.Sessions.KeywordFactory do
   @keyword_filepath Application.get_env(:kritikos, __MODULE__)[:keyword_file_path]
 
   def start_link(_) do
-    case File.read(@keyword_filepath) do
+    path = Application.app_dir(:kritikos, @keyword_filepath)
+
+    case File.read(path) do
       {:ok, binary} ->
         words = String.split(binary, "\n", trim: true)
         Agent.start_link(fn -> MapSet.new(words) end, name: __MODULE__)
 
       {:error, reason} ->
-        Logger.error("failed to read keyword file")
-        {:error, "webpack not run: " <> Atom.to_string(reason)}
+        problem = "failed to read keyword file; " <> Atom.to_string(reason)
+        Logger.error(problem)
+        {:error, problem}
     end
   end
 

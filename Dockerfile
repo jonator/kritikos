@@ -37,24 +37,24 @@ RUN \
     cd .. && \
     mix phx.digest
 
-RUN SECRET=`mix phx.gen.secret` echo $SECRET >> ./config/prod.env
-
 RUN \
     mkdir -p /opt/built && \
-    mix release && \
+    mix release --version ${APP_VSN} && \
     cp -r _build/${MIX_ENV}/rel/ /opt/built
 
 FROM alpine:${ALPINE_VERSION}
 
 ARG APP_NAME=kritikos
+ARG SECRET
 
 RUN apk update && \
     apk add --no-cache \
     bash \
-    openssl-dev
+    openssl
 
 ENV REPLACE_OS_VARS=true \
-    APP_NAME=${APP_NAME}
+    APP_NAME=${APP_NAME} \
+    SECRET=${SECRET}
 
 COPY --from=builder /opt/built .
 

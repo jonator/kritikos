@@ -15,7 +15,7 @@ Web server for the Kritikos app.
 ## Deploy
 
 1. Determine app version (`<vsn>`)
-2. Build web server: `docker build --force-rm -t kritikos:<vsn> .`
+2. Build web server: `docker build --build-arg SECRET=`mix phx.gen.secret` --force-rm -t kritikos:<vsn> .`
 3. Database: `docker run --name kritikos_pgprod -p 5432:5432 postgres:alpine`
 
-4. Web server: `docker run -it --env-file ./config/prod.env --name kritikos -p 4000:4000 kritikos:<vsn>`
+4. Web server: `docker run -it --name kritikos -p 4000:4000 kritikos:<vsn>`

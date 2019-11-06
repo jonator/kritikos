@@ -1,16 +1,5 @@
 import Config
 
-# for env file need:
-# SECRET
-# PORT
-# PGUSER
-# PGPASSWORD
-# PGDATABASE
-# PGHOST (name of pg container)
-# TZ
-# LANG
-# SECRET (generate)
-
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -26,24 +15,11 @@ config :kritikos,
 config :kritikos, KritikosWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT") || 4000],
   url: [host: "kritikos.io", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true
 
 # Do not print debug messages in production
 config :logger, level: :info
-
-config :pong, PongWeb.Endpoint, secret_key_base: System.get_env("SECRET")
-
-# Configure your database
-config :pong, Pong.Repo,
-  username: System.get_env("PGUSER"),
-  password: System.get_env("PGPASSWORD"),
-  database: System.get_env("PGDATABASE"),
-  host: System.get_env("PGHOST"),
-  pool_size: 15
-
-config :kritikos, Kritikos.Auth.Authenticator,
-  seed: "user token",
-  secret: System.get_env("SECRET")
 
 # ## SSL Support
 #
