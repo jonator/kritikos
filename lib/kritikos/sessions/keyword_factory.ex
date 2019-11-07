@@ -42,7 +42,7 @@ defmodule Kritikos.Sessions.KeywordFactory do
     end)
   end
 
-  def next_untaken_word([word | [next_word | words]], exclude_list) do
+  defp next_untaken_word([word | [next_word | words]], exclude_list) do
     if Enum.member?(exclude_list, word) do
       next_untaken_word([next_word | words ++ [word]], exclude_list)
     else
@@ -50,7 +50,7 @@ defmodule Kritikos.Sessions.KeywordFactory do
     end
   end
 
-  def next_untaken_word([], _) do
+  defp next_untaken_word([], _) do
     {gen_short_id(), []}
   end
 
