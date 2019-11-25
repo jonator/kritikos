@@ -2,6 +2,7 @@
     <div class="wrap">
         <section id="overview">
             <h1>Overview</h1>
+            <h3>Number of sessions: <%= @overview[:session_count] %>
             <h3>Majority vote: <%= render_verdict(@levels[@overview[:votes_verdict]]) %></h3>
             <h3>Number of vote(s): <%= @overview[:vote_count] %></h3>
         </section>

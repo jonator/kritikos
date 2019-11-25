@@ -70,7 +70,13 @@ defmodule Kritikos.Sessions do
       user_votes
       |> resolved_votes_verdict_id()
 
-    %{votes_verdict: votes_verdict, vote_count: Enum.count(user_votes)}
+    session_count = sessions_for_user(user_id) |> Enum.count()
+
+    %{
+      session_count: session_count,
+      votes_verdict: votes_verdict,
+      vote_count: Enum.count(user_votes)
+    }
   end
 
   defp get_resolved_votes_for_session(session_id) do
