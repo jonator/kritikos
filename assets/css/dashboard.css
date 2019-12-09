@@ -5,9 +5,15 @@ article {
     padding-top: 20px;
 }
 
-section#activities .wrap {
+@media only screen and (max-width: 450px) {
+    #activities .wrap {
+      flex-direction: column;
+    }
+  }
+
+#activities .wrap {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .menu-item {
@@ -16,10 +22,10 @@ section#activities .wrap {
     border-style: solid;
     border-color: lightgray;
     border-width: 1px;
-    max-height: 450px;
-    max-width: 450px;
-    min-height: 90px;
-    min-width: 90px;
+    max-height: 350px;
+    max-width: 350px;
+    min-height: 150px;
+    min-width: 150px;
     width: 18vw;
     height: 18vw;
     font-size: calc(1.5vw + 10px);
