@@ -1,3 +1,9 @@
+<script>
+var voteData = <%= vote_data_js_object(@votes) %>
+var voteLevelsToSvg = <%= vote_levels_js_object(@levels) %>
+
+</script>
+
 <article id="previous-session" class="text-center">
     <div class="wrap">
         <section id="session">
@@ -9,13 +15,7 @@
         <section id="votes">
             <h2>Votes</h2>
             <h3>Number of unique voters: <%= Enum.count(@votes) %></h3>
-            <div class="list">
-                <%= for vote <- @votes do %>
-                    <div id="vote">
-                        <%= svg_image(@levels[vote.vote_level_id]) %>
-                    </div>
-                <% end %>
-            </div>
+            <svg width="500" height="350" id="bar-chart"></svg>
         </section>
         <hr>
         <section id="texts">
@@ -26,7 +26,7 @@
                 <%= for text <- @texts do %>
                     <div id="text">
                         <div id="vote">
-                            <%= svg_image(@levels[correlated_vote_from_text(text, @votes).vote_level_id]) %>
+                            <%= svg_image(@levels[correlated_vote_from_text(text, @votes).vote_level_id], class: "smiley") %>
                         </div>
                         <h3>
                             <span id="quotation-mark">"</span>

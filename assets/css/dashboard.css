@@ -52,7 +52,7 @@ section#activities .wrap {
     grid-template-columns: 1fr 200px 100px;
 }
 
-svg {
+.smiley {
     height: 40px;
 }
 
@@ -80,15 +80,6 @@ svg {
 
 #previous-session {
     text-align: center;
-}
-
-#previous-session .list {
-    padding-top: 20px;
-}
-
-#previous-session section#votes .list {
-    display: flex;
-    justify-content: center;
 }
 
 #previous-session section#texts .list #text {

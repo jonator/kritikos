@@ -18,15 +18,17 @@ defmodule Kritikos.Sessions do
 
   def summaries_for_user(user_id) do
     Enum.map(sessions_for_user(user_id), fn session ->
-      res_votes_verdict_id =
+      res_overall_feedback_id =
         get_resolved_votes_for_session(session.id)
-        |> resolved_votes_verdict_id()
+        |> resolved_overall_feedback_id()
 
-      verdict_desc =
-        case res_votes_verdict_id do
+      overall_feedback_desc =
+        case res_overall_feedback_id do
           id when is_integer(id) ->
             one(
-              from vl in VoteLevel, where: vl.id == ^res_votes_verdict_id, select: vl.description
+              from vl in VoteLevel,
+                where: vl.id == ^res_overall_feedback_id,
+                select: vl.description
             )
 
           :empty ->
@@ -37,7 +39,11 @@ defmodule Kritikos.Sessions do
         get_resolved_texts_for_session(session.id)
         |> Enum.count()
 
-      %{session: session, texts_count: text_resp_votes_count, vote_verdict: verdict_desc}
+      %{
+        session: session,
+        texts_count: text_resp_votes_count,
+        overall_feedback: overall_feedback_desc
+      }
     end)
     |> Enum.sort(&(DateTime.compare(&1.session.end_datetime, &2.session.end_datetime) == :gt))
   end
@@ -66,15 +72,15 @@ defmodule Kritikos.Sessions do
   def all_overview(user_id) do
     user_votes = resolved_votes_for_user(user_id)
 
-    votes_verdict =
+    overall_feedback =
       user_votes
-      |> resolved_votes_verdict_id()
+      |> resolved_overall_feedback_id()
 
     session_count = sessions_for_user(user_id) |> Enum.count()
 
     %{
       session_count: session_count,
-      votes_verdict: votes_verdict,
+      overall_feedback: overall_feedback,
       vote_count: Enum.count(user_votes)
     }
   end
@@ -92,7 +98,7 @@ defmodule Kritikos.Sessions do
     )
   end
 
-  defp resolved_votes_verdict_id([_ | _] = res_votes) do
+  defp resolved_overall_feedback_id([_ | _] = res_votes) do
     Enum.reduce(res_votes, %{}, fn rv, acc ->
       Map.update(acc, rv.vote_level_id, 1, &(&1 + 1))
     end)
@@ -100,7 +106,7 @@ defmodule Kritikos.Sessions do
     |> elem(0)
   end
 
-  defp resolved_votes_verdict_id([]), do: :empty
+  defp resolved_overall_feedback_id([]), do: :empty
 
   defp resolved_votes_for_user(user_id) do
     all(
