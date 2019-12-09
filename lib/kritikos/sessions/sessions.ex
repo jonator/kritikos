@@ -94,7 +94,8 @@ defmodule Kritikos.Sessions do
       from rv in ResolvedVote,
         join: rtv in ResolvedTextual,
         on: rv.id == rtv.vote_id and rv.session_id == ^session_id,
-        select: rtv
+        select: rtv,
+        order_by: [desc: rv.vote_level_id]
     )
   end
 

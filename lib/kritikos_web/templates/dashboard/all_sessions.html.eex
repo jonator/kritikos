@@ -4,7 +4,7 @@
             <h1>Overview</h1>
             <h3>Number of sessions: <%= @overview[:session_count] %>
             <h3>Overall feedback: <%= render_overall_feedback(@levels[@overview[:overall_feedback]]) %></h3>
-            <h3>Number of vote(s): <%= @overview[:vote_count] %></h3>
+            <h3>Vote count: <%= @overview[:vote_count] %></h3>
         </section>
     </div>
 </article>
