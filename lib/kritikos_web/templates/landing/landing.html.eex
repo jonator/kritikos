@@ -1,31 +1,31 @@
 <article>
     <section id="hero">
         <div class="wrap saw">
-            <h1>Kritikos</h1>
+            <h1>Kritikos <sub style="font-size: 15px;">/kri.ti.kós/</sub></h1>
             <h4>The easiest way to hear from your audience</h4>
-            <%= svg_image("cliff", "landing", class: "cliff insert right bottom") %>
+            <%= svg_image("data", "landing", class: "data insert right bottom") %>
         </div>
         
     </section>
     <section>
         <div class="wrap saw reverse">
-            <h1>Instant feedback</h1>
-            <h4>See what people are saying live</h4>
-            <%= svg_image("parthenon", "landing", class: "parthenon insert left bottom") %>
+            <h1>Instant & anonymized feedback</h1>
+            <h4>Users visit a link on their mobile device to give feedback</h4>
+            <%= svg_image("detailed_analysis", "landing", class: "detailed_analysis insert left bottom") %>
         </div>
     </section>
     <section id="hero">
         <div class="wrap saw">
-            <h1>Maximize participation</h1>
-            <h4>Hear from those who you normally wouldn't</h4>
-            <%= svg_image("amphitheatre", "landing", class: "amphitheatre insert right bottom") %>
+            <h1>Maximize granularity</h1>
+            <h4>Get better feedback, more often</h4>
+            <%= svg_image("observations", "landing", class: "observations insert right bottom") %>
         </div>
     </section>
     <section>
         <div class="wrap saw reverse">
             <h1>Get the details</h1>
-            <h4>Give your audience the opportunity to elaborate on their experience</h4>
-            <%= svg_image("quill-drawing-a-line", "landing", class: "quill-drawing-a-line insert left bottom") %>
+            <h4>Give your audience the opportunity to elaborate on their experience<br>Leverage mobile web as a platform</h4>
+            <%= svg_image("mobile_browsing", "landing", class: "mobile_browsing insert left bottom") %>
         <div>
     </section>
 </article>

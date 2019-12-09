@@ -13,7 +13,9 @@
 }
 
 #hero {
+    /* background-color: #edece8; */
     background-color: aliceblue;
+
 }
 
 .row {
@@ -36,25 +38,26 @@
     bottom: 0;
 }
 
-svg.cliff {
-    height: auto;
+svg {
+    height: 78%;
     width: 22vw;
 }
 
-svg.parthenon {
-    height: auto;
+/* svg.data {
+    width: 22vw;
+}
+
+svg.detailed_analysis {
     width: 10vw;
 }
 
-svg.amphitheatre {
-    height: auto;
+svg.observations {
     width: 12vw;
 }
 
-svg.quill-drawing-a-line {
-    height: auto;
+svg.mobile_browsing {
     width: 7vw;
-}
+} */
 
 article {
     overflow-y: hidden;
