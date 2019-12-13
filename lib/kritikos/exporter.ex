@@ -40,14 +40,10 @@ defmodule Kritikos.Exporter do
   defp make_new_qr_code_png_binary(pid) do
     with {:host, host} <-
            List.keyfind(Application.get_env(:kritikos, KritikosWeb.Endpoint)[:url], :host, 0),
-         {:port, port_str} <-
-           List.keyfind(Application.get_env(:kritikos, KritikosWeb.Endpoint)[:http], :port, 0),
-         port <-
-           Integer.to_string(port_str),
          %{keyword: keyword} <-
            LiveSession.take_state(pid, [:keyword]) do
       new_png =
-        ("http://" <> host <> ":" <> port <> "/" <> keyword)
+        ("https://" <> host <> "/" <> keyword)
         |> EQRCode.encode()
         |> EQRCode.png()
 

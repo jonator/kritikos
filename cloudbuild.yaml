@@ -1,0 +1,6 @@
+steps:
+- name: "gcr.io/cloud-builders/docker"
+  args: ["build", "--force-rm", "-t", "gcr.io/$PROJECT_ID/kritikos:$_TAG",
+       "--build-arg", "project_id=$PROJECT_ID",
+       "--build-arg", "secret=$_SECRET", "."]
+images: ["gcr.io/$PROJECT_ID/kritikos:$_TAG"]

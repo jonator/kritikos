@@ -12,9 +12,10 @@ defmodule Kritikos.MixProject do
       aliases: aliases(),
       deps: deps(),
       releases: [
-        deployable: [
+        kritikos: [
           include_executables_for: [:unix],
-          applications: [runtime_tools: :permanent]
+          applications: [runtime_tools: :permanent],
+          include_erts: true
         ]
       ]
     ]

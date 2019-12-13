@@ -10,13 +10,15 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :kritikos,
-  default_release: :deployable
+  default_release: :kritikos
 
 config :kritikos, KritikosWeb.Endpoint,
-  http: [:inet6, port: System.get_env("PORT") || 4000],
+  load_from_system_env: true,
+  http: [:inet6, port: {:system, "PORT"}],
   url: [host: "kritikos.app", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  server: true
+  server: true,
+  check_origin: false
 
 # Do not print debug messages in production
 config :logger, level: :info

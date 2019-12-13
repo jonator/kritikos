@@ -11,6 +11,9 @@
 
 /* Thanks prompt */
 
-article section svg {
-    max-width: 300px;
+
+svg.forming-ideas {
+    height: 50vh;
+    width: 40vw;
+    min-width: 200px;
 }

@@ -5,9 +5,9 @@ test
 tmp
 .git
 .gitignore
-Dockerfile
 Makefile
 README*
 priv/static/
 .elixir_ls/
 assets/node_modules
+doc

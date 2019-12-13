@@ -4,10 +4,10 @@ config :kritikos, KritikosWeb.Endpoint, secret_key_base: System.fetch_env!("SECR
 
 # Configure your database
 config :kritikos, Kritikos.Repo,
-  username: System.fetch_env!("PGUSER"),
-  password: System.fetch_env!("PGPASSWORD"),
-  database: System.fetch_env!("PGDATABASE"),
-  host: System.fetch_env!("PGHOST"),
+  username: "postgres",
+  password: "v8KLGz18bxytj78j",
+  database: "kritikosdb",
+  socket_dir: "/tmp/cloudsql/kritikos-257816:us-central1:kritikos-db",
   pool_size: 15
 
 config :kritikos, Kritikos.Auth.Authenticator,
