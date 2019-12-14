@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kritikos-web-ingress
+  annotations:
+      kubernetes.io/ingress.allow-http: "false"
+      kubernetes.io/ingress.global-static-ip-name: kritikos-web-ingress
+      networking.gke.io/managed-certificates: kritikos-web-certificate
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: kritikos-web-service
+          servicePort: 8080

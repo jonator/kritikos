@@ -1,63 +1,38 @@
-# building: docker build --force-rm -t kritikos:latest .
-
-ARG ALPINE_VERSION=3.9
-
-FROM elixir:alpine as builder
-
-ARG APP_NAME=kritikos
-# must match mix.env project version
-ARG APP_VSN=0.1.0
-ARG MIX_ENV=prod
-
-ENV \
-    APP_NAME=${APP_NAME} \
-    APP_VSN=${APP_VSN} \
-    MIX_ENV=${MIX_ENV}
-
+FROM elixir:alpine
+ARG app_name=kritikos
+ARG build_env=prod
+ENV MIX_ENV=${build_env} TERM=xterm
 WORKDIR /opt/app
-
-RUN apk update && \
-    apk upgrade --no-cache && \
-    apk add --no-cache \
-    nodejs \
-    npm \
-    git \
-    build-base && \
-    mix local.rebar --force && \
-    mix local.hex --force
-
-# excludes what is in .dockerignore
+RUN apk update \
+    && apk --no-cache --update add nodejs nodejs-npm build-base \
+    && mix local.rebar --force \
+    && mix local.hex --force
 COPY . .
+RUN mix deps.get --only prod
+RUN cd assets \
+    && npm install \
+    && npm run deploy \
+    && cd .. \
+    && mix phx.digest
+RUN mix release ${app_name} \
+    && mv _build/${build_env}/rel/${app_name} /opt/release \
+    && mv /opt/release/bin/${app_name} /opt/release/bin/start_server
 
-RUN \
-    mix deps.get --only prod && \
-    cd ./assets && \
-    npm install && \
-    npm run deploy && \
-    cd .. && \
-    mix phx.digest
-
-RUN \
-    mkdir -p /opt/built && \
-    mix release --version ${APP_VSN} && \
-    cp -r _build/${MIX_ENV}/rel/ /opt/built
-
-FROM alpine:${ALPINE_VERSION}
-
-ARG APP_NAME=kritikos
-ARG SECRET
-
-RUN apk update && \
-    apk add --no-cache \
-    bash \
-    openssl
-
-ENV REPLACE_OS_VARS=true \
-    APP_NAME=${APP_NAME} \
-    SECRET=${SECRET}
-
-COPY --from=builder /opt/built .
-
-COPY ./priv/deploy.sh .
-
-CMD [ "./deploy.sh"]
+FROM alpine:3.9
+ARG project_id
+ARG secret
+RUN apk update \
+    && apk --no-cache --update add bash ca-certificates openssl-dev \
+    && mkdir -p /usr/local/bin \
+    && wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 \
+        -O /usr/local/bin/cloud_sql_proxy \
+    && chmod +x /usr/local/bin/cloud_sql_proxy \
+    && mkdir -p /tmp/cloudsql
+ENV PORT=8080 GCLOUD_PROJECT_ID=${project_id} REPLACE_OS_VARS=true SECRET=${secret}
+EXPOSE ${PORT}
+WORKDIR /opt/app
+COPY --from=0 /opt/release .
+CMD (/usr/local/bin/cloud_sql_proxy \
+      -projects=${GCLOUD_PROJECT_ID} -dir=/tmp/cloudsql &) && \
+    ./bin/start_server eval "Kritikos.ReleaseTasks.migrate_database" && \
+    ./bin/start_server start

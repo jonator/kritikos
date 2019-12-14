@@ -1,18 +1,39 @@
 defmodule Kritikos.ReleaseTasks do
   @app :kritikos
+  alias Kritikos.Repo
+  alias Kritikos.Votes.VoteLevel
 
   def migrate_database do
     for repo <- repos() do
       {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))
+
+      if repo == Kritikos.Repo do
+        Ecto.Migrator.with_repo(repo, &seeds_up/1)
+      end
     end
+  end
+
+  def seeds_up(_) do
+    Repo.delete_all(VoteLevel)
+    Repo.insert!(%VoteLevel{description: "frown"})
+    Repo.insert!(%VoteLevel{description: "neutral"})
+    Repo.insert!(%VoteLevel{description: "happy"})
   end
 
   def reset_database do
     for repo <- repos() do
       {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, all: true))
+
+      if repo == Kritikos.Repo do
+        Ecto.Migrator.with_repo(repo, &seeds_down/1)
+      end
     end
 
     _ = migrate_database()
+  end
+
+  def seeds_down(_) do
+    Repo.delete_all(VoteLevel)
   end
 
   def rollback_database(repo, version) do

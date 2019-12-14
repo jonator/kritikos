@@ -14,8 +14,6 @@ Web server for the Kritikos app.
 
 ## Deploy
 
-1. Determine app version (`<vsn>`)
-2. Build web server: `docker build --build-arg SECRET=`mix phx.gen.secret` --force-rm -t kritikos:<vsn> .`
-3. Database: `docker run --name kritikos_pgprod -p 5432:5432 postgres:alpine`
-
-4. Web server: `docker run -it --name kritikos -p 4000:4000 kritikos:<vsn>`
+1. Determine image tag (`<TAG>`)
+2. Build web server on Google Cloud: `gcloud builds submit --substitutions _TAG=<TAG>,_SECRET=`mix phx.gen.secret` .`
+3. Update container's tag in `kritikos-web-deployment.yaml` then `kubectl apply`

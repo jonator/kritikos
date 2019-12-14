@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kritikos-web-deploy
+spec:
+  selector:
+    matchLabels:
+      run: kritikos-web-deploy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: kritikos-web-deploy
+    spec:
+      containers:
+      - name: kritikos-web-app
+        image: gcr.io/kritikos-257816/kritikos:mvp9
+        readinessProbe:
+          httpGet:
+            path: "/status"
+            port: 8080
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: "/status"
+            port: 8080
+          initialDelaySeconds: 10
+        ports:
+        - containerPort: 8080
