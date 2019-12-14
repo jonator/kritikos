@@ -2,7 +2,7 @@
     <section id="hero">
         <div class="wrap saw">
             <h1>Kritikos</h1>
-            <h4>The easiest way to hear from your audience</h4>
+            <h4>The most effective feedback platform for lecturers</h4>
             <%= svg_image("data", "landing", class: "data insert right bottom") %>
         </div>
         
@@ -10,7 +10,7 @@
     <section>
         <div class="wrap saw reverse">
             <h1>Instant & anonymized feedback</h1>
-            <h4>Users visit a link on their mobile device to give feedback</h4>
+            <h4>Audience visits a link on their mobile device to give feedback</h4>
             <%= svg_image("detailed_analysis", "landing", class: "detailed_analysis insert left bottom") %>
         </div>
     </section>
