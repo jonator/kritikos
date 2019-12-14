@@ -1,7 +1,7 @@
 <article>
     <section id="hero">
         <div class="wrap saw">
-            <h1>Kritikos <sub style="font-size: 15px;">/kri.ti.kós/</sub></h1>
+            <h1>Kritikos</h1>
             <h4>The easiest way to hear from your audience</h4>
             <%= svg_image("data", "landing", class: "data insert right bottom") %>
         </div>
