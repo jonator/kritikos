@@ -14,6 +14,16 @@ spec:
     spec:
       containers:
       - name: kritikos-web-app
-        image: gcr.io/kritikos-257816/kritikos:mvp8
+        image: gcr.io/kritikos-257816/kritikos:mvp9
+        readinessProbe:
+          httpGet:
+            path: "/status"
+            port: 8080
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: "/status"
+            port: 8080
+          initialDelaySeconds: 10
         ports:
         - containerPort: 8080

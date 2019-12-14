@@ -1,6 +1,8 @@
 defmodule KritikosWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :kritikos
 
+  plug KritikosWeb.Plug.HealthCheck
+
   socket "/socket", KritikosWeb.UserSocket,
     websocket: true,
     longpoll: false
