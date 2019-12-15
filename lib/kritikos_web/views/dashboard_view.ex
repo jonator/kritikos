@@ -11,11 +11,11 @@ defmodule KritikosWeb.DashboardView do
 
   def render_overall_feedback(overall_feedback) do
     case overall_feedback do
-      :empty ->
-        ~E(<span>No votes</span>)
-
       overall_feedback when is_binary(overall_feedback) ->
         svg_image(overall_feedback, class: overall_feedback <> " smiley")
+
+      _ ->
+        ~E(<span>No votes</span>)
     end
   end
 

@@ -82,7 +82,7 @@ defmodule KritikosWeb.PromptController do
   end
 
   defp warn_unrecognized_request(conn) do
-    {a, b, c, d} = conn.remote_ip
+    [a, b, c, d | _] = conn.remote_ip |> Tuple.to_list()
 
     Logger.warn(
       "Remote ip: " <>

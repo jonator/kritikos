@@ -143,19 +143,23 @@ defmodule Kritikos.Sessions.LiveSession do
 
   @impl GenServer
   def handle_cast({:submit_text, %Text{} = text}, state) do
-    if has_already_voted?(state.texts, text.voter_number) do
-      new_texts =
-        Enum.map(state.texts, fn text_ ->
-          if text_.voter_number == text.voter_number do
-            %{text_ | text: text.text}
-          else
-            text_
-          end
-        end)
+    if text_vote_is_suitable(text) do
+      if has_already_voted?(state.texts, text.voter_number) do
+        new_texts =
+          Enum.map(state.texts, fn text_ ->
+            if text_.voter_number == text.voter_number do
+              %{text_ | text: text.text}
+            else
+              text_
+            end
+          end)
 
-      {:noreply, %{state | texts: new_texts}}
+        {:noreply, %{state | texts: new_texts}}
+      else
+        {:noreply, %{state | texts: [text | state.texts]}}
+      end
     else
-      {:noreply, %{state | texts: [text | state.texts]}}
+      {:noreply, state}
     end
   end
 
@@ -188,5 +192,10 @@ defmodule Kritikos.Sessions.LiveSession do
     Enum.find_value(enum, false, fn e ->
       e.voter_number == voter_number
     end)
+  end
+
+  defp text_vote_is_suitable(text) do
+    not String.valid?(text) || text != "" || not String.printable?(text) ||
+      String.length(text) != 0
   end
 end

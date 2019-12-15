@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: kritikos-web-app
-        image: gcr.io/kritikos-257816/kritikos:mvp10
+        image: gcr.io/kritikos-257816/kritikos:mvp11
         readinessProbe:
           httpGet:
             path: "/status"
