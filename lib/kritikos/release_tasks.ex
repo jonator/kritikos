@@ -14,7 +14,7 @@ defmodule Kritikos.ReleaseTasks do
   end
 
   def seeds_up(_) do
-    Repo.delete_all(VoteLevel)
+    seeds_down(nil)
     Repo.insert!(%VoteLevel{description: "frown"})
     Repo.insert!(%VoteLevel{description: "neutral"})
     Repo.insert!(%VoteLevel{description: "happy"})
@@ -34,6 +34,7 @@ defmodule Kritikos.ReleaseTasks do
 
   def seeds_down(_) do
     Repo.delete_all(VoteLevel)
+    Repo.query("ALTER SEQUENCE vote_levels_id_seq RESTART")
   end
 
   def rollback_database(repo, version) do

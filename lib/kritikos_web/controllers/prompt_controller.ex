@@ -1,6 +1,7 @@
 defmodule KritikosWeb.PromptController do
   use KritikosWeb, :controller
   alias Kritikos.Sessions.LiveSession
+  require Logger
 
   def live_session(conn, %{"keyword" => keyword}) do
     render_existing_session(conn, "live_session.html", keyword: keyword)
@@ -68,6 +69,8 @@ defmodule KritikosWeb.PromptController do
     if LiveSession.exists?(params[:keyword]) do
       render(conn, template, params)
     else
+      warn_unrecognized_request(conn)
+
       conn
       |> put_view(KritikosWeb.ErrorView)
       |> render("error.html", reason: "Feedback session #{params[:keyword]} doesn't exist!")
@@ -76,5 +79,20 @@ defmodule KritikosWeb.PromptController do
 
   defp already_voted?(conn) do
     get_session(conn, :vote_level) && get_session(conn, :voter_number)
+  end
+
+  defp warn_unrecognized_request(conn) do
+    {a, b, c, d} = conn.remote_ip
+
+    Logger.warn(
+      "Remote ip: " <>
+        Integer.to_string(a) <>
+        "." <>
+        Integer.to_string(b) <>
+        "." <>
+        Integer.to_string(c) <>
+        "." <>
+        Integer.to_string(d)
+    )
   end
 end
