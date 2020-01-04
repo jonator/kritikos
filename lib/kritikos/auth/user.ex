@@ -1,51 +1,40 @@
 defmodule Kritikos.Auth.User do
   @moduledoc """
-  Represents a user that will host feedback sessions
+  Represents a user
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Kritikos.Auth.Profile
 
   schema "users" do
     field :email, :string, unique: true
-    field :is_active, :boolean, default: false
+    field :is_active, :boolean, default: true
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
+    has_one :profile, Profile
 
     timestamps()
   end
 
-  def changeset(user, attrs) do
-    user
-    |> cast(attrs, [:email, :is_active])
-    |> validate_required([:email])
-    |> validate_format(:email, ~r/@/)
-  end
-
-  @doc false
   def create_changeset(user, attrs) do
     user
-    |> changeset(attrs)
-    |> cast(attrs, [:password, :password_confirmation])
+    |> cast(attrs, [:email, :password, :password_confirmation])
+    |> validate_required([:email, :password, :password_confirmation])
     |> unique_constraint(:email)
+    |> validate_format(:email, ~r/@/)
     |> validate_confirmation(:password, message: "does not match password")
     |> put_password_hash
-    |> activate_user
   end
 
   defp put_password_hash(
          %Ecto.Changeset{
            valid?: true,
-           changes: %{password: password, password_confirmation: password_confirmation}
+           changes: %{password: password, password_confirmation: _}
          } = changeset
-       )
-       when not is_nil(password_confirmation) do
+       ) do
     change(changeset, Bcrypt.add_hash(password))
   end
 
   defp put_password_hash(changeset), do: changeset
-
-  defp activate_user(changeset) do
-    change(changeset, is_active: true)
-  end
 end

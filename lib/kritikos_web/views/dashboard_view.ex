@@ -1,22 +1,14 @@
 defmodule KritikosWeb.DashboardView do
   use KritikosWeb, :view
 
+  @pretty_print Mix.env() == :dev
+
   def render("stylesheets.html", assigns) do
     Routes.static_path(assigns[:conn], "/css/dashboard.css")
   end
 
   def render("scripts.html", assigns) do
     Routes.static_path(assigns[:conn], "/js/dashboard.js")
-  end
-
-  def render_overall_feedback(overall_feedback) do
-    case overall_feedback do
-      overall_feedback when is_binary(overall_feedback) ->
-        svg_image(overall_feedback, class: overall_feedback <> " smiley")
-
-      _ ->
-        ~E(<span>No votes</span>)
-    end
   end
 
   def correlated_vote_from_text(text, votes) do
@@ -55,27 +47,26 @@ defmodule KritikosWeb.DashboardView do
     "#{date_time.month}/#{date_time.day}" <> year <> hour <> minutes <> meridiem
   end
 
-  def vote_data_js_object(votes) do
-    {:ok, json} =
-      Enum.map(votes, fn vote ->
-        Map.from_struct(vote)
-        |> Map.drop([:__meta__])
-      end)
-      |> Jason.encode(escape: :javascript_safe, pretty: true)
+  def to_js_object(data) do
+    {:ok, json} = Jason.encode(data, escape: :javascript_safe, pretty: @pretty_print)
 
     {:safe, json}
   end
 
+  def vote_data_js_object(votes) do
+    Enum.map(votes, fn vote ->
+      Map.from_struct(vote)
+      |> Map.drop([:__meta__])
+    end)
+    |> to_js_object()
+  end
+
   def vote_levels_js_object(vote_levels) do
-    vote_levels_svg =
-      Enum.map(vote_levels, fn {id, name} ->
-        {:safe, svg} = svg_image(name)
-        {id, svg}
-      end)
-      |> Map.new()
-
-    {:ok, json} = Jason.encode(vote_levels_svg, escape: :javascript_safe, pretty: true)
-
-    {:safe, json}
+    Enum.map(vote_levels, fn {id, name} ->
+      {:safe, svg} = svg_image(name)
+      {id, svg}
+    end)
+    |> Map.new()
+    |> to_js_object()
   end
 end

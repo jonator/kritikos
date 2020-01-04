@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env, options) => ({
   resolve: { alias: { vue: 'vue/dist/vue.esm.js' } },
@@ -18,8 +19,7 @@ module.exports = (env, options) => ({
     landing: './js/landing.js',
     dashboard: './js/dashboard.js',
     livesession: './js/livesession.js',
-    livesession_form: './js/livesession_form.js',
-    export: './js/export.js'
+    livesession_form: './js/livesession_form.js'
   },
   output: {
     filename: '[name].js',
@@ -27,6 +27,10 @@ module.exports = (env, options) => ({
   },
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -40,6 +44,7 @@ module.exports = (env, options) => ({
     ]
   },
   plugins: [
+    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({ filename: '../css/[name].css' }),
     new CopyWebpackPlugin([
       {

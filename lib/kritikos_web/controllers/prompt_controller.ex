@@ -1,7 +1,10 @@
 defmodule KritikosWeb.PromptController do
   use KritikosWeb, :controller
-  alias Kritikos.Sessions.LiveSession
+  alias Kritikos.Votes
+  alias Kritikos.Sessions
   require Logger
+
+  plug :already_voted?
 
   def live_session(conn, %{"keyword" => keyword}) do
     render_existing_session(conn, "live_session.html", keyword: keyword)
@@ -26,39 +29,30 @@ defmodule KritikosWeb.PromptController do
     end
   end
 
-  def submit_form(conn, %{"keyword" => keyword} = params) do
+  def submit_feedback(conn, %{"keyword" => keyword} = params) do
     {voter_number, ""} = Integer.parse(params["voter_number"])
 
-    new_text = %Kritikos.Votes.Text{
-      text: params["text"],
-      voter_number: voter_number
-    }
-
-    LiveSession.submit_text(keyword, new_text)
+    Votes.update_or_submit_feedback(voter_number, params["text"])
 
     conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
-  def vote(conn, %{"keyword" => keyword, "level" => level}) do
-    {int_level, ""} = Integer.parse(level)
+  def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
+    {int_vote_level, ""} = Integer.parse(level)
     voter_number_nullable = get_session(conn, :voter_number)
 
-    new_vote = %Kritikos.Votes.Vote{
-      vote_level_id: int_level,
-      vote_datetime: DateTime.utc_now(),
-      voter_number: voter_number_nullable
-    }
+    vote =
+      if voter_number_nullable == nil do
+        Votes.submit_vote(keyword, int_vote_level)
+      else
+        Votes.update_vote(voter_number_nullable, %{vote_level_id: int_vote_level})
+      end
 
-    voter_number = LiveSession.submit_vote(keyword, new_vote)
-
-    conn
-    |> put_session(:vote_level, int_level)
-    |> put_session(:voter_number, voter_number)
-    |> render("redirect.json", redirect: "/" <> keyword <> "/form")
+    render_feedback_form(conn, vote.vote_level_id, vote.voter_number, keyword)
   end
 
   def thanks(conn, %{"keyword" => keyword}) do
-    if already_voted?(conn) do
+    if conn.assigns[:already_voted] do
       conn |> render_existing_session("thanks.html", keyword: keyword)
     else
       conn |> redirect(to: "/" <> keyword)
@@ -66,7 +60,7 @@ defmodule KritikosWeb.PromptController do
   end
 
   defp render_existing_session(conn, template, params) do
-    if LiveSession.exists?(params[:keyword]) do
+    if Sessions.get_open(params[:keyword]) != nil do
       render(conn, template, params)
     else
       warn_unrecognized_request(conn)
@@ -77,8 +71,17 @@ defmodule KritikosWeb.PromptController do
     end
   end
 
-  defp already_voted?(conn) do
-    get_session(conn, :vote_level) && get_session(conn, :voter_number)
+  defp render_feedback_form(conn, vote_level, voter_number, keyword) do
+    conn
+    |> put_session(:vote_level, vote_level)
+    |> put_session(:voter_number, voter_number)
+    |> render("redirect.json", redirect: "/" <> keyword <> "/form")
+  end
+
+  defp already_voted?(conn, _params) do
+    did_vote = get_session(conn, :vote_level) && get_session(conn, :voter_number)
+
+    Plug.Conn.assign(conn, :already_voted, did_vote)
   end
 
   defp warn_unrecognized_request(conn) do

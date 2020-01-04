@@ -4,7 +4,7 @@ defmodule Kritikos.Repo.Migrations.CreateUsers do
   def change do
     create table(:users) do
       add :email, :string, null: false
-      add :password_hash, :string
+      add :password_hash, :string, null: false
       add :is_active, :boolean, default: false, null: false
 
       timestamps()

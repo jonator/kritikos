@@ -17,24 +17,12 @@ defmodule KritikosWeb.Router do
     plug Kritikos.Plug.NoCache
   end
 
-  scope "/dashboard", KritikosWeb do
-    pipe_through [:browser]
-
-    get "/", DashboardController, :dashboard
-    get "/newSession", DashboardController, :new_session
-    get "/previousSessions", DashboardController, :previous_sessions
-    get "/previousSessions/:keyword", DashboardController, :previous_session
-    get "/allSessions", DashboardController, :all_sessions
-    get "/currentSession", DashboardController, :current_session
-    get "/currentSession/export", ExportController, :export_options
-    get "/currentSession/export/fullscreen", ExportController, :fullscreen
-  end
-
   scope "/", KritikosWeb do
     pipe_through [:browser]
 
     get "/", LandingController, :landing
     get "/portal", LandingController, :portal
+    get "/dashboard", DashboardController, :dashboard
     get "/:keyword", PromptController, :live_session
     get "/:keyword/form", PromptController, :live_session_form
     get "/:keyword/thanks", PromptController, :thanks
@@ -48,14 +36,8 @@ defmodule KritikosWeb.Router do
     post "/users/logout", SessionController, :drop
     post "/user", UserController, :create
     put "/user", UserController, :update
-    post "/vote/:keyword/:level", PromptController, :vote
-    post "/:keyword/submit_form", PromptController, :submit_form
+    post "/vote/:keyword/:level", PromptController, :submit_vote
+    post "/:keyword/submit_form", PromptController, :submit_feedback
     post "/closeCurrentSession", DashboardController, :close_current_session
-  end
-
-  scope "/export", KritikosWeb do
-    pipe_through [:api]
-
-    get "/qrcode/:image", ExportController, :qr_code_image
   end
 end

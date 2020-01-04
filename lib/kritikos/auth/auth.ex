@@ -5,13 +5,34 @@ defmodule Kritikos.Auth do
 
   import Ecto.Query, warn: false
   alias Kritikos.Repo
-  alias Kritikos.Auth.User
-
-  def list_users do
-    Repo.all(User)
-  end
+  alias Kritikos.Auth.{User, Profile}
 
   def get_user(id), do: Repo.get(User, id)
+
+  def query_active_user(id) do
+    from u in User, where: u.id == ^id and u.is_active == true
+  end
+
+  def query_user_record(id) do
+    from u in query_active_user(id),
+      inner_join: p in Profile,
+      on: p.user_id == u.id,
+      select: %{email: u.email, permanent_session: p.substitute_session_keyword}
+  end
+
+  def get_user_record(id) do
+    query_user_record(id)
+    |> Repo.one()
+  end
+
+  def query_user_assocs(user_id, assocs) do
+    get_user(user_id) |> Ecto.assoc(assocs)
+  end
+
+  def get_user_assocs(user_id, assocs) do
+    query_user_assocs(user_id, assocs)
+    |> Repo.all()
+  end
 
   def authenticate_user(email, plain_text_password) do
     if String.length(email) == 0 || String.length(plain_text_password) == 0 do
@@ -29,26 +50,16 @@ defmodule Kritikos.Auth do
 
   def register_user(attrs \\ %{}) do
     case %User{} |> User.create_changeset(attrs) |> Repo.insert() do
-      {:ok, _user} = valid_result ->
+      {:ok, user} = valid_result ->
+        Ecto.build_assoc(user, :profile)
+        |> Profile.changeset(attrs)
+        |> Repo.insert!()
+
         valid_result
 
       {:error, _changeset} = error_result ->
         error_result
     end
-  end
-
-  def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
-  end
-
-  def delete_user(%User{} = user) do
-    Repo.delete(user)
-  end
-
-  def change_user(%User{} = user) do
-    User.changeset(user, %{})
   end
 
   defp check_password(email, plain_text_password) do

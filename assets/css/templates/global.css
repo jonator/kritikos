@@ -1,7 +1,14 @@
-/* reference: http://snapsvg.io/ */
-
 body {
     margin: 0;
+}
+
+#logo {
+    float: left;
+    font-family: "grec";
+    font-size: 32px;
+}
+#logo:hover {
+    cursor: pointer;
 }
 
 @font-face {
@@ -19,6 +26,9 @@ body {
 *[href] {
     cursor: pointer;
 }
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }
 
 .wrap {
     width: 55%;

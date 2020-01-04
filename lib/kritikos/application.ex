@@ -4,9 +4,7 @@ defmodule Kritikos.Application do
   def start(_type, _args) do
     children = [
       Kritikos.Repo,
-      KritikosWeb.Endpoint,
-      {Registry, keys: :unique, name: Kritikos.SessionsRegistry},
-      Kritikos.Sessions.KeywordFactory
+      KritikosWeb.Endpoint
     ]
 
     opts = [strategy: :one_for_one, name: Kritikos.Supervisor]

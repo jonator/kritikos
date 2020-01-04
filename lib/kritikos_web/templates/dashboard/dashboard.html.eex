@@ -1,22 +1,17 @@
-<article>
-    <section id="activities">
-        <div class="wrap">
-            <%= if @keyword do %>
-                <div id="open-current-session" class="menu-item">
-                    <div>Current session:<br/><span id="current-session-label"><%= @keyword %></span>
-                    </div>
-                </div>
-            <% else %>
-                <div id="create-new-session" class="menu-item">
-                    <div>Create new session</div>
-                </div>
-            <% end %>
-            <div id="view-previous-sessions" class="menu-item">
-                <div>View previous sessions</div>
-            </div>
-            <div id="view-all-sessions" class="menu-item">
-                <div>View all sessions</div>
-            </div>
+<header>
+    <div id="header-container">
+        <span id="logo">Kritikos</span>
+        <div id="action-area">
+            <span id="email"><%= @user_record.email %></span>
+            <button>Log out</button>
         </div>
-    </section>
-</article>
+    </div>
+</header>
+<div id="dashboard" v-cloak></div>
+
+<script>
+const initialStore = {
+    user_record: <%= to_js_object(@user_record) %>,
+    sessions: <%= to_js_object(@sessions) %>
+}
+</script>
