@@ -10,6 +10,7 @@ defmodule Kritikos.Auth.Profile do
 
   schema "user_profiles" do
     belongs_to :user, User
+    field :name, :string
     field :substitute_session_keyword, :string
     field :redirect_count, :integer, default: 0
     has_many :sessions, Session
@@ -20,9 +21,10 @@ defmodule Kritikos.Auth.Profile do
   @doc false
   def changeset(profile, attrs) do
     profile
-    |> cast(attrs, [:user_id, :substitute_session_keyword])
+    |> cast(attrs, [:user_id, :name, :substitute_session_keyword])
     |> validate_required([:user_id])
     |> foreign_key_constraint(:user_id)
+    |> capitalize_name
   end
 
   def get_or_create_for_user(user_id) do
@@ -35,4 +37,16 @@ defmodule Kritikos.Auth.Profile do
         profile
     end
   end
+
+  defp capitalize_name(%Ecto.Changeset{valid?: true, changes: %{name: name}} = changeset) do
+    capital_name =
+      String.split(name)
+      |> Enum.map(&String.capitalize(&1))
+      |> Enum.intersperse(" ")
+      |> Enum.reduce("", fn el, acc -> acc <> el end)
+
+    change(changeset, %{name: capital_name})
+  end
+
+  defp capitalize_name(changeset), do: changeset
 end

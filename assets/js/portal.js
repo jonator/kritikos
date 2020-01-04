@@ -5,6 +5,7 @@ new Vue({
     el: "#portal",
     data: {
         isRegistering: false,
+        name: "",
         email: "",
         password: "",
         passwordConfirmation: "",
@@ -14,7 +15,7 @@ new Vue({
         handleSubmit() {
             this.errors = []
             if (this.isRegistering) {
-                register(this.email, this.password, this.passwordConfirmation).then(this.processResponse)
+                register(this.email, this.name, this.password, this.passwordConfirmation).then(this.processResponse)
             } else {
                 signin(this.email, this.password).then(this.processResponse)
             }
@@ -44,8 +45,8 @@ new Vue({
     }
 })
 
-function register(email, password, passwordConfirmation) {
-    const payload = { user: { email: email, password: password, password_confirmation: passwordConfirmation } }
+function register(email, name, password, passwordConfirmation) {
+    const payload = { user: { email: email, name: name, password: password, password_confirmation: passwordConfirmation } }
     return utils.fetchData("POST", "/api/user", payload).then(r => r.json())
 }
 

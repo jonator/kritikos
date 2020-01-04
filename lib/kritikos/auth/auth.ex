@@ -17,7 +17,7 @@ defmodule Kritikos.Auth do
     from u in query_active_user(id),
       inner_join: p in Profile,
       on: p.user_id == u.id,
-      select: %{email: u.email, permanent_session: p.substitute_session_keyword}
+      select: %{email: u.email, name: p.name, permanent_session: p.substitute_session_keyword}
   end
 
   def get_user_record(id) do
@@ -50,12 +50,17 @@ defmodule Kritikos.Auth do
 
   def register_user(attrs \\ %{}) do
     case %User{} |> User.create_changeset(attrs) |> Repo.insert() do
-      {:ok, user} = valid_result ->
-        Ecto.build_assoc(user, :profile)
-        |> Profile.changeset(attrs)
-        |> Repo.insert!()
+      {:ok, user} = user_valid ->
+        {profile_operation, p_or_changeset} =
+          Ecto.build_assoc(user, :profile)
+          |> Profile.changeset(attrs)
+          |> Repo.insert()
 
-        valid_result
+        if profile_operation == :ok do
+          user_valid
+        else
+          {:error, p_or_changeset}
+        end
 
       {:error, _changeset} = error_result ->
         error_result
