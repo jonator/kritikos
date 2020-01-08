@@ -1,8 +1,11 @@
 defmodule KritikosWeb.UserSocket do
-  use Phoenix.Socket
+  use Phoenix.Socket, log: :debug
+  alias Kritikos.Auth
+
+  @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)
 
   ## Channels
-  # channel "room:*", KritikosWeb.RoomChannel
+  channel "dashboard:*", KritikosWeb.DashboardChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -15,8 +18,15 @@ defmodule KritikosWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case Phoenix.Token.verify(KritikosWeb.Endpoint, @token_salt, token) do
+      {:ok, user_id} ->
+        socket = assign(socket, :user_record, Auth.get_user_record(user_id))
+        {:ok, socket}
+
+      {:error, _} ->
+        :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -29,5 +39,7 @@ defmodule KritikosWeb.UserSocket do
   #     KritikosWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket) do
+    "user_socket:#{socket.assigns.user_record.id}"
+  end
 end

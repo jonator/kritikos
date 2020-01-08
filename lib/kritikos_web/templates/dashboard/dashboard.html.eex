@@ -10,6 +10,7 @@
 <div id="dashboard" v-cloak></div>
 
 <script>
+const socketToken = <%= to_js_object(@socket_token) %>;
 const initialStore = {
     user_record: <%= to_js_object(@user_record) %>,
     sessions: <%= to_js_object(@sessions) %>

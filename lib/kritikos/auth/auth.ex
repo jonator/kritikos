@@ -2,35 +2,18 @@ defmodule Kritikos.Auth do
   @moduledoc """
   The Auth context.
   """
-
-  import Ecto.Query, warn: false
   alias Kritikos.Repo
-  alias Kritikos.Auth.{User, Profile}
+  alias __MODULE__.{User, Profile, Queries}
 
-  def get_user(id), do: Repo.get(User, id)
+  def get_user(user_id), do: Repo.get(User, user_id)
 
-  def query_active_user(id) do
-    from u in User, where: u.id == ^id and u.is_active == true
-  end
-
-  def query_user_record(id) do
-    from u in query_active_user(id),
-      inner_join: p in Profile,
-      on: p.user_id == u.id,
-      select: %{email: u.email, name: p.name, permanent_session: p.substitute_session_keyword}
-  end
-
-  def get_user_record(id) do
-    query_user_record(id)
+  def get_user_record(user_id) do
+    Queries.user_record(user_id)
     |> Repo.one()
   end
 
-  def query_user_assocs(user_id, assocs) do
-    get_user(user_id) |> Ecto.assoc(assocs)
-  end
-
   def get_user_assocs(user_id, assocs) do
-    query_user_assocs(user_id, assocs)
+    Queries.user_assocs(user_id, assocs)
     |> Repo.all()
   end
 

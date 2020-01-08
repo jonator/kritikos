@@ -20,7 +20,7 @@ export default {
   components: { MyProfile, Sessions, Sidebar },
   data: function() {
     return {
-      currentSubViewIndex: 0,
+      currentSubViewIndex: 1,
       sidebarItems: [
         { id: 0, component: "MyProfile", title: "My Profile" },
         { id: 1, component: "Sessions", title: "Sessions" }

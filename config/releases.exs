@@ -9,7 +9,3 @@ config :kritikos, Kritikos.Repo,
   database: "kritikosdb",
   socket_dir: "/tmp/cloudsql/kritikos-257816:us-central1:kritikos-db",
   pool_size: 15
-
-config :kritikos, Kritikos.Auth.Authenticator,
-  seed: "user token",
-  secret: System.fetch_env!("SECRET")

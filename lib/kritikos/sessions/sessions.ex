@@ -2,11 +2,10 @@ defmodule Kritikos.Sessions do
   @moduledoc """
   Contains API for accessing sessions data.
   """
-  import Ecto.Query, warn: false
   require DateTime
   alias Kritikos.Repo
   alias Kritikos.{Auth, Auth.Profile}
-  alias Kritikos.Sessions.{Session, Tag}
+  alias __MODULE__.{Session, Tag, Queries}
 
   def start(host_id, session_tags) do
     profile_id = Profile.get_or_create_for_user(host_id) |> Map.take([:id])
@@ -16,15 +15,8 @@ defmodule Kritikos.Sessions do
     Map.merge(session, %{tags: tags})
   end
 
-  def query_get_open(keyword) do
-    now = DateTime.utc_now()
-
-    from s in Session,
-      where: s.keyword == ^keyword and (is_nil(s.end_datetime) or s.end_datetime < ^now)
-  end
-
   def get_open(keyword) do
-    query_get_open(keyword)
+    Queries.open(keyword)
     |> Repo.one()
   end
 
@@ -33,11 +25,7 @@ defmodule Kritikos.Sessions do
     Repo.insert_all(Tag, created_tags, returning: true)
   end
 
-  def query_user_sessions(user_id) do
-    Auth.query_user_assocs(user_id, [:profile, :sessions])
-  end
-
-  def get_user_sessions(user_id) do
-    query_user_sessions(user_id) |> Repo.all()
+  def get_for_user(user_id) do
+    Queries.for_user(user_id) |> Repo.all()
   end
 end

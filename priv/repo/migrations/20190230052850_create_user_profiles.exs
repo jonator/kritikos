@@ -4,7 +4,7 @@ defmodule Kritikos.Repo.Migrations.CreateUserProfiles do
   def change do
     create table(:user_profiles) do
       add :user_id, references(:users), null: false
-      add :name, :string
+      add :name, :string, null: false
       add :substitute_session_keyword, :string
       add :redirect_count, :integer, null: false
 

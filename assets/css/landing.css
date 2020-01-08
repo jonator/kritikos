@@ -118,22 +118,6 @@ svg {
     width: 22vw;
 }
 
-/* svg.data {
-    width: 22vw;
-}
-
-svg.detailed_analysis {
-    width: 10vw;
-}
-
-svg.observations {
-    width: 12vw;
-}
-
-svg.mobile_browsing {
-    width: 7vw;
-} */
-
 article {
     overflow-y: hidden;
 }
