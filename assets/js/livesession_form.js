@@ -8,7 +8,7 @@ document.getElementById("submit-form").onclick = () => {
         text: textInput,
         voter_number: voterNumber
     }
-    utils.fetchData("POST", url, body).then(r => r.json()).then(r => {
+    utils.apiRequest("POST", url, body).then(r => r.json()).then(r => {
         window.location.href = r.redirect
     })
 }

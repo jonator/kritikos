@@ -39,5 +39,7 @@ defmodule KritikosWeb.Router do
     post "/vote/:keyword/:level", PromptController, :submit_vote
     post "/:keyword/submit_form", PromptController, :submit_feedback
     post "/closeCurrentSession", DashboardController, :close_current_session
+    post "/sessions/create", SessionsController, :create
+    post "/sessions/drop", SessionsController, :drop
   end
 end

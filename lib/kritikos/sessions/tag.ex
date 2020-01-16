@@ -3,6 +3,8 @@ defmodule Kritikos.Sessions.Tag do
   import Ecto.Changeset
   alias Kritikos.Sessions.Session
 
+  @derive {Jason.Encoder, only: [:text]}
+
   schema "session_tags" do
     field :text, :string
     belongs_to :session, Session
@@ -11,10 +13,10 @@ defmodule Kritikos.Sessions.Tag do
   end
 
   @doc false
-  def changeset(tags, attrs) do
+  def create_changeset(tags, attrs) do
     tags
-    |> cast(attrs, [:text, :session_id])
+    |> cast(attrs, [:text])
     |> validate_required([:text])
-    |> foreign_key_constraint(:session_id)
+    |> validate_length(:text, max: 15)
   end
 end

@@ -25,32 +25,21 @@ new Vue({
             this.isRegistering = !this.isRegistering;
         },
         processResponse(response) {
-            if (response.error) this.errors.push(response.error)
+            console.log(response)
             if (response.redirect) window.location.href = response.redirect
-            for (var error_prop in response.errors) {
-                var upperCaseProp = error_prop.charAt(0).toUpperCase() + error_prop.slice(1)
-                upperCaseProp = upperCaseProp.replace("_", " ")
-                const reasons = response.errors[error_prop]
-                var allReasons = ""
-                for (var i = 0; i < reasons.length; i++) {
-                    if (i == reasons.length - 1) {
-                        allReasons = allReasons.concat(reasons[i])
-                    } else {
-                        allReasons = allReasons.concat(reasons[i] + ', ')
-                    }
-                }
-                this.errors.push(upperCaseProp + " " + allReasons)
-            }
+            response.errors.forEach(error => {
+                this.errors.push(error)
+            });
         }
     }
 })
 
 function register(email, name, password, passwordConfirmation) {
-    const payload = { user: { email: email, name: name, password: password, password_confirmation: passwordConfirmation } }
-    return utils.fetchData("POST", "/api/user", payload).then(r => r.json())
+    const payload = { user: { email: email, profile: { name: name }, password: password, password_confirmation: passwordConfirmation } }
+    return utils.apiRequest("POST", "/api/user", payload)
 }
 
 function signin(email, password) {
     const payload = { user: { email: email, password: password } }
-    return utils.fetchData("POST", "api/users/login", payload).then(r => r.json())
+    return utils.apiRequest("POST", "api/users/login", payload)
 }

@@ -19,7 +19,7 @@ export default {
   props: ["session"],
   computed: {
     isPermanent: function() {
-      const userName = this.$store.getters.userId;
+      const userName = this.$store.getters.userName;
       const urlParts = this.session.link.split("/");
       const urlId = urlParts[urlParts.length - 1];
       return userName === urlId;

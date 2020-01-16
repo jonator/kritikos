@@ -11,4 +11,5 @@ form h1 {
 .error {
     color: red;
     font-weight: bold;
+    font-style: italic;
 }

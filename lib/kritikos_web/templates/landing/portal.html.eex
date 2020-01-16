@@ -5,6 +5,6 @@
     <input placeholder="password" type="password" name="password" v-model="password">
     <input v-if="isRegistering" placeholder="password confirmation" type="password" v-model="passwordConfirmation">
     <button type="submit">{{ isRegistering ? "Register" : "Log in" }}</button><br>
-    <p v-for="e in errors" class="error">{{e}}</p>
+    <div v-for="e in errors" class="error">{{e}}</div>
     <a v-on:click="togglePortalMode">{{ isRegistering ? "Log in" : "Don't have an account? Register" }}</a>
 </form>

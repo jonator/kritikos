@@ -20,6 +20,7 @@ defmodule Kritikos.Auth.User do
   def create_changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :password, :password_confirmation])
+    |> cast_assoc(:profile, with: &Profile.create_changeset/2, required: true)
     |> validate_required([:email, :password, :password_confirmation])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)

@@ -9,7 +9,7 @@ defmodule KritikosWeb.FallbackController do
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> put_view(KritikosWeb.ChangesetView)
+    |> put_view(KritikosWeb.ErrorView)
     |> render("error.json", changeset: changeset)
   end
 

@@ -6,7 +6,9 @@ import getters from "./getters";
 
 Vue.use(Vuex);
 
-var state = initialStore; // server side generated
+var state = {}
+
+state.userRecord = initialStore.userRecord; // server side generated
 
 export default new Vuex.Store({
     state: state,
@@ -14,3 +16,7 @@ export default new Vuex.Store({
     mutations,
     getters
 })
+
+initialStore.sessions.forEach(session => {
+    mutations.incorporateSession(state, session)
+});

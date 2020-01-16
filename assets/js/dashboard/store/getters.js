@@ -1,5 +1,5 @@
 export default {
-    userId: state => {
-        return state.user.email.split('@')[0]
+    userName: state => {
+        return state.userRecord.email.split('@')[0]
     }
 }

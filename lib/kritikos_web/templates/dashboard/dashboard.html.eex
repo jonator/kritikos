@@ -2,17 +2,26 @@
     <div id="header-container">
         <span id="logo">Kritikos</span>
         <div id="action-area">
-            <span id="email"><%= @user_record.email %></span>
-            <button>Log out</button>
+            <span id="email"><%= @user_record[:email] %></span>
+            <button onclick="logout()">Log out</button>
         </div>
     </div>
 </header>
 <div id="dashboard" v-cloak></div>
 
 <script>
-const socketToken = <%= to_js_object(@socket_token) %>;
+function logout() {
+    fetch("/api/users/logout", {
+        method: "POST",
+        cache: "no-cache",
+        headers: {
+            "Content-Type": "text/html"
+        }
+    }).then(resp => window.location.href=resp.url)
+}
+const userToken = <%= to_js_object(@socket_token) %>;
 const initialStore = {
-    user_record: <%= to_js_object(@user_record) %>,
+    userRecord: <%= to_js_object(@user_record) %>,
     sessions: <%= to_js_object(@sessions) %>
 }
 </script>

@@ -4,7 +4,6 @@ defmodule Kritikos.Auth.Profile do
   """
   use Ecto.Schema
   import Ecto.Changeset
-  alias Kritikos.Repo
   alias Kritikos.Sessions.Session
   alias Kritikos.Auth.User
 
@@ -19,23 +18,11 @@ defmodule Kritikos.Auth.Profile do
   end
 
   @doc false
-  def changeset(profile, attrs) do
+  def create_changeset(profile, attrs) do
     profile
-    |> cast(attrs, [:user_id, :name, :substitute_session_keyword])
-    |> validate_required([:user_id])
-    |> foreign_key_constraint(:user_id)
+    |> cast(attrs, [:name, :substitute_session_keyword])
+    |> validate_required([:name])
     |> capitalize_name
-  end
-
-  def get_or_create_for_user(user_id) do
-    case Repo.get(User, user_id) |> Ecto.assoc(__MODULE__) |> Repo.one() do
-      %{} ->
-        changeset(%__MODULE__{}, %{user_id: user_id})
-        |> Repo.insert()
-
-      profile ->
-        profile
-    end
   end
 
   defp capitalize_name(%Ecto.Changeset{valid?: true, changes: %{name: name}} = changeset) do

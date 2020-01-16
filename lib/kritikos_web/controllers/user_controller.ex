@@ -1,6 +1,5 @@
 defmodule KritikosWeb.UserController do
   use KritikosWeb, :controller
-
   alias Kritikos.Auth
 
   def create(conn, %{"user" => user_params}) do
@@ -11,10 +10,11 @@ defmodule KritikosWeb.UserController do
         |> put_status(:ok)
         |> render("login.json", user: user)
 
-      {:error, changeset} ->
+      {:error, reasons} ->
         conn
-        |> put_view(KritikosWeb.ChangesetView)
-        |> render("error.json", changeset: changeset)
+        |> put_view(KritikosWeb.ErrorView)
+        |> put_status(:forbidden)
+        |> render("error.json", message: reasons)
     end
   end
 end

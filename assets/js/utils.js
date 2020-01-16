@@ -1,5 +1,5 @@
 module.exports = {
-    fetchData: function (method, url = '', data = {}) {
+    apiRequest: function (method, url = '', data = {}) {
         // Default options are marked with *
 
         return fetch(url, {
@@ -14,7 +14,7 @@ module.exports = {
             redirect: 'follow', // manual, *follow, error
             referrer: 'no-referrer', // no-referrer, *client
             body: method.toUpperCase() == "GET" ? null : JSON.stringify(data), // body data type must match "Content-Type" header
-        })
+        }).then(resp => resp.json())
     },
     download: function (dataurl) {
         var a = document.createElement("a");

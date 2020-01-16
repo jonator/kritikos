@@ -4,14 +4,15 @@ defmodule KritikosWeb.DashboardController do
   alias Kritikos.Sessions
   alias Kritikos.Auth
 
-  @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
-
-  plug KritikosWeb.Plug.EnsureAuthenticated
+  plug KritikosWeb.Plug.EnsureAuthenticated, store: :cookie
 
   def dashboard(conn, _params, user) do
-    token = Phoenix.Token.sign(KritikosWeb.Endpoint, @token_salt, user.id)
+    token = Auth.sign_user_token(user.id)
     user_record = Auth.get_user_record(user.id)
-    user_sessions = Sessions.get_for_user(user.id)
+
+    user_sessions =
+      Sessions.get_for_user_with_preloads(user.id, [:votes, :tags])
+      |> Enum.map(&KritikosWeb.FormatHelpers.format_session/1)
 
     render(conn, "dashboard.html",
       socket_token: token,

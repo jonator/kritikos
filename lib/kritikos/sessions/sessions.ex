@@ -4,15 +4,35 @@ defmodule Kritikos.Sessions do
   """
   require DateTime
   alias Kritikos.Repo
-  alias Kritikos.{Auth, Auth.Profile}
-  alias __MODULE__.{Session, Tag, Queries}
+  alias __MODULE__.{Session, Queries}
 
-  def start(host_id, session_tags) do
-    profile_id = Profile.get_or_create_for_user(host_id) |> Map.take([:id])
-    session = Session.changeset(%Session{}, %{profile_id: profile_id}) |> Repo.insert()
-    tags = create_tags_for_session(session_tags, session.id)
+  def start(profile_id, keyword, session_tags) do
+    case Session.create_changeset(%Session{}, %{
+           keyword: keyword,
+           profile_id: profile_id,
+           tags: session_tags
+         })
+         |> Repo.insert() do
+      {:ok, _session} = valid ->
+        valid
 
-    Map.merge(session, %{tags: tags})
+      {:error, _changeset} = err ->
+        err
+    end
+  end
+
+  def stop(keyword) do
+    case get_open(keyword) do
+      nil ->
+        {:error, "session not open"}
+
+      session ->
+        now = DateTime.utc_now()
+
+        %{session | end_datetime: now}
+        |> Session.changeset()
+        |> Repo.update()
+    end
   end
 
   def get_open(keyword) do
@@ -20,12 +40,12 @@ defmodule Kritikos.Sessions do
     |> Repo.one()
   end
 
-  def create_tags_for_session(tags, session_id) do
-    created_tags = Enum.map(tags, &Tag.changeset(%Tag{session_id: session_id}, &1))
-    Repo.insert_all(Tag, created_tags, returning: true)
+  def get_all_open do
+    Queries.all_open()
+    |> Repo.all()
   end
 
-  def get_for_user(user_id) do
-    Queries.for_user(user_id) |> Repo.all()
+  def get_for_user_with_preloads(user_id, preloads) do
+    Queries.for_user(user_id) |> Repo.all() |> Repo.preload(preloads)
   end
 end

@@ -10,7 +10,12 @@ defmodule Kritikos.Auth.Queries do
     from u in active_user(user_id),
       inner_join: p in Profile,
       on: p.user_id == u.id,
-      select: %{email: u.email, name: p.name, permanent_session: p.substitute_session_keyword}
+      select: %{
+        id: u.id,
+        email: u.email,
+        name: p.name,
+        permanent_session: p.substitute_session_keyword
+      }
   end
 
   def user_assocs(user_id, assocs) do
