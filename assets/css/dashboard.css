@@ -12,7 +12,7 @@ header {
 }
 
 #dashboard-content {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 120px - 1px);
 }
 
 .cards {
@@ -29,8 +29,7 @@ header {
     padding: 10px;
     justify-content: center;
     text-align: center;
-    min-height: 200px;
-    max-height: 300px;
+    height: 300px;
 }
 .cards > *:hover {
     background-color: #fdfcfc;

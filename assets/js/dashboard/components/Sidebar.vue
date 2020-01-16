@@ -12,10 +12,7 @@
 
 <script>
 export default {
-  props: {
-    selecteditemindex: Number,
-    sidebaritems: Array
-  }
+  props: ["selecteditemindex", "sidebaritems"]
 };
 </script>
 

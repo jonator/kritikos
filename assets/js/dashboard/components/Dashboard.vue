@@ -5,9 +5,11 @@
       :selecteditemindex="currentSubViewIndex"
       @handleclick="sidebarItemClicked"
     />
-    <keep-alive>
-      <component class="subview" v-bind:is="currentSubView"></component>
-    </keep-alive>
+    <div id="subview-container">
+      <keep-alive>
+        <component class="subview" v-bind:is="currentSubView"></component>
+      </keep-alive>
+    </div>
   </div>
 </template>
 

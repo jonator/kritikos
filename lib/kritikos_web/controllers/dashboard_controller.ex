@@ -9,10 +9,7 @@ defmodule KritikosWeb.DashboardController do
   def dashboard(conn, _params, user) do
     token = Auth.sign_user_token(user.id)
     user_record = Auth.get_user_record(user.id)
-
-    user_sessions =
-      Sessions.get_for_user_with_preloads(user.id, [:votes, :tags])
-      |> Enum.map(&KritikosWeb.FormatHelpers.format_session/1)
+    user_sessions = Sessions.get_for_user_with_preloads(user.id, [:votes, :tags])
 
     render(conn, "dashboard.html",
       socket_token: token,

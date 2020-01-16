@@ -3,7 +3,7 @@
     <div id="new-session-svg-container">
       <NewSessionSvg id="new-session-svg" />
     </div>
-    <button v-on:click="startSession">Start session</button>
+    <button v-on:click="createSession">Start session</button>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import NewSessionSvg from "../../../../static/svg/dashboard/new_session.svg";
 export default {
   components: { NewSessionSvg },
   methods: {
-    startSession: function() {
+    createSession: function() {
       this.$store.dispatch("CREATE_SESSION", ["apples", "bannanas"]);
     }
   }

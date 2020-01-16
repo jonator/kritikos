@@ -2,36 +2,36 @@
   <div id="session-container">
     <table>
       <tr>
-        <td>{{ session.name }}</td>
+        <td>{{ session.keyword }}</td>
+      </tr>
+      <tr>
+        <td>Session identifier</td>
+        <td>{{ session.link }}</td>
+      </tr>
+      <tr>
+        <td>Vote count</td>
+        <td>{{ session.voteCount }}</td>
+      </tr>
+      <tr v-if="session.promptQuestion != null">
+        <td>Custom prompt question</td>
+        <td>{{ session.promptQuestion }}</td>
+      </tr>
+      <tr>
+        <td>Start time</td>
+        <td>{{ session.startDatetime }}</td>
+      </tr>
+      <tr>
+        <td>Tags</td>
+        <td>
+          <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
+        </td>
       </tr>
     </table>
-    <a href="session.link">{{ session.link }}</a>
-    <span>Vote count: {{ session.voteCount }}</span>
-    <div>
-      <button>Info</button>
-      <button class="warning" v-if="!isPermanent">End</button>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["session"],
-  computed: {
-    isPermanent: function() {
-      const userName = this.$store.getters.userName;
-      const urlParts = this.session.link.split("/");
-      const urlId = urlParts[urlParts.length - 1];
-      return userName === urlId;
-    }
-  }
+  props: ["session"]
 };
 </script>
-
-<style scoped>
-#session-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-</style>

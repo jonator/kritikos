@@ -3,13 +3,14 @@ defmodule KritikosWeb.FormatHelpers do
   Provides format-related functions.
   """
 
-  def format_session(session) do
-    session
-    |> Map.from_struct()
-    |> Map.take([:id, :keyword, :prompt_question, :start_datetime, :tags, :votes])
+  def format_map_with_keys(%{} = map, keys) do
+    Map.take(map, keys)
     |> filter_missing_assocs_and_metadata()
     |> camelize()
   end
+
+  def format_map_with_keys(%_{} = struct, keys),
+    do: Map.from_struct(struct) |> format_map_with_keys(keys)
 
   def camelize([_ | _] = list), do: Enum.map(list, &camelize/1)
   def camelize(%DateTime{} = dt), do: dt

@@ -22,8 +22,13 @@ export default {
             tags: tags.map(tag => { return { text: tag } })
         }
         apiRequestWithTokenAndErrors("POST", "/api/sessions/create", body, commit, (resp, didError) => {
-            console.log(resp)
             if (!didError) commit("incorporateSession", resp.session)
         })
+    },
+    SELECT_SESSION: ({ commit, state }, sessionId) => {
+        commit("selectSession", sessionId)
+    },
+    DESELECT_SESSION: ({ commit, state }) => {
+        commit("deselectSession")
     }
 }
