@@ -1,12 +1,12 @@
 <template>
   <div id="sessions-container">
-    <div v-if="$store.state.selectedSessionId == null" id="session-cards" class="cards">
+    <div v-if="$store.getters.selectedSession == null" id="session-cards" class="cards">
       <CreateSession />
-      <SessionCard v-for="session in $store.state.sessions" :key="session.id" :session="session" />
+      <SessionCard v-for="session in sessions" :key="session.id" :sessionId="session.id" />
     </div>
     <div v-else id="open-session-container">
-      <button id="sessions-back" v-on:click="$store.dispatch('DESELECT_SESSION')">🔙</button>
-      <Session :session="$store.getters.selectedSession" />
+      <button id="sessions-back" v-on:click="$store.dispatch('DESELECT_SESSION')">back</button>
+      <Session :sessionId="$store.getters.selectedSession.id" />
     </div>
   </div>
 </template>
@@ -17,7 +17,12 @@ import Session from "./Session.vue";
 import CreateSession from "./CreateSession.vue";
 
 export default {
-  components: { Session, SessionCard, CreateSession }
+  components: { Session, SessionCard, CreateSession },
+  computed: {
+    sessions: function() {
+      return this.$store.state.sessions;
+    }
+  }
 };
 </script>
 

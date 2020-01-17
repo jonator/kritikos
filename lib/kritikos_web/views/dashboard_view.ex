@@ -8,6 +8,7 @@ defmodule KritikosWeb.DashboardView do
       :keyword,
       :prompt_question,
       :start_datetime,
+      :end_datetime,
       :tags,
       :votes
     ])

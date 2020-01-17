@@ -1,7 +1,7 @@
 defmodule KritikosWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :kritikos
 
-  plug KritikosWeb.Plug.HealthCheck
+  plug KritikosWeb.Plug.HealthCheck, path: "/status"
 
   socket "/socket", KritikosWeb.UserSocket,
     websocket: true,
@@ -35,6 +35,7 @@ defmodule KritikosWeb.Endpoint do
 
   plug Plug.MethodOverride
   plug Plug.Head
+  plug KritikosWeb.Plug.NoCache
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.

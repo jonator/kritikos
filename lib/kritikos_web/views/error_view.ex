@@ -4,7 +4,7 @@ defmodule KritikosWeb.ErrorView do
   """
   use KritikosWeb, :view
 
-  def render("error.json", %{message: %Ecto.Changeset{valid?: false} = cs}) do
+  def render("error.json", %{changeset: %Ecto.Changeset{valid?: false} = cs}) do
     errors = Ecto.Changeset.traverse_errors(cs, &convert_errors/3)
     %{errors: flatten_errors(errors)}
   end

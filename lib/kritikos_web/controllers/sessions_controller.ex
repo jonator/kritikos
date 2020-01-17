@@ -5,7 +5,7 @@ defmodule KritikosWeb.SessionsController do
 
   plug KritikosWeb.Plug.EnsureAuthenticated, store: :token
 
-  def create(conn, params, user) do
+  def start_session(conn, params, user) do
     keyword = params["keyword"]
     tags = params["tags"]
     profile = Kritikos.Auth.get_assoc_profile(user)
@@ -18,15 +18,15 @@ defmodule KritikosWeb.SessionsController do
       {:error, changeset} ->
         conn
         |> put_view(KritikosWeb.ErrorView)
-        |> put_status(:internal_server_error)
         |> render("error.json", %{changeset: changeset})
     end
   end
 
-  def drop(conn, %{"keyword" => keyword}, _user) do
+  def end_session(conn, %{"keyword" => keyword}, _user) do
     case Sessions.stop(keyword) do
       {:ok, session} ->
-        conn |> render("show.json", %{session: session})
+        conn
+        |> render("show.json", %{session: session})
 
       {:error, %Ecto.Changeset{} = cs} ->
         conn

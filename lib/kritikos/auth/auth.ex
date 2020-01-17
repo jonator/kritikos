@@ -4,6 +4,7 @@ defmodule Kritikos.Auth do
   """
   @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   alias Kritikos.Repo
+  alias Kritikos.Helpers
   alias __MODULE__.{User, Queries}
 
   def sign_user_token(user_id) do
@@ -20,11 +21,15 @@ defmodule Kritikos.Auth do
     end
   end
 
-  def get_user(user_id), do: Repo.get(User, user_id)
+  def get_user(user_id, opts \\ [])
+  def get_user(user_id, opts), do: Helpers.get_schema(User, user_id, opts)
 
-  def get_assoc_profile(user), do: Repo.preload(user, :profile).profile
+  def get_profile(profile_id, opts \\ [])
+  def get_profile(profile_id, opts), do: Helpers.get_schema(Profile, profile_id, opts)
 
-  def get_user_if_active(user_id) do
+  def get_assoc_profile(%User{} = user), do: Repo.preload(user, :profile).profile
+
+  def get_active_user(user_id) do
     case get_user(user_id) do
       %User{is_active: true} = user ->
         {:ok, user}
@@ -35,11 +40,6 @@ defmodule Kritikos.Auth do
       nil ->
         {:error, "user doesn't exist"}
     end
-  end
-
-  def get_user_record(user_id) do
-    Queries.user_record(user_id)
-    |> Repo.one()
   end
 
   def get_user_assocs(user_id, assocs) do

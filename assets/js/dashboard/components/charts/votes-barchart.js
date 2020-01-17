@@ -18,8 +18,6 @@ function tallyVoteData() {
 if (barChart) {
     var data = tallyVoteData()
 
-    console.log(data)
-
     var svg = d3.select("#bar-chart"),
         margin = {
             top: 20,

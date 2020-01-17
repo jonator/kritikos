@@ -29,8 +29,8 @@ defmodule Kritikos.Sessions do
       session ->
         now = DateTime.utc_now()
 
-        %{session | end_datetime: now}
-        |> Session.changeset()
+        session
+        |> Session.changeset(%{end_datetime: now})
         |> Repo.update()
     end
   end
@@ -45,7 +45,16 @@ defmodule Kritikos.Sessions do
     |> Repo.all()
   end
 
-  def get_for_user_with_preloads(user_id, preloads) do
-    Queries.for_user(user_id) |> Repo.all() |> Repo.preload(preloads)
+  def get_all_open_for_user(user_id) do
+    Queries.all_open_for_user(user_id)
+    |> Repo.all()
   end
+
+  def get_for_user(user_id, opts \\ [])
+
+  def get_for_user(user_id, []) do
+    Queries.for_user(user_id) |> Repo.all()
+  end
+
+  def get_for_user(user_id, preload: keys), do: get_for_user(user_id) |> Repo.preload(keys)
 end

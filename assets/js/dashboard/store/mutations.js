@@ -1,27 +1,22 @@
-import getters from "./getters"
+import utils from "./utils";
 
 export default {
-    presentSession: (session) => {
-        session.link = window.location.origin + '/' + session.keyword
-        const userName = getters.userName;
-        const urlParts = session.link.split("/");
-        const urlId = urlParts[urlParts.length - 1];
-        session.isPermanent = userName === urlId;
-        return session;
-    },
     addErrors: (state, errors) => {
-        state.errors = errors
+        errors.forEach(err => {
+            console.error(err)
+            state.errors.push(err)
+        });
     },
     incorporateSession: (state, session) => {
-        var newSession = this.presentSession(session)
-
-        state.sessions = state.sessions.map(session => {
-            if (session.id == newSession.id) {
-                return newSession;
-            } else {
-                return session;
-            }
+        var s = state.sessions.find(s => {
+            return s.id == session.id
         })
+        if (s) {
+            Object.assign(s, session)
+        } else {
+            var newSession = utils.presentSession(session)
+            state.sessions.push(newSession)
+        }
     },
     selectSession: (state, sessionId) => {
         state.selectedSessionId = sessionId

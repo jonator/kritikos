@@ -1,7 +1,7 @@
 <form id="portal" @submit.prevent="handleSubmit" v-cloak>
     <h1 class="clickable" onclick="window.location.href='/'">Kritikos</h1>
     <input placeholder="email" type="email" name="email" v-model="email">
-    <input v-if="isRegistering" type="text" placeholder="full name" name="full_name" v-model="name">
+    <input v-if="isRegistering" type="text" placeholder="full name" name="first_last_name" v-model="firstLastName">
     <input placeholder="password" type="password" name="password" v-model="password">
     <input v-if="isRegistering" placeholder="password confirmation" type="password" v-model="passwordConfirmation">
     <button type="submit">{{ isRegistering ? "Register" : "Log in" }}</button><br>

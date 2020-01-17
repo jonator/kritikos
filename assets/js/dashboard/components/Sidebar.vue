@@ -22,11 +22,11 @@ export default {
   padding: 10px 10px;
   border-radius: 10px;
 }
+.sidebar-item.active {
+  background-color: aliceblue;
+}
 .sidebar-item:hover {
   cursor: pointer;
   background-color: cyan;
-}
-.sidebar-item.active {
-  background-color: aliceblue;
 }
 </style>

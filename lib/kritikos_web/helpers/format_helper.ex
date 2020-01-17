@@ -2,15 +2,14 @@ defmodule KritikosWeb.FormatHelpers do
   @moduledoc """
   Provides format-related functions.
   """
+  def format_map_with_keys(%_{} = struct, keys),
+    do: Map.from_struct(struct) |> format_map_with_keys(keys)
 
   def format_map_with_keys(%{} = map, keys) do
     Map.take(map, keys)
     |> filter_missing_assocs_and_metadata()
     |> camelize()
   end
-
-  def format_map_with_keys(%_{} = struct, keys),
-    do: Map.from_struct(struct) |> format_map_with_keys(keys)
 
   def camelize([_ | _] = list), do: Enum.map(list, &camelize/1)
   def camelize(%DateTime{} = dt), do: dt

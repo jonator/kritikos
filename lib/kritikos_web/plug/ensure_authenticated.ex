@@ -30,7 +30,7 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
           token ->
             case Phoenix.Token.verify(KritikosWeb.Endpoint, @token_salt, token, max_age: 86_400) do
               {:ok, user_id} ->
-                case Auth.get_user_if_active(user_id) do
+                case Auth.get_active_user(user_id) do
                   {:ok, user} ->
                     assign(conn, :user, user)
 

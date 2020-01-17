@@ -3,13 +3,13 @@
     <div id="user-info">
       About me
       <table>
-        <tr v-if="name">
+        <tr v-if="showName">
           <td>Name</td>
-          <td>{{ name }}</td>
+          <td>{{ $store.state.userRecord.name }}</td>
         </tr>
         <tr>
           <td>Email</td>
-          <td>{{ email }}</td>
+          <td>{{ $store.state.userRecord.email }}</td>
         </tr>
       </table>
     </div>
@@ -18,11 +18,11 @@
 
 <script>
 export default {
-  data: function() {
-    return {
-      name: this.$store.state.user_record.name,
-      email: this.$store.state.user_record.email
-    };
+  computed: {
+    showName: function() {
+      const name = this.$store.state.userRecord.name;
+      return name != null && name != undefined;
+    }
   }
 };
 </script>

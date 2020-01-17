@@ -3,6 +3,7 @@ export default {
         return state.userRecord.email.split('@')[0]
     },
     selectedSession: state => {
+        if (state.selectedSessionId == null) return null;
         for (var i = 0; i < state.sessions.length; i++) {
             const curSession = state.sessions[i]
             if (curSession.id == state.selectedSessionId) {

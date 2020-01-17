@@ -5,7 +5,7 @@ new Vue({
     el: "#portal",
     data: {
         isRegistering: false,
-        name: "",
+        firstLastName: "",
         email: "",
         password: "",
         passwordConfirmation: "",
@@ -15,7 +15,7 @@ new Vue({
         handleSubmit() {
             this.errors = []
             if (this.isRegistering) {
-                register(this.email, this.name, this.password, this.passwordConfirmation).then(this.processResponse)
+                register(this.email, this.firstLastName, this.password, this.passwordConfirmation).then(this.processResponse)
             } else {
                 signin(this.email, this.password).then(this.processResponse)
             }
@@ -25,7 +25,6 @@ new Vue({
             this.isRegistering = !this.isRegistering;
         },
         processResponse(response) {
-            console.log(response)
             if (response.redirect) window.location.href = response.redirect
             response.errors.forEach(error => {
                 this.errors.push(error)
@@ -34,8 +33,8 @@ new Vue({
     }
 })
 
-function register(email, name, password, passwordConfirmation) {
-    const payload = { user: { email: email, profile: { name: name }, password: password, password_confirmation: passwordConfirmation } }
+function register(email, firstLastName, password, passwordConfirmation) {
+    const payload = { user: { email: email, profile: { first_last_name: firstLastName }, password: password, password_confirmation: passwordConfirmation } }
     return utils.apiRequest("POST", "/api/user", payload)
 }
 

@@ -16,4 +16,8 @@ defmodule Kritikos.Sessions.Queries do
     now = DateTime.utc_now()
     from s in Session, where: is_nil(s.end_datetime) or s.end_datetime < ^now
   end
+
+  def all_open_for_user(user_id) do
+    intersect(for_user(user_id), ^all_open())
+  end
 end

@@ -1,12 +1,9 @@
-import utils from "../../utils.js";
+import baseUtils from "../../utils";
 
 function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
-    utils.apiRequest(method, url, { token: userToken, ...body }).then(jsonResp => {
+    baseUtils.apiRequest(method, url, { token: userToken, ...body }).then(jsonResp => {
         var errorsEncountered = false
         if (jsonResp.errors) {
-            jsonResp.errors.array.forEach(err => {
-                console.error(err);
-            });
             commit("addErrors", jsonResp.errors)
             errorsEncountered = true
             delete jsonResp.errors
@@ -17,12 +14,22 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 
 export default {
     CREATE_SESSION: ({ commit, state }, tags) => {
-        const body = {
-            keyword: "TEST56",
+        const reqBody = {
+            keyword: "TEST " + state.sessions.length,
             tags: tags.map(tag => { return { text: tag } })
         }
-        apiRequestWithTokenAndErrors("POST", "/api/sessions/create", body, commit, (resp, didError) => {
+        apiRequestWithTokenAndErrors("POST", "/api/sessions/start", reqBody, commit, (resp, didError) => {
             if (!didError) commit("incorporateSession", resp.session)
+            else commit("addErrors", resp.errors)
+        })
+    },
+    END_SESSION: ({ commit, state }, keyword) => {
+        const reqBody = {
+            keyword: keyword
+        }
+        apiRequestWithTokenAndErrors("POST", "/api/sessions/end", reqBody, commit, (resp, didError) => {
+            if (!didError) commit("incorporateSession", resp.session)
+            else commit("addErrors", resp.errors)
         })
     },
     SELECT_SESSION: ({ commit, state }, sessionId) => {

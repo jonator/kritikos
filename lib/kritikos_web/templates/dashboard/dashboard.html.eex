@@ -29,7 +29,6 @@ const initialState = {
     %>,
     sessions: <%=
         @sessions
-        |> IO.inspect
         |> Enum.map(&format_session/1)
         |> to_js_object
     %>

@@ -7,14 +7,12 @@ defmodule KritikosWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Kritikos.Plug.NoCache
   end
 
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
     plug :put_secure_browser_headers
-    plug Kritikos.Plug.NoCache
   end
 
   scope "/", KritikosWeb do
@@ -39,7 +37,7 @@ defmodule KritikosWeb.Router do
     post "/vote/:keyword/:level", PromptController, :submit_vote
     post "/:keyword/submit_form", PromptController, :submit_feedback
     post "/closeCurrentSession", DashboardController, :close_current_session
-    post "/sessions/create", SessionsController, :create
-    post "/sessions/drop", SessionsController, :drop
+    post "/sessions/start", SessionsController, :start_session
+    post "/sessions/end", SessionsController, :end_session
   end
 end

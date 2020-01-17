@@ -12,6 +12,7 @@ defmodule KritikosWeb.SessionsView do
       :keyword,
       :prompt_question,
       :start_datetime,
+      :end_datetime,
       :tags,
       :votes
     ])

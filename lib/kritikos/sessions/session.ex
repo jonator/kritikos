@@ -5,9 +5,6 @@ defmodule Kritikos.Sessions.Session do
   alias Kritikos.Sessions.Tag
   alias Kritikos.Votes.Vote
 
-  @derive {Jason.Encoder,
-           only: [:id, :keyword, :prompt_question, :start_datetime, :end_datetime, :votes, :tags]}
-
   schema "sessions" do
     field :keyword, :string
     field :prompt_question, :string
@@ -23,13 +20,16 @@ defmodule Kritikos.Sessions.Session do
     now = %{DateTime.utc_now() | microsecond: {0, 0}}
 
     session
-    |> cast(attrs, [:keyword, :prompt_question, :end_datetime, :profile_id])
+    |> cast(attrs, [:keyword, :prompt_question, :profile_id])
     |> cast_assoc(:tags, with: &Tag.create_changeset/2)
     |> validate_required([:keyword, :profile_id])
     |> assoc_constraint(:profile)
-    |> keyword_valid
+    |> validate_length(:keyword, min: 3, max: 15)
+    |> validate_format(:keyword, ~r/^[A-Za-z0-9_]*$/,
+      message: "invalid format (must only contain A-Z, a-z, 0-9, _, and no spaces)"
+    )
+    |> keyword_unique
     |> put_change(:start_datetime, now)
-    |> validate_end_datetime
     |> validate_length(:prompt_question, max: 30)
   end
 
@@ -39,7 +39,7 @@ defmodule Kritikos.Sessions.Session do
     |> validate_end_datetime
   end
 
-  defp keyword_valid(%Ecto.Changeset{valid?: true, changes: %{keyword: kw}} = changeset) do
+  defp keyword_unique(%Ecto.Changeset{valid?: true, changes: %{keyword: kw}} = changeset) do
     if Kritikos.Sessions.get_all_open()
        |> Enum.any?(fn session -> session.keyword == kw end) do
       add_error(changeset, :keyword, "already taken")
@@ -48,14 +48,14 @@ defmodule Kritikos.Sessions.Session do
     end
   end
 
-  defp keyword_valid(changeset), do: changeset
+  defp keyword_unique(changeset), do: changeset
 
   defp validate_end_datetime(changeset) do
-    start_datetime = get_change(changeset, :start_datetime)
+    start_datetime = get_field(changeset, :start_datetime)
 
     validate_change(changeset, :end_datetime, fn :end_datetime, end_datetime ->
       comparison = DateTime.compare(start_datetime, end_datetime)
-      has_microseconds? = end_datetime.microseconds != {0, 0}
+      has_microseconds? = end_datetime.microsecond != {0, 0}
 
       if comparison == :gt || comparison == :eq do
         return = [end_datetime: "must be after start date/time"]
