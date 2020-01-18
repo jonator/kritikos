@@ -1,7 +1,7 @@
 <template>
   <div id="sessions-container">
     <div v-if="$store.getters.selectedSession == null" id="session-cards" class="cards">
-      <CreateSession />
+      <CreateSessionCard />
       <SessionCard v-for="session in sessions" :key="session.id" :sessionId="session.id" />
     </div>
     <div v-else id="open-session-container">
@@ -14,10 +14,10 @@
 <script>
 import SessionCard from "./SessionCard.vue";
 import Session from "./Session.vue";
-import CreateSession from "./CreateSession.vue";
+import CreateSessionCard from "./CreateSessionCard.vue";
 
 export default {
-  components: { Session, SessionCard, CreateSession },
+  components: { Session, SessionCard, CreateSessionCard },
   computed: {
     sessions: function() {
       return this.$store.state.sessions;

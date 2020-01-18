@@ -2,10 +2,8 @@ import utils from "./utils";
 
 export default {
     addErrors: (state, errors) => {
-        errors.forEach(err => {
-            console.error(err)
-            state.errors.push(err)
-        });
+        if (errors) state.errors = errors
+        else state.errors = ["There was a problem performing that action"]
     },
     incorporateSession: (state, session) => {
         var s = state.sessions.find(s => {
@@ -23,5 +21,11 @@ export default {
     },
     deselectSession: state => {
         state.selectedSessionId = null
+    },
+    openModal: (state, componentName) => {
+        state.currentModalName = componentName
+    },
+    dismissModal: state => {
+        state.currentModalName = null
     }
 }

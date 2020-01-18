@@ -14,7 +14,7 @@ export default {
   components: { NewSessionSvg },
   methods: {
     createSession: function() {
-      this.$store.dispatch("CREATE_SESSION", ["apples", "bannanas"]);
+      this.$store.dispatch("OPEN_MODAL", "CreateSessionForm");
     }
   }
 };

@@ -7,6 +7,7 @@ defmodule Kritikos.Sessions.Session do
 
   schema "sessions" do
     field :keyword, :string
+    field :name, :string
     field :prompt_question, :string
     field :start_datetime, :utc_datetime
     field :end_datetime, :utc_datetime
@@ -20,7 +21,7 @@ defmodule Kritikos.Sessions.Session do
     now = %{DateTime.utc_now() | microsecond: {0, 0}}
 
     session
-    |> cast(attrs, [:keyword, :prompt_question, :profile_id])
+    |> cast(attrs, [:keyword, :name, :prompt_question, :profile_id])
     |> cast_assoc(:tags, with: &Tag.create_changeset/2)
     |> validate_required([:keyword, :profile_id])
     |> assoc_constraint(:profile)
@@ -29,8 +30,9 @@ defmodule Kritikos.Sessions.Session do
       message: "invalid format (must only contain A-Z, a-z, 0-9, _, and no spaces)"
     )
     |> keyword_unique
+    |> validate_length(:name, min: 3, max: 15)
     |> put_change(:start_datetime, now)
-    |> validate_length(:prompt_question, max: 30)
+    |> validate_length(:prompt_question, max: 50)
   end
 
   def changeset(session, attrs \\ %{}) do

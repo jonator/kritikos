@@ -7,9 +7,10 @@
     />
     <div id="subview-container">
       <keep-alive>
-        <component class="subview" v-bind:is="currentSubView"></component>
+        <component class="subview" v-bind:is="currentSubView" />
       </keep-alive>
     </div>
+    <Modal v-if="$store.state.currentModalName" :innerComponent="$store.state.currentModalName" />
   </div>
 </template>
 
@@ -17,9 +18,10 @@
 import MyProfile from "./subviews/MyProfile.vue";
 import Sessions from "./subviews/Sessions.vue";
 import Sidebar from "./Sidebar.vue";
+import Modal from "./subviews/Modal.vue";
 
 export default {
-  components: { MyProfile, Sessions, Sidebar },
+  components: { MyProfile, Sessions, Sidebar, Modal },
   data: function() {
     return {
       currentSubViewIndex: 1,

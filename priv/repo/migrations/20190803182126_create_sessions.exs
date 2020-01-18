@@ -4,6 +4,7 @@ defmodule Kritikos.Repo.Migrations.CreateSessions do
   def change do
     create table(:sessions) do
       add :keyword, :string, null: false
+      add :name, :string
       add :prompt_question, :string
       add :start_datetime, :utc_datetime, null: false
       add :end_datetime, :utc_datetime

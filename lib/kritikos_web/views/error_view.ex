@@ -4,7 +4,7 @@ defmodule KritikosWeb.ErrorView do
   """
   use KritikosWeb, :view
 
-  def render("error.json", %{changeset: %Ecto.Changeset{valid?: false} = cs}) do
+  def render("error.json", %{message: %Ecto.Changeset{valid?: false} = cs}) do
     errors = Ecto.Changeset.traverse_errors(cs, &convert_errors/3)
     %{errors: flatten_errors(errors)}
   end
@@ -33,7 +33,11 @@ defmodule KritikosWeb.ErrorView do
 
     msg =
       Enum.reduce(opts, msg, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
+        try do
+          String.replace(acc, "%{#{key}}", to_string(value))
+        rescue
+          _ -> acc
+        end
       end)
 
     field_name <> msg

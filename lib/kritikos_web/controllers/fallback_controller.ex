@@ -10,7 +10,7 @@ defmodule KritikosWeb.FallbackController do
     conn
     |> put_status(:unprocessable_entity)
     |> put_view(KritikosWeb.ErrorView)
-    |> render("error.json", changeset: changeset)
+    |> render("error.json", message: changeset)
   end
 
   def call(conn, {:error, :not_found}) do

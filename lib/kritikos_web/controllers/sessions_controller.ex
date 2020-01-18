@@ -18,7 +18,7 @@ defmodule KritikosWeb.SessionsController do
       {:error, changeset} ->
         conn
         |> put_view(KritikosWeb.ErrorView)
-        |> render("error.json", %{changeset: changeset})
+        |> render("error.json", %{message: changeset})
     end
   end
 
@@ -32,7 +32,7 @@ defmodule KritikosWeb.SessionsController do
         conn
         |> put_status(:forbidden)
         |> put_view(KritikosWeb.ErrorView)
-        |> render("error.json", %{changeset: cs})
+        |> render("error.json", %{message: cs})
 
       {:error, reason} ->
         conn

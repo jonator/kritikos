@@ -13,14 +13,12 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 }
 
 export default {
-    CREATE_SESSION: ({ commit, state }, tags) => {
-        const reqBody = {
-            keyword: "TEST " + state.sessions.length,
-            tags: tags.map(tag => { return { text: tag } })
-        }
-        apiRequestWithTokenAndErrors("POST", "/api/sessions/start", reqBody, commit, (resp, didError) => {
-            if (!didError) commit("incorporateSession", resp.session)
-            else commit("addErrors", resp.errors)
+    CREATE_SESSION: ({ commit, state }, session) => {
+        apiRequestWithTokenAndErrors("POST", "/api/sessions/start", session, commit, (resp, didError) => {
+            if (!didError) {
+                commit("incorporateSession", resp.session)
+                commit("dismissModal")
+            }
         })
     },
     END_SESSION: ({ commit, state }, keyword) => {
@@ -29,7 +27,6 @@ export default {
         }
         apiRequestWithTokenAndErrors("POST", "/api/sessions/end", reqBody, commit, (resp, didError) => {
             if (!didError) commit("incorporateSession", resp.session)
-            else commit("addErrors", resp.errors)
         })
     },
     SELECT_SESSION: ({ commit, state }, sessionId) => {
@@ -37,5 +34,13 @@ export default {
     },
     DESELECT_SESSION: ({ commit, state }) => {
         commit("deselectSession")
+    },
+    OPEN_MODAL: ({ commit, state }, componentName) => {
+        commit("openModal", componentName)
+    },
+    DISMISS_MODAL: ({ commit, state }) => {
+        if (confirm("Are you sure? Any changes will be lost")) {
+            commit("dismissModal")
+        }
     }
 }
