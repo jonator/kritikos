@@ -3,15 +3,19 @@
     <div id="new-session-svg-container">
       <NewSessionSvg id="new-session-svg" />
     </div>
-    <button v-on:click="createSession">Start session</button>
+    <div id="footer-wrapper">
+      <HelperTooltip>A session is a time-centric way to organize your feedback. They are each associated with a URL that your target audience can use to access a feedback form. Once closed the session can no longer be accessed.</HelperTooltip>
+      <button id="start-session-button" v-on:click="createSession">Start session</button>
+    </div>
   </div>
 </template>
 
 <script>
 import NewSessionSvg from "../../../../static/svg/dashboard/new_session.svg";
+import HelperTooltip from "../HelperTooltip.vue";
 
 export default {
-  components: { NewSessionSvg },
+  components: { NewSessionSvg, HelperTooltip },
   methods: {
     createSession: function() {
       this.$store.dispatch("OPEN_MODAL", "CreateSessionForm");
@@ -24,9 +28,16 @@ export default {
 #create-session-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 #new-session-svg-container {
   padding: 30px;
+}
+#footer-wrapper {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+}
+#start-session-button {
+  margin: 0;
 }
 </style>

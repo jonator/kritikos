@@ -8,7 +8,7 @@
         <td>Name</td>
         <td></td>
         <td>
-          <input type="text" placeholder="Database class" v-model="name" />
+          <input type="text" placeholder="Work emails" v-model="name" />
         </td>
       </tr>
       <tr>
@@ -16,10 +16,14 @@
         <td>
           <HelperTooltip
             :position="'left'"
-          >This will be used in the url that your audience will use to provide feedback.</HelperTooltip>
+          >Will be in the URL that your audience will use to provide feedback. It must be unique and short, with only letters, numbers, and underscores/hyphens.</HelperTooltip>
         </td>
         <td>
-          <input type="text" placeholder="db_class (must be unique and short)" v-model="keyword" />
+          <input
+            type="text"
+            placeholder="w_emails2019 (must be unique and short)"
+            v-model="keyword"
+          />
         </td>
       </tr>
       <tr>
@@ -27,7 +31,7 @@
         <td>
           <HelperTooltip
             :position="'left'"
-          >This will be on the initial prompt presented to the users.</HelperTooltip>
+          >Will be the initial prompt presented to the users. Must not exceed 50 characters.</HelperTooltip>
         </td>
         <td>
           <input type="text" placeholder="How was your experience?" v-model="promptQuestion" />
@@ -38,7 +42,7 @@
         <td>
           <HelperTooltip
             :position="'left'"
-          >These are useful for identifying and categorizing your sessions.</HelperTooltip>
+          >Can be used for identifying and categorizing your sessions. Tags are optional. (Max 10)</HelperTooltip>
         </td>
         <td>
           <VueTagsInput
@@ -46,6 +50,9 @@
             :tags="tags"
             :allow-edit-tags="true"
             :max-length="15"
+            :add-on-key="[13,' ']"
+            :max-tags="10"
+            :placeholder="'Type tag and press enter'"
             @tags-changed="newTags => tags = newTags"
           />
         </td>
@@ -111,6 +118,9 @@ export default {
 <style scoped>
 tr td input {
   margin: auto;
+}
+#errors-wrapper {
+  padding-bottom: 20px;
 }
 #footer-wrapper {
   padding-left: 10%;

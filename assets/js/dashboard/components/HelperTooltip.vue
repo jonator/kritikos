@@ -53,6 +53,10 @@ export default {
 <style scoped>
 /* TOOLTIP */
 
+#helper-tooltip-container {
+  margin: auto;
+}
+
 i {
   z-index: 500;
 }

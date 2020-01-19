@@ -3,7 +3,8 @@
         <span id="logo">Kritikos</span>
         <div id="action-area">
             <span id="email"><%=
-                FormatHelpers.format_map_with_keys(@user_record, [:email])[:email] %></span>
+                FormatHelpers.format_map_with_keys(@user_record, [:email])["email"]
+            %></span>
             <button onclick="logout()">Log out</button>
         </div>
     </div>

@@ -10,7 +10,7 @@ export default {
             return s.id == session.id
         })
         if (s) {
-            Object.assign(s, session)
+            Object.assign(s, utils.presentSession(session))
         } else {
             var newSession = utils.presentSession(session)
             state.sessions.push(newSession)

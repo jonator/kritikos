@@ -26,7 +26,7 @@ defmodule Kritikos.Sessions.Session do
     |> validate_required([:keyword, :profile_id])
     |> assoc_constraint(:profile)
     |> validate_length(:keyword, min: 3, max: 15)
-    |> validate_format(:keyword, ~r/^[A-Za-z0-9_]*$/,
+    |> validate_format(:keyword, ~r/^[A-Za-z0-9_-]*$/,
       message: "invalid format (must only contain A-Z, a-z, 0-9, _, and no spaces)"
     )
     |> keyword_unique

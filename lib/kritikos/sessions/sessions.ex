@@ -6,8 +6,9 @@ defmodule Kritikos.Sessions do
   alias Kritikos.Repo
   alias __MODULE__.{Session, Queries}
 
-  def start(profile_id, keyword, session_tags) do
+  def start(profile_id, name, keyword, session_tags) do
     case Session.create_changeset(%Session{}, %{
+           name: name,
            keyword: keyword,
            profile_id: profile_id,
            tags: session_tags

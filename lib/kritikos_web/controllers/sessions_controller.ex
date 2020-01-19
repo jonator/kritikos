@@ -6,11 +6,12 @@ defmodule KritikosWeb.SessionsController do
   plug KritikosWeb.Plug.EnsureAuthenticated, store: :token
 
   def start_session(conn, params, user) do
+    name = params["name"]
     keyword = params["keyword"]
     tags = params["tags"]
     profile = Kritikos.Auth.get_assoc_profile(user)
 
-    case Sessions.start(profile.id, keyword, tags) do
+    case Sessions.start(profile.id, name, keyword, tags) do
       {:ok, session} ->
         conn
         |> render("show.json", %{session: session})

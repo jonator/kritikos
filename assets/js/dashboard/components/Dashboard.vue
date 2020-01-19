@@ -24,10 +24,10 @@ export default {
   components: { MyProfile, Sessions, Sidebar, Modal },
   data: function() {
     return {
-      currentSubViewIndex: 1,
+      currentSubViewIndex: 0,
       sidebarItems: [
-        { id: 0, component: "MyProfile", title: "My Profile" },
-        { id: 1, component: "Sessions", title: "Sessions" }
+        { id: 0, component: "Sessions", title: "Sessions" },
+        { id: 1, component: "MyProfile", title: "My Profile" }
       ]
     };
   },

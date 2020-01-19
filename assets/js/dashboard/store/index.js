@@ -12,7 +12,7 @@ export default new Vuex.Store({
         userRecord: initialState.userRecord,
         sessions: initialState.sessions.map(utils.presentSession),
         selectedSessionId: null,
-        currentModalName: "CreateSessionForm",
+        currentModalName: null,
         errors: []
     },
     actions,

@@ -5,6 +5,7 @@ defmodule KritikosWeb.DashboardView do
   def format_session(session) do
     FormatHelpers.format_map_with_keys(session, [
       :id,
+      :name,
       :keyword,
       :prompt_question,
       :start_datetime,

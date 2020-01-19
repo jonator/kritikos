@@ -2,12 +2,14 @@
   <div id="session-card-container">
     <table>
       <tr>
-        <td>{{ session.keyword }}</td>
+        <td v-if="session.name">{{ session.name }}</td>
+        <td v-else>{{ session.keyword }}</td>
       </tr>
     </table>
     <a href="session.link">{{ session.link }}</a>
-    <span v-if="!isEnded">Vote count: {{ session.voteCount }}</span>
-    <span v-else>SESSION ENDED</span>
+    <span v-if="!isEnded && session.voteCount != null">Vote count: {{ session.voteCount }}</span>
+    <span v-else-if="isEnded">SESSION ENDED</span>
+    <span v-else>Keyword: {{ session.keyword }}</span>
     <div>
       <button v-on:click="$store.dispatch('SELECT_SESSION', session.id)">Info</button>
       <button

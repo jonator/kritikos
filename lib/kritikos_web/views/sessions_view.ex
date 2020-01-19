@@ -9,6 +9,7 @@ defmodule KritikosWeb.SessionsView do
   def render("session.json", %{sessions: session}) do
     FormatHelpers.format_map_with_keys(session, [
       :id,
+      :name,
       :keyword,
       :prompt_question,
       :start_datetime,
