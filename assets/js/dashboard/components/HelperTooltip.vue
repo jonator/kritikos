@@ -21,9 +21,14 @@ export default {
       default: "bounce",
       required: false
     },
-    position: {
+    hPosition: {
       type: String,
       default: "right",
+      required: false
+    },
+    vPosition: {
+      type: String,
+      default: "bottom",
       required: false
     }
   },
@@ -34,14 +39,23 @@ export default {
   },
   computed: {
     hoverPosition: function() {
-      var style = "";
-      switch (this.position) {
+      var style = {};
+      switch (this.hPosition) {
         case "right":
-          style = { left: "0%" };
+          Object.assign(style, { left: "0%" });
           break;
 
         case "left":
-          style = { right: "0%" };
+          Object.assign(style, { right: "0%" });
+          break;
+      }
+      switch (this.vPosition) {
+        case "bottom":
+          Object.assign(style, { top: "120%" });
+          break;
+
+        case "top":
+          Object.assign(style, { bottom: "120%" });
           break;
       }
       return style;
@@ -74,7 +88,6 @@ i {
   max-width: 100vw;
   max-height: 300px;
   position: absolute;
-  top: 120%;
   padding: 10px;
 }
 

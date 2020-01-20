@@ -14,9 +14,7 @@
       <tr>
         <td>Keyword</td>
         <td>
-          <HelperTooltip
-            :position="'left'"
-          >Will be in the URL that your audience will use to provide feedback. It must be unique and short, with only letters, numbers, and underscores/hyphens.</HelperTooltip>
+          <HelperTooltip>Will be in the URL that your audience will use to provide feedback. It must be unique and short, with only letters, numbers, and underscores/hyphens.</HelperTooltip>
         </td>
         <td>
           <input
@@ -29,9 +27,7 @@
       <tr>
         <td>Prompt question</td>
         <td>
-          <HelperTooltip
-            :position="'left'"
-          >Will be the initial prompt presented to the users. Must not exceed 50 characters.</HelperTooltip>
+          <HelperTooltip>Will be the initial prompt presented to the users. Must not exceed 50 characters.</HelperTooltip>
         </td>
         <td>
           <input type="text" placeholder="How was your experience?" v-model="promptQuestion" />
@@ -40,9 +36,7 @@
       <tr>
         <td>Tags</td>
         <td>
-          <HelperTooltip
-            :position="'left'"
-          >Can be used for identifying and categorizing your sessions. Tags are optional. (Max 10)</HelperTooltip>
+          <HelperTooltip>Can be used for identifying and categorizing your sessions. Tags are optional. (Max 10)</HelperTooltip>
         </td>
         <td>
           <VueTagsInput

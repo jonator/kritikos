@@ -5,6 +5,10 @@ header {
     height: 100px;
 }
 
+button {
+    margin: 0;
+}
+
 #header-container {
     padding: 25px;
     display: flex;
@@ -21,7 +25,6 @@ header {
     grid-template-rows: auto;
     gap: 30px;
     padding-right: 30px;
-    height: calc(100vh - 120px);
     overflow: auto;
 }
 .cards > * {

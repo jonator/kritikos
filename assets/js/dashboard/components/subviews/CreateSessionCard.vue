@@ -4,7 +4,9 @@
       <NewSessionSvg id="new-session-svg" />
     </div>
     <div id="footer-wrapper">
-      <HelperTooltip>A session is a time-centric way to organize your feedback. They are each associated with a URL that your target audience can use to access a feedback form. Once closed the session can no longer be accessed.</HelperTooltip>
+      <HelperTooltip
+        :vPosition="'top'"
+      >A session is a time-centric way to organize your feedback. They are each associated with a URL that your target audience can use to access a feedback form. Once closed the session can no longer be accessed.</HelperTooltip>
       <button id="start-session-button" v-on:click="createSession">Start session</button>
     </div>
   </div>

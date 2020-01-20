@@ -3,9 +3,9 @@
     <div id="user-info">
       About me
       <table>
-        <tr v-if="showName">
+        <tr v-if="$store.state.userRecord.profile.firstLastName">
           <td>Name</td>
-          <td>{{ $store.state.userRecord.name }}</td>
+          <td>{{ $store.state.userRecord.profile.firstLastName }}</td>
         </tr>
         <tr>
           <td>Email</td>
@@ -17,12 +17,5 @@
 </template>
 
 <script>
-export default {
-  computed: {
-    showName: function() {
-      const name = this.$store.state.userRecord.name;
-      return name != null && name != undefined;
-    }
-  }
-};
+export default {};
 </script>
