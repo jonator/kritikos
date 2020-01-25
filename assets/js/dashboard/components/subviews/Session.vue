@@ -2,11 +2,14 @@
   <div id="session-container">
     <div id="actions">
       <button v-on:click="$router.push('/sessions')">back</button>
+      <div id="session-actions">
+        <button v-if="!session.endDatetime" class="warning" v-on:click="endSession">close</button>
+      </div>
     </div>
     <table>
       <tr>
         <td>
-          <h3>{{ session.keyword }}</h3>
+          <h2>{{ session.keyword }}</h2>
         </td>
         <td />
       </tr>
@@ -23,11 +26,11 @@
         <td>{{ session.promptQuestion }}</td>
       </tr>
       <tr>
-        <td>Start time</td>
+        <td>Start date/time</td>
         <td>{{ session.startDatetime }}</td>
       </tr>
       <tr v-if="session.endDatetime">
-        <td>End time</td>
+        <td>End date/time</td>
         <td>{{ session.endDatetime }}</td>
       </tr>
       <tr>
@@ -53,6 +56,11 @@ export default {
       })
     };
   },
+  methods: {
+    endSession: function() {
+      this.$store.dispatch("END_SESSION", this.session.keyword);
+    }
+  },
   beforeRouteUpdate(to, from, next) {
     this.$store
       .dispatch("FETCH_SESSION", { keyword: to.params.keyword })
@@ -73,5 +81,15 @@ export default {
 }
 #actions {
   padding-bottom: 30px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 30px;
+}
+#session-actions {
+  display: inline-flex;
+  justify-content: flex-end;
+}
+#session-actions button {
+  margin-left: 10px;
 }
 </style>
