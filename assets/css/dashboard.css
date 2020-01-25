@@ -25,7 +25,6 @@ button {
     grid-template-rows: auto;
     gap: 30px;
     padding-right: 30px;
-    overflow: auto;
 }
 .cards > * {
     border: 1px solid #eaeaea;
@@ -36,6 +35,30 @@ button {
 }
 .cards > *:hover {
     background-color: #fdfcfc;
+}
+
+@media screen and (max-width: 3000px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 2400px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 1900px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 1450px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }
 
 @media screen and (max-width: 1000px) {

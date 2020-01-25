@@ -8,7 +8,7 @@ defmodule Kritikos.Votes do
   def submit_vote(session_keyword, vote_level_id) do
     Sessions.get_open(session_keyword)
     |> Ecto.build_assoc(:votes)
-    |> Vote.changeset(%{vote_level_id: vote_level_id, vote_datetime: DateTime.utc_now()})
+    |> Vote.create_changeset(%{vote_level_id: vote_level_id, vote_datetime: DateTime.utc_now()})
     |> Repo.insert()
   end
 

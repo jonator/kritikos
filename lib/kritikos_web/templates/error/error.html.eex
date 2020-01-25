@@ -1,3 +1,3 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/error.css") %>"/>
 
-<h3 id="error-reason"><%= @reason %></h3>
+<h3 id="error-reason"><%= @message %></h3>

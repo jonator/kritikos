@@ -30,7 +30,7 @@ defmodule Kritikos.Sessions.Session do
       message: "invalid format (must only contain A-Z, a-z, 0-9, _, and no spaces)"
     )
     |> keyword_unique
-    |> validate_length(:name, min: 3, max: 15)
+    |> validate_length(:name, min: 3, max: 30)
     |> put_change(:start_datetime, now)
     |> validate_length(:prompt_question, max: 50)
   end

@@ -4,28 +4,23 @@ defmodule Kritikos.Votes.Vote do
   alias Kritikos.Sessions.Session
   alias Kritikos.Votes.Feedback
 
-  @primary_key {:voter_number, :id, autogenerate: true}
-
   schema "votes" do
     field :vote_datetime, :utc_datetime
     belongs_to :session, Session
-    has_one :feedback, Feedback, foreign_key: :voter_number
+    has_one :feedback, Feedback
     field :vote_level_id, :id
   end
 
   @doc false
-  def changeset(vote, attrs) do
+  def create_changeset(vote, attrs) do
+    now = %{DateTime.utc_now() | microsecond: {0, 0}}
+
     vote
-    |> cast(attrs, [:session_id, :vote_level_id, :vote_datetime, :voter_number, :feedback_id])
-    |> validate_required([
-      :session_id,
-      :vote_level_id,
-      :vote_datetime,
-      :voter_number
-    ])
+    |> cast(attrs, [:session_id, :vote_level_id])
+    |> validate_required([:session_id, :vote_level_id])
     |> assoc_constraint(:session)
-    |> assoc_constraint(:feedback)
     |> foreign_key_constraint(:vote_level_id)
+    |> put_change(:vote_datetime, now)
   end
 
   def update_changeset(vote, attrs) do

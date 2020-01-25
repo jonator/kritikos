@@ -30,10 +30,15 @@ export default {
 #create-session-container {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
+  justify-content: space-between;
 }
 #new-session-svg-container {
-  padding: 30px;
+  /* padding: 20px; */
+  margin: auto;
+}
+#new-session-svg-container > * {
+  height: 100%;
+  width: 90%;
 }
 #footer-wrapper {
   display: grid;

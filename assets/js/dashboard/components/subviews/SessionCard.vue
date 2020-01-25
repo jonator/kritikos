@@ -6,7 +6,7 @@
         <td v-else>{{ session.keyword }}</td>
       </tr>
     </table>
-    <a href="session.link">{{ session.link }}</a>
+    <a v-bind:href="session.link">{{ session.link }}</a>
     <span v-if="session.voteCount != null">Vote count: {{ session.voteCount }}</span>
     <span v-else>Keyword: {{ session.keyword }}</span>
     <div>
