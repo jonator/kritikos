@@ -21,7 +21,8 @@ Vue.use(VueRouter)
 
 const routes = [
     { id: 0, path: "/my-profile", component: MyProfile },
-    { id: 1, path: "/sessions", component: Sessions }
+    { id: 1, path: "/sessions", component: Sessions },
+    { path: "*", redirect: "/sessions" }
 ]
 
 var router = new VueRouter({

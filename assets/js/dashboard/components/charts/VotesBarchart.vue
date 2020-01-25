@@ -1,5 +1,5 @@
 <template>
-  <div id="bar-chart" />
+  <svg width="500" height="350" id="bar-chart" />
 </template>
 
 <script>
@@ -9,10 +9,13 @@ export default {
   props: ["votes"],
   mounted: function() {
     const data = {
-      1: 323,
-      2: 213,
+      1: 32,
+      2: 21,
       3: 23
     };
+
+    const voteCounts = Object.values(data);
+    const voteLevelKeys = Object.keys(data);
 
     var svg = d3.select("#bar-chart"),
       margin = {
@@ -36,14 +39,14 @@ export default {
     var y = d3.scaleLinear().rangeRound([height, 0]);
 
     x.domain(
-      Object.keys(data).map(function(d) {
+      voteLevelKeys.map(function(d) {
         return d;
       })
     );
 
     y.domain([
       0,
-      d3.max(Object.values(data), function(d) {
+      d3.max(voteCounts, function(d) {
         return d;
       })
     ]);
@@ -53,7 +56,7 @@ export default {
       .call(d3.axisBottom(x).tickValues([]));
 
     g.append("g")
-      .call(d3.axisLeft(y).ticks(Math.max(...Object.values(data))))
+      .call(d3.axisLeft(y).ticks(Math.max(...voteCounts)))
       .append("text")
       .attr("fill", "#000")
       .attr("transform", "rotate(-90)")
@@ -64,7 +67,7 @@ export default {
 
     var bar = g
       .selectAll(".bar")
-      .data(Object.keys(data))
+      .data(voteLevelKeys)
       .enter()
       .append("rect")
       .attr("class", "bar")
@@ -80,7 +83,7 @@ export default {
       });
 
     g.selectAll(".voteIcon")
-      .data(Object.keys(data))
+      .data(voteLevelKeys)
       .enter()
       .append("g")
       .html(function(d) {
@@ -100,3 +103,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+svg {
+  width: 100%;
+  height: 100%;
+}
+</style>

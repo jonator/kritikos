@@ -28,7 +28,7 @@ defmodule KritikosWeb.DashboardView do
 
     {:ok, json} =
       Enum.map(votes, fn vote ->
-        {:safe, svg} = IO.inspect(svg_image(vote.description))
+        {:safe, svg} = svg_image(vote.description)
 
         Map.from_struct(vote)
         |> Map.put(:svg, svg)
