@@ -5,6 +5,9 @@ export default {
         if (errors) state.errors = errors
         else state.errors = ["There was a problem performing that action"]
     },
+    selectSubViewIndex: (state, index) => {
+        state.currentSubViewIndex = index
+    },
     incorporateSession: (state, session) => {
         var s = state.sessions.find(s => {
             return s.id == session.id

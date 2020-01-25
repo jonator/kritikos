@@ -27,6 +27,7 @@ import Session from "./Session.vue";
 import CreateSessionCard from "./CreateSessionCard.vue";
 
 export default {
+  name: "Sessions",
   components: { Session, SessionCard, CreateSessionCard },
   computed: {
     permanentSession: function() {

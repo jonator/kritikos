@@ -13,6 +13,9 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 }
 
 export default {
+    SELECT_SUBVIEW_INDEX: ({ commit, state }, index) => {
+        commit("selectSubViewIndex", index)
+    },
     CREATE_SESSION: ({ commit, state }, session) => {
         apiRequestWithTokenAndErrors("POST", "/api/sessions/start", session, commit, (resp, didError) => {
             if (!didError) {

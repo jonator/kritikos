@@ -1,46 +1,21 @@
 <template>
   <div id="dashboard-content">
-    <Sidebar
-      :sidebaritems="sidebarItems"
-      :selecteditemindex="currentSubViewIndex"
-      @handleclick="sidebarItemClicked"
-    />
+    <div id="sidebar-content">
+      <router-link class="sidebar-item" tag="div" to="/sessions">Sessions</router-link>
+      <router-link class="sidebar-item" tag="div" to="/my-profile">My profile</router-link>
+    </div>
     <div id="subview-container">
-      <keep-alive>
-        <component class="subview" v-bind:is="currentSubView" />
-      </keep-alive>
+      <router-view />
     </div>
     <Modal v-if="$store.state.currentModalName" :innerComponent="$store.state.currentModalName" />
   </div>
 </template>
 
 <script>
-import MyProfile from "./subviews/MyProfile.vue";
-import Sessions from "./subviews/Sessions.vue";
-import Sidebar from "./Sidebar.vue";
 import Modal from "./subviews/Modal.vue";
 
 export default {
-  components: { MyProfile, Sessions, Sidebar, Modal },
-  data: function() {
-    return {
-      currentSubViewIndex: 0,
-      sidebarItems: [
-        { id: 0, component: "Sessions", title: "Sessions" },
-        { id: 1, component: "MyProfile", title: "My Profile" }
-      ]
-    };
-  },
-  computed: {
-    currentSubView: function() {
-      return this.sidebarItems[this.currentSubViewIndex].component;
-    }
-  },
-  methods: {
-    sidebarItemClicked: function(index) {
-      this.currentSubViewIndex = index;
-    }
-  }
+  components: { Modal }
 };
 </script>
 
@@ -49,5 +24,17 @@ export default {
   display: grid;
   grid-template-columns: 250px 1fr;
   grid-column-gap: 30px;
+}
+.sidebar-item {
+  margin: 5px;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+.router-link-active {
+  background-color: aliceblue;
+}
+.sidebar-item:hover {
+  cursor: pointer;
+  background-color: cyan;
 }
 </style>

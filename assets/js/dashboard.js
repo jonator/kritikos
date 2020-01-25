@@ -11,10 +11,25 @@ import dashboardCss from "../css/dashboard.css"
 //
 import "phoenix_html"
 import Vue from "vue";
+import VueRouter from "vue-router";
 import store from "./dashboard/store";
 import Dashboard from "./dashboard/components/Dashboard.vue";
+import MyProfile from "./dashboard/components/subviews/MyProfile.vue";
+import Sessions from "./dashboard/components/subviews/Sessions.vue";
+
+Vue.use(VueRouter)
+
+const routes = [
+    { id: 0, path: "/my-profile", component: MyProfile },
+    { id: 1, path: "/sessions", component: Sessions }
+]
+
+var router = new VueRouter({
+    routes
+})
 
 new Vue({
+    router,
     store,
     el: "#dashboard",
     render: h => h(Dashboard)

@@ -9,6 +9,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        currentSubViewIndex: 0,
         userRecord: initialState.userRecord,
         sessions: initialState.sessions.map(utils.presentSession),
         selectedSessionId: null,
