@@ -34,7 +34,7 @@
         </td>
       </tr>
     </table>
-    <VotesBarchart />
+    <VotesBarchart :votes="session.votes" />
   </div>
 </template>
 

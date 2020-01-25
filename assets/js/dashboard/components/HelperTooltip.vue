@@ -85,7 +85,7 @@ i {
   border-radius: 3px;
   background-color: white;
   min-width: 150px;
-  max-width: 100vw;
+  max-width: 10vw;
   max-height: 300px;
   position: absolute;
   padding: 10px;

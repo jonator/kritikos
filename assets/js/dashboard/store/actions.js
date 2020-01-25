@@ -1,7 +1,7 @@
 import baseUtils from "../../utils";
 
 function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
-    baseUtils.apiRequest(method, url, { token: userToken, ...body }).then(jsonResp => {
+    baseUtils.apiRequest(method, url + "?token=" + userToken, { ...body }).then(jsonResp => {
         var errorsEncountered = false
         if (jsonResp.errors) {
             commit("addErrors", jsonResp.errors)
@@ -25,14 +25,15 @@ export default {
         })
     },
     END_SESSION: ({ commit, state }, keyword) => {
-        const reqBody = {
-            keyword: keyword
-        }
-        apiRequestWithTokenAndErrors("POST", "/api/sessions/end", reqBody, commit, (resp, didError) => {
+        apiRequestWithTokenAndErrors("POST", "/api/sessions/" + keyword + "/end", null, commit, (resp, didError) => {
             if (!didError) commit("incorporateSession", resp.session)
         })
     },
     SELECT_SESSION: ({ commit, state }, sessionId) => {
+        const session = state.sessions.find(s => s.id == sessionId)
+        apiRequestWithTokenAndErrors("GET", "/api/sessions/" + session.keyword, null, commit, (resp, didError) => {
+            if (!didError) commit("incorporateSession", resp.session)
+        })
         commit("selectSession", sessionId)
     },
     DESELECT_SESSION: ({ commit, state }) => {

@@ -9,7 +9,7 @@ import dashboardCss from "../css/dashboard.css"
 //
 // Import dependencies
 //
-import "phoenix_html"
+import "phoenix_html";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "./dashboard/store";

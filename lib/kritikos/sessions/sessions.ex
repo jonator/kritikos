@@ -36,10 +36,14 @@ defmodule Kritikos.Sessions do
     end
   end
 
-  def get_open(keyword) do
-    Queries.open(keyword)
-    |> Repo.one()
-  end
+  def get_open(keyword, opts \\ [])
+
+  def get_open(keyword, []),
+    do:
+      Queries.open(keyword)
+      |> Repo.one()
+
+  def get_open(keyword, preload: keys), do: get_open(keyword) |> Repo.preload(keys)
 
   def get_all_open do
     Queries.all_open()

@@ -38,6 +38,7 @@ defmodule KritikosWeb.Router do
     post "/:keyword/submit_form", PromptController, :submit_feedback
     post "/closeCurrentSession", DashboardController, :close_current_session
     post "/sessions/start", SessionsController, :start_session
-    post "/sessions/end", SessionsController, :end_session
+    post "/sessions/:keyword/end", SessionsController, :end_session
+    get "/sessions/:keyword", SessionsController, :get_session
   end
 end

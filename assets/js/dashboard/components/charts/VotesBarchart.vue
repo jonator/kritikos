@@ -1,18 +1,30 @@
 <template>
-  <svg width="500" height="350" id="bar-chart" />
+  <div id="votes-barchart-container">
+    <h3>
+      Vote count by category
+      <helper-tooltip>This chart illustrates the number of recorded votes for a given vote level category: frown, neutral, and happy.</helper-tooltip>
+    </h3>
+    <svg width="500" height="500" id="bar-chart" />
+  </div>
 </template>
 
 <script>
 import * as d3 from "d3";
+import HelperTooltip from "../HelperTooltip.vue";
 
 export default {
   props: ["votes"],
+  components: { HelperTooltip },
   mounted: function() {
-    const data = {
-      1: 32,
-      2: 21,
-      3: 23
-    };
+    const data = this.votes.reduce((acc, v) => {
+      // creates an object with vote levels as keys and count as members
+      if (acc[v.voteLevelId] == undefined) {
+        acc[v.voteLevelId] = 1;
+      } else {
+        acc[v.voteLevelId]++;
+      }
+      return acc;
+    }, {});
 
     const voteCounts = Object.values(data);
     const voteLevelKeys = Object.keys(data);
@@ -56,7 +68,7 @@ export default {
       .call(d3.axisBottom(x).tickValues([]));
 
     g.append("g")
-      .call(d3.axisLeft(y).ticks(Math.max(...voteCounts)))
+      .call(d3.axisLeft(y).ticks(Math.log(Math.max(...voteCounts)) * 2))
       .append("text")
       .attr("fill", "#000")
       .attr("transform", "rotate(-90)")
@@ -80,7 +92,8 @@ export default {
       .attr("width", x.bandwidth())
       .attr("height", function(d) {
         return height - y(data[d]);
-      });
+      })
+      .style("fill", "#0069d9");
 
     g.selectAll(".voteIcon")
       .data(voteLevelKeys)
@@ -90,8 +103,6 @@ export default {
         //done because icon is determined server side
         const voteId = parseInt(d);
         var newSVG = document.createElement("svg");
-        console.log(voteId);
-        console.log(voteLevels);
         newSVG.innerHTML = voteLevels.find(l => l.id == voteId).svg;
         var innerSVG = newSVG.children[0];
         innerSVG.setAttribute("height", voteIconSize);
@@ -105,8 +116,10 @@ export default {
 </script>
 
 <style scoped>
-svg {
+#votes-barchart-container {
   width: 100%;
-  height: 100%;
+}
+h3 div {
+  display: inline-flex;
 }
 </style>

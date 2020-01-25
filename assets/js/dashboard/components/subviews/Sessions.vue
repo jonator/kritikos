@@ -52,6 +52,9 @@ export default {
   overflow-y: auto;
   height: calc(100vh - 120px - 1px);
 }
+#selected-session-container {
+  max-width: 1000px;
+}
 .cards {
   padding-bottom: 30px;
 }

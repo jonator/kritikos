@@ -41,9 +41,12 @@ Module.create(
 
       vote_inserts =
         Enum.map(session_inserts, fn s ->
-          vote = Ecto.build_assoc(s, :votes, vote_level_id: Enum.random(1..3))
-          Vote.create_changeset(vote, %{}) |> Repo.insert() |> elem(1)
+          Enum.map(keywords, fn k ->
+            vote = Ecto.build_assoc(s, :votes, vote_level_id: Enum.random(1..3))
+            Vote.create_changeset(vote, %{}) |> Repo.insert() |> elem(1)
+          end)
         end)
+        |> List.flatten()
 
       feedback_inserts =
         Enum.map(vote_inserts, fn v ->

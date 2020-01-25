@@ -16,10 +16,10 @@ defmodule KritikosWeb.SessionsController do
         conn
         |> render("show.json", %{session: session})
 
-      {:error, changeset} ->
+      {:error, reason} ->
         conn
         |> put_view(KritikosWeb.ErrorView)
-        |> render("error.json", %{message: changeset})
+        |> render("error.json", %{message: reason})
     end
   end
 
@@ -31,7 +31,6 @@ defmodule KritikosWeb.SessionsController do
 
       {:error, %Ecto.Changeset{} = cs} ->
         conn
-        |> put_status(:forbidden)
         |> put_view(KritikosWeb.ErrorView)
         |> render("error.json", %{message: cs})
 
@@ -40,6 +39,19 @@ defmodule KritikosWeb.SessionsController do
         |> put_status(:not_found)
         |> put_view(KritikosWeb.ErrorView)
         |> render("error.json", %{message: reason})
+    end
+  end
+
+  def get_session(conn, %{"keyword" => keyword}, _user) do
+    case Sessions.get_open(keyword, preload: [:votes, :tags]) do
+      nil ->
+        conn
+        |> put_view(KritikosWeb.ErrorView)
+        |> render("error.json", %{message: "session not found"})
+
+      session ->
+        conn
+        |> render("show.json", %{session: session})
     end
   end
 end
