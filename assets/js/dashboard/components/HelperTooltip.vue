@@ -94,6 +94,9 @@ i {
 #tooltip-content {
   font-size: 12px;
   font-style: italic;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: normal;
 }
 
 /* ICON */

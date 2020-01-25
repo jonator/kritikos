@@ -16,12 +16,14 @@ import store from "./dashboard/store";
 import Dashboard from "./dashboard/components/Dashboard.vue";
 import MyProfile from "./dashboard/components/subviews/MyProfile.vue";
 import Sessions from "./dashboard/components/subviews/Sessions.vue";
+import Session from "./dashboard/components/subviews/Session.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
     { id: 0, path: "/my-profile", component: MyProfile },
     { id: 1, path: "/sessions", component: Sessions },
+    { id: 3, path: "/sessions/:keyword", component: Session },
     { path: "*", redirect: "/sessions" }
 ]
 

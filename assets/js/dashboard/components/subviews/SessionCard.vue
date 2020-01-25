@@ -10,7 +10,7 @@
     <span v-if="session.voteCount != null">Vote count: {{ session.voteCount }}</span>
     <span v-else>Keyword: {{ session.keyword }}</span>
     <div>
-      <button v-on:click="$store.dispatch('SELECT_SESSION', session.id)">view</button>
+      <button v-on:click="$router.push('/sessions/'+session.keyword)">view</button>
       <button
         class="warning"
         v-if="!session.isPermanent && !session.isEnded"

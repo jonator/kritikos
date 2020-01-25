@@ -11,7 +11,6 @@ export default new Vuex.Store({
     state: {
         userRecord: initialState.userRecord,
         sessions: initialState.sessions.map(utils.presentSession),
-        selectedSessionId: null,
         currentModalName: null,
         errors: []
     },

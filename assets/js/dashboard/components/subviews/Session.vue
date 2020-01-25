@@ -1,5 +1,8 @@
 <template>
   <div id="session-container">
+    <div id="actions">
+      <button v-on:click="$router.push('/sessions')">back</button>
+    </div>
     <table>
       <tr>
         <td>
@@ -42,14 +45,33 @@
 import VotesBarchart from "../charts/VotesBarchart.vue";
 
 export default {
-  props: ["sessionId"],
   components: { VotesBarchart },
-  computed: {
-    session: function() {
-      return this.$store.state.sessions.find(s => {
-        return s.id == this.sessionId;
-      });
-    }
+  data: function() {
+    return {
+      session: this.$store.state.sessions.find(s => {
+        return s.keyword == this.$route.params.keyword;
+      })
+    };
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store
+      .dispatch("FETCH_SESSION", { keyword: to.params.keyword })
+      .then(() => {
+        this.session = this.$store.state.sessions.find(s => {
+          return s.keyword == to.params.keyword;
+        });
+        next();
+      })
+      .catch(() => next(false));
   }
 };
 </script>
+
+<style scoped>
+#session-container {
+  max-width: 1000px;
+}
+#actions {
+  padding-bottom: 30px;
+}
+</style>

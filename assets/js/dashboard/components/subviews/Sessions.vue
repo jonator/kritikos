@@ -1,6 +1,6 @@
 <template>
   <div id="sessions-container">
-    <div v-if="$store.getters.selectedSession == null" id="session-cards">
+    <div id="session-cards">
       <div v-if="permanentSession" id="permanent-session-container" class="cards">
         <SessionCard :sessionId="permanentSession.id" />
       </div>
@@ -14,21 +14,16 @@
         <SessionCard v-for="session in closedSessions" :key="session.id" :sessionId="session.id" />
       </div>
     </div>
-    <div v-else id="selected-session-container">
-      <button id="sessions-back" v-on:click="$store.dispatch('DESELECT_SESSION')">back</button>
-      <Session :sessionId="$store.getters.selectedSession.id" />
-    </div>
   </div>
 </template>
 
 <script>
 import SessionCard from "./SessionCard.vue";
-import Session from "./Session.vue";
 import CreateSessionCard from "./CreateSessionCard.vue";
 
 export default {
   name: "Sessions",
-  components: { Session, SessionCard, CreateSessionCard },
+  components: { SessionCard, CreateSessionCard },
   computed: {
     permanentSession: function() {
       return this.$store.state.sessions.find(s => s.isPermanent);
@@ -51,9 +46,6 @@ export default {
 #sessions-container {
   overflow-y: auto;
   height: calc(100vh - 120px - 1px);
-}
-#selected-session-container {
-  max-width: 1000px;
 }
 .cards {
   padding-bottom: 30px;

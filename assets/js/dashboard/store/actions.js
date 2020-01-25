@@ -24,20 +24,28 @@ export default {
             }
         })
     },
+    FETCH_SESSION: ({ commit, state }, params) => {
+        return new Promise((resolve, reject) => {
+            var keyword = null
+            if (params.id) {
+                keyword = state.sessions.find(s => s.id == sessionId).keyword
+            } else {
+                keyword = params.keyword
+            }
+            apiRequestWithTokenAndErrors("GET", "/api/sessions/" + keyword, null, commit, (resp, didError) => {
+                if (!didError) {
+                    commit("incorporateSession", resp.session)
+                    resolve()
+                } else {
+                    reject()
+                }
+            })
+        });
+    },
     END_SESSION: ({ commit, state }, keyword) => {
         apiRequestWithTokenAndErrors("POST", "/api/sessions/" + keyword + "/end", null, commit, (resp, didError) => {
             if (!didError) commit("incorporateSession", resp.session)
         })
-    },
-    SELECT_SESSION: ({ commit, state }, sessionId) => {
-        const session = state.sessions.find(s => s.id == sessionId)
-        apiRequestWithTokenAndErrors("GET", "/api/sessions/" + session.keyword, null, commit, (resp, didError) => {
-            if (!didError) commit("incorporateSession", resp.session)
-        })
-        commit("selectSession", sessionId)
-    },
-    DESELECT_SESSION: ({ commit, state }) => {
-        commit("deselectSession")
     },
     OPEN_MODAL: ({ commit, state }, componentName) => {
         commit("openModal", componentName)

@@ -19,12 +19,6 @@ export default {
             state.sessions.push(newSession)
         }
     },
-    selectSession: (state, sessionId) => {
-        state.selectedSessionId = sessionId
-    },
-    deselectSession: state => {
-        state.selectedSessionId = null
-    },
     openModal: (state, componentName) => {
         state.currentModalName = componentName
     },

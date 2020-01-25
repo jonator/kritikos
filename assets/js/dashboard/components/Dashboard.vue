@@ -25,7 +25,7 @@ export default {
   grid-template-columns: 250px 1fr;
   grid-column-gap: 30px;
 }
-.sidebar-item {
+div.sidebar-item {
   margin: 5px;
   padding: 10px 10px;
   border-radius: 10px;
