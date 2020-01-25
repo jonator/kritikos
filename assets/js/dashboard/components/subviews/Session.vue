@@ -11,7 +11,7 @@
         <td />
       </tr>
       <tr>
-        <td>Session identifier</td>
+        <td>Public link</td>
         <td>{{ session.link }}</td>
       </tr>
       <tr>

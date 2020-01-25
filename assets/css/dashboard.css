@@ -72,3 +72,7 @@ button {
         grid-template-columns: 1fr;
     }
 }
+
+h3 div {
+    display: inline-flex;
+  }

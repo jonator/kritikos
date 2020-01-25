@@ -133,7 +133,4 @@ export default {
 #votes-barchart-container {
   width: 100%;
 }
-h3 div {
-  display: inline-flex;
-}
 </style>
