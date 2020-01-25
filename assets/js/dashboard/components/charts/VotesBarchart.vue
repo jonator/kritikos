@@ -93,7 +93,7 @@ export default {
       .attr("height", function(d) {
         return height - y(data[d]);
       })
-      .style("fill", "#0069d9");
+      .style("fill", "lightblue");
 
     g.selectAll(".voteIcon")
       .data(voteLevelKeys)
@@ -111,6 +111,20 @@ export default {
         innerSVG.setAttribute("y", height + 5);
         return newSVG.innerHTML;
       });
+
+    const voteCountFontsize = 18;
+
+    g.selectAll(".voteCount")
+      .data(voteLevelKeys)
+      .enter()
+      .append("text")
+      .attr("x", d => {
+        const digitCount = data[d].toString().length;
+        return x(d) + x.bandwidth() / 2 - (voteCountFontsize / 4) * digitCount;
+      })
+      .attr("y", height - 15)
+      .attr("font-size", voteCountFontsize)
+      .text(d => data[d]);
   }
 };
 </script>
