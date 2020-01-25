@@ -34,16 +34,18 @@
         </td>
       </tr>
     </table>
+    <VotesBarchart />
   </div>
 </template>
 
 <script>
+import VotesBarchart from "../charts/VotesBarchart.vue";
+
 export default {
   props: ["sessionId"],
+  components: { VotesBarchart },
   computed: {
     session: function() {
-      console.log(this.$store.state.sessions);
-      console.log(this.sessionId);
       return this.$store.state.sessions.find(s => {
         return s.id == this.sessionId;
       });

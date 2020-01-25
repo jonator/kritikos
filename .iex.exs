@@ -10,6 +10,10 @@ alias Kritikos.Votes.{Vote, Feedback}
 Module.create(
   H,
   quote do
+    def delete_all_models do
+      delete_all_inorder([Feedback, Vote, Tag, Session])
+    end
+
     def delete_all_inorder(list) do
       Enum.map(list, fn schema ->
         Repo.delete_all(schema)
@@ -17,7 +21,7 @@ Module.create(
     end
 
     def create_scenario_for_user_id(user_id) do
-      delete_all_inorder([Feedback, Vote, Tag, Session])
+      delete_all_models()
       user = Auth.get_active_user(user_id) |> elem(1) |> Repo.preload(:profile)
       user_session = %Session{profile_id: user.profile.id}
 
@@ -29,7 +33,7 @@ Module.create(
             tags: Enum.shuffle(keywords) |> Enum.map(fn t -> %{text: t} end),
             prompt_question: "This is " <> k <> "?",
             keyword: k,
-            name: "This is.... " <> k
+            name: "Named " <> k
           }
 
           Session.create_changeset(user_session, attrs) |> Repo.insert() |> elem(1)

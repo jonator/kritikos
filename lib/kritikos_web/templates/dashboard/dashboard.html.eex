@@ -34,4 +34,5 @@ const initialState = {
         |> to_js_object
     %>
 }
+const voteLevels = <%= vote_data_js_object %>
 </script>
