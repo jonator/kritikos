@@ -55,9 +55,9 @@ defmodule KritikosWeb.SessionsController do
     end
   end
 
-  def export_session(conn, %{"keyword" => keyword}, _user) do
+  def export_session_qr(conn, %{"keyword" => keyword}, _user) do
     binary_img = Sessions.export_qr_code(keyword)
 
-    send_download(conn, {:binary, binary_img}, filename: keyword <> "png")
+    send_download(conn, {:binary, binary_img}, filename: keyword <> ".png")
   end
 end

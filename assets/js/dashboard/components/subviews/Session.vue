@@ -15,7 +15,10 @@
       </tr>
       <tr>
         <td>Public link</td>
-        <td>{{ session.link }}</td>
+        <td id="public-link-cell">
+          <a v-bind:href="session.link">{{ session.link }}</a>
+          <ExportSessionButton :sessionKeyword="session.keyword" />
+        </td>
       </tr>
       <tr>
         <td>Vote count</td>
@@ -46,9 +49,10 @@
 
 <script>
 import VotesBarchart from "../charts/VotesBarchart.vue";
+import ExportSessionButton from "../ExportSessionButton.vue";
 
 export default {
-  components: { VotesBarchart },
+  components: { VotesBarchart, ExportSessionButton },
   data: function() {
     return {
       session: this.$store.state.sessions.find(s => {
@@ -91,5 +95,15 @@ export default {
 }
 #session-actions button {
   margin-left: 10px;
+}
+#public-link-cell {
+  display: flex;
+  justify-content: space-between;
+}
+#public-link-cell a {
+  margin: auto auto auto 0;
+}
+#public-link-cell button {
+  height: 25px;
 }
 </style>

@@ -48,13 +48,13 @@ export default {
         })
     },
     EXPORT_SESSION: ({ commit, state }, keyword) => {
-        console.log("ending SESSION " + keyword)
+        baseUtils.download("/api/sessions/" + keyword + "/export/qr?token=" + userToken)
+
     },
     OPEN_MODAL: ({ commit, state }, modalState) => {
         commit("openModal", modalState)
     },
     DISMISS_MODAL: ({ commit, state }, modalChanged) => {
-        console.log('DISMISS_MODAL_MODAL_CHANGES', modalChanged)
         if (modalChanged) {
             if (confirm("Are you sure? Any changes will be lost")) {
                 commit("dismissModal")

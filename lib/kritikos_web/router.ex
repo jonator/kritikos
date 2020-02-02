@@ -40,5 +40,6 @@ defmodule KritikosWeb.Router do
     post "/sessions/start", SessionsController, :start_session
     post "/sessions/:keyword/end", SessionsController, :end_session
     get "/sessions/:keyword", SessionsController, :get_session
+    get "/sessions/:keyword/export/qr", SessionsController, :export_session_qr
   end
 end

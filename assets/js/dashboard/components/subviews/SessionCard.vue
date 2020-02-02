@@ -11,7 +11,6 @@
     <span v-else>Keyword: {{ session.keyword }}</span>
     <div id="button-wrapper">
       <button v-on:click="$router.push('/sessions/'+session.keyword)">view</button>
-      <ExportSessionButton :sessionKeyword="session.keyword" />
       <button
         class="warning"
         v-if="!session.isPermanent && !session.isEnded"
@@ -22,11 +21,8 @@
 </template>
 
 <script>
-import ExportSessionButton from "../ExportSessionButton.vue";
-
 export default {
   props: ["sessionId"],
-  components: { ExportSessionButton },
   computed: {
     session: function() {
       return this.$store.state.sessions.find(s => s.id == this.sessionId);
