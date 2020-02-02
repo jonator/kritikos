@@ -3,7 +3,7 @@
     <div id="modal-mask">
       <div id="modal-wrapper" v-on:click="dismiss($event)">
         <div id="modal-container">
-          <component v-bind:is="innerComponent" />
+          <component v-bind:is="$store.state.currentModalName" @dismiss="dismiss" />
         </div>
       </div>
     </div>
@@ -12,14 +12,21 @@
 
 <script>
 import CreateSessionForm from "./modals/CreateSessionForm.vue";
+import ExportSession from "./modals/ExportSession.vue";
 
 export default {
-  components: { CreateSessionForm },
-  props: ["innerComponent"],
+  components: { CreateSessionForm, ExportSession },
+  data: function() {
+    return { initialModalState: { ...this.$store.state.modalState } };
+  },
   methods: {
     dismiss: function(event) {
-      if (!event.path.find(elem => elem.id == "modal-container")) {
-        this.$store.dispatch("DISMISS_MODAL");
+      let modalChanged =
+        JSON.stringify(this.initialModalState) !=
+        JSON.stringify(this.$store.state.modalState);
+
+      if (!event || !event.path.find(elem => elem.id == "modal-container")) {
+        this.$store.dispatch("DISMISS_MODAL", modalChanged);
       }
     }
   }

@@ -56,7 +56,7 @@
       <div v-for="e in errors" v-bind:key="e.id" class="error">{{e.text}}</div>
     </div>
     <div id="footer-wrapper">
-      <button id="cancel-button" @click="dismissModal">cancel</button>
+      <button id="cancel-button" @click="$emit('dismiss')">cancel</button>
       <button
         id="create-session-button"
         class="confirm"
@@ -74,19 +74,9 @@ export default {
   name: "CreateSessionForm",
   components: { VueTagsInput, HelperTooltip },
   data: function() {
-    return {
-      name: "",
-      keyword: "",
-      promptQuestion: "",
-      tag: "",
-      tags: [],
-      errors: []
-    };
+    return this.$store.state.modalState;
   },
   methods: {
-    dismissModal: function() {
-      this.$store.dispatch("DISMISS_MODAL");
-    },
     confirmCreateSession: function() {
       const newSession = {
         name: this.name,

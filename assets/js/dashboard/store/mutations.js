@@ -19,8 +19,9 @@ export default {
             state.sessions.push(newSession)
         }
     },
-    openModal: (state, componentName) => {
-        state.currentModalName = componentName
+    openModal: (state, { form, initialState }) => {
+        state.currentModalName = form
+        state.modalState = initialState
     },
     dismissModal: state => {
         state.currentModalName = null

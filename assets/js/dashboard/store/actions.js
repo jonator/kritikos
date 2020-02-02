@@ -47,11 +47,19 @@ export default {
             if (!didError) commit("incorporateSession", resp.session)
         })
     },
-    OPEN_MODAL: ({ commit, state }, componentName) => {
-        commit("openModal", componentName)
+    EXPORT_SESSION: ({ commit, state }, keyword) => {
+        console.log("ending SESSION " + keyword)
     },
-    DISMISS_MODAL: ({ commit, state }) => {
-        if (confirm("Are you sure? Any changes will be lost")) {
+    OPEN_MODAL: ({ commit, state }, modalState) => {
+        commit("openModal", modalState)
+    },
+    DISMISS_MODAL: ({ commit, state }, modalChanged) => {
+        console.log('DISMISS_MODAL_MODAL_CHANGES', modalChanged)
+        if (modalChanged) {
+            if (confirm("Are you sure? Any changes will be lost")) {
+                commit("dismissModal")
+            }
+        } else {
             commit("dismissModal")
         }
     }

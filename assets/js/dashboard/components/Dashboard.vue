@@ -7,7 +7,7 @@
     <div id="subview-container">
       <router-view />
     </div>
-    <Modal v-if="$store.state.currentModalName" :innerComponent="$store.state.currentModalName" />
+    <Modal v-if="$store.state.currentModalName" />
   </div>
 </template>
 

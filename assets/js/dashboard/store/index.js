@@ -12,6 +12,7 @@ export default new Vuex.Store({
         userRecord: initialState.userRecord,
         sessions: initialState.sessions.map(utils.presentSession),
         currentModalName: null,
+        modalState: null,
         errors: []
     },
     actions,

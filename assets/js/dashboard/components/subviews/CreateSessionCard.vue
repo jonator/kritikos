@@ -20,7 +20,17 @@ export default {
   components: { NewSessionSvg, HelperTooltip },
   methods: {
     createSession: function() {
-      this.$store.dispatch("OPEN_MODAL", "CreateSessionForm");
+      this.$store.dispatch("OPEN_MODAL", {
+        form: "CreateSessionForm",
+        initialState: {
+          name: "",
+          keyword: "",
+          promptQuestion: "",
+          tag: "",
+          tags: [],
+          errors: []
+        }
+      });
     }
   }
 };
