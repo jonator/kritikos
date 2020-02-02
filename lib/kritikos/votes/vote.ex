@@ -25,8 +25,7 @@ defmodule Kritikos.Votes.Vote do
 
   def update_changeset(vote, attrs) do
     vote
-    |> cast(attrs, [:vote_level_id, :feedback_id])
+    |> cast(attrs, [:vote_level_id])
     |> foreign_key_constraint(:vote_level_id)
-    |> assoc_constraint(:feedback)
   end
 end

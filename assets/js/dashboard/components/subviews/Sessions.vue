@@ -14,7 +14,7 @@
       </div>
       <h3>
         Closed sessions
-        <helper-tooltip>Closed sessions no longer provide a feedback form at the session link, and only hold feedback data that was collected while it was open.</helper-tooltip>
+        <helper-tooltip>Closed sessions no longer provide a feedback form at the session link, and only hold data that was collected while it was open.</helper-tooltip>
       </h3>
       <div v-if="closedSessions.length > 0" id="closed-session-container" class="cards">
         <SessionCard v-for="session in closedSessions" :key="session.id" :sessionId="session.id" />

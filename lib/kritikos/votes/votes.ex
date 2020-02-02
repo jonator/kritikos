@@ -12,20 +12,20 @@ defmodule Kritikos.Votes do
     |> Repo.insert()
   end
 
-  def update_vote(voter_number, attrs) do
-    Repo.get(Vote, voter_number)
+  def update_vote(vote_id, attrs) do
+    Repo.get(Vote, vote_id)
     |> Vote.update_changeset(attrs)
     |> Repo.update()
   end
 
-  def update_or_submit_feedback(voter_number, feedback_text) do
-    vote = Repo.get(Vote, voter_number)
+  def update_or_submit_feedback(vote_id, feedback_text) do
+    vote = Repo.get(Vote, vote_id)
 
     case Ecto.assoc(vote, :feedback) |> Repo.one() do
       nil -> Ecto.build_assoc(vote, :feedback)
       %Feedback{} = fb -> fb
     end
-    |> Feedback.changeset(text: feedback_text)
+    |> Feedback.changeset(%{text: feedback_text})
     |> Repo.insert_or_update()
   end
 

@@ -16,5 +16,5 @@ document.getElementById("frown").children[0].onclick = () => {
 }
 
 function toForm(response) {
-    response.then(r => window.location.href = r.redirect)
+    window.location.href = response.redirect
 }

@@ -16,13 +16,13 @@ defmodule KritikosWeb.PromptController do
 
   def live_session_form(conn, %{"keyword" => keyword}) do
     vote_level = get_session(conn, :vote_level)
-    voter_number = get_session(conn, :voter_number)
+    vote_id = get_session(conn, :vote_id)
 
-    if vote_level && voter_number do
+    if vote_level && vote_id do
       render_existing_session(conn, "live_session_form.html",
         keyword: keyword,
         vote_level: vote_level,
-        voter_number: voter_number
+        vote_id: vote_id
       )
     else
       conn |> redirect(to: "/" <> keyword)
@@ -30,25 +30,25 @@ defmodule KritikosWeb.PromptController do
   end
 
   def submit_feedback(conn, %{"keyword" => keyword} = params) do
-    {voter_number, ""} = Integer.parse(params["voter_number"])
+    {vote_id, ""} = Integer.parse(params["vote_id"])
 
-    Votes.update_or_submit_feedback(voter_number, params["text"])
+    Votes.update_or_submit_feedback(vote_id, params["text"])
 
     conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
   def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
     {int_vote_level, ""} = Integer.parse(level)
-    voter_number_nullable = get_session(conn, :voter_number)
+    vote_id_nullable = get_session(conn, :vote_id)
 
-    vote =
-      if voter_number_nullable == nil do
+    {:ok, vote} =
+      if vote_id_nullable == nil do
         Votes.submit_vote(keyword, int_vote_level)
       else
-        Votes.update_vote(voter_number_nullable, %{vote_level_id: int_vote_level})
+        Votes.update_vote(vote_id_nullable, %{vote_level_id: int_vote_level})
       end
 
-    render_feedback_form(conn, vote.vote_level_id, vote.voter_number, keyword)
+    render_feedback_form(conn, vote.vote_level_id, vote.id, keyword)
   end
 
   def thanks(conn, %{"keyword" => keyword}) do
@@ -71,15 +71,15 @@ defmodule KritikosWeb.PromptController do
     end
   end
 
-  defp render_feedback_form(conn, vote_level, voter_number, keyword) do
+  defp render_feedback_form(conn, vote_level, vote_id, keyword) do
     conn
     |> put_session(:vote_level, vote_level)
-    |> put_session(:voter_number, voter_number)
+    |> put_session(:vote_id, vote_id)
     |> render("redirect.json", redirect: "/" <> keyword <> "/form")
   end
 
   defp already_voted?(conn, _params) do
-    did_vote = get_session(conn, :vote_level) && get_session(conn, :voter_number)
+    did_vote = get_session(conn, :vote_level) && get_session(conn, :vote_id)
 
     Plug.Conn.assign(conn, :already_voted, did_vote)
   end

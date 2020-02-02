@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
 <script>
     const keyword = "<%= @keyword %>";
-    const voterNumber = "<%= @voter_number %>";  
+    const voteId = "<%= @vote_id %>";  
 </script>
 <div id="session-form">
     <h3 class="form-details">Any details of your experience?</h3>
