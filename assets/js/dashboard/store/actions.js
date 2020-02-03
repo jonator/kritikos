@@ -13,10 +13,10 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 }
 
 export default {
-    SELECT_SUBVIEW_INDEX: ({ commit, state }, index) => {
+    SELECT_SUBVIEW_INDEX: ({ commit }, index) => {
         commit("selectSubViewIndex", index)
     },
-    CREATE_SESSION: ({ commit, state }, session) => {
+    CREATE_SESSION: ({ commit }, session) => {
         apiRequestWithTokenAndErrors("POST", "/api/sessions/start", session, commit, (resp, didError) => {
             if (!didError) {
                 commit("incorporateSession", resp.session)
@@ -42,19 +42,18 @@ export default {
             })
         });
     },
-    END_SESSION: ({ commit, state }, keyword) => {
+    END_SESSION: ({ commit }, keyword) => {
         apiRequestWithTokenAndErrors("POST", "/api/sessions/" + keyword + "/end", null, commit, (resp, didError) => {
             if (!didError) commit("incorporateSession", resp.session)
         })
     },
-    EXPORT_SESSION: ({ commit, state }, keyword) => {
+    EXPORT_SESSION: ({ }, keyword) => {
         baseUtils.download("/api/sessions/" + keyword + "/export/qr?token=" + userToken)
-
     },
-    OPEN_MODAL: ({ commit, state }, modalState) => {
+    OPEN_MODAL: ({ commit }, modalState) => {
         commit("openModal", modalState)
     },
-    DISMISS_MODAL: ({ commit, state }, modalChanged) => {
+    DISMISS_MODAL: ({ commit }, modalChanged) => {
         if (modalChanged) {
             if (confirm("Are you sure? Any changes will be lost")) {
                 commit("dismissModal")
@@ -62,5 +61,8 @@ export default {
         } else {
             commit("dismissModal")
         }
+    },
+    UPDATE_SESSIONS_FILTER: ({ commit }, filterState) => {
+        commit("updateSessionsFilter", filterState)
     }
 }

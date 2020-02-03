@@ -13,7 +13,7 @@
       <button v-on:click="$router.push('/sessions/'+session.keyword)">view</button>
       <button
         class="warning"
-        v-if="!session.isPermanent && !session.isEnded"
+        v-if="!session.isEnded"
         v-on:click="$store.dispatch('END_SESSION', session.keyword)"
       >end</button>
     </div>

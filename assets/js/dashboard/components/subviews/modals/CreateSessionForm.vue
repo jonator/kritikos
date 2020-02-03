@@ -43,7 +43,7 @@
             v-model="tag"
             :tags="tags"
             :allow-edit-tags="true"
-            :max-length="15"
+            :maxlength="15"
             :add-on-key="[13,' ']"
             :max-tags="10"
             :placeholder="'Type tag and press enter'"

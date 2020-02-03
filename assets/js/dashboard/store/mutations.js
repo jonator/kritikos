@@ -25,5 +25,8 @@ export default {
     },
     dismissModal: state => {
         state.currentModalName = null
+    },
+    updateSessionsFilter: (state, filterState) => {
+        Object.assign(state.sessionsFilters, filterState)
     }
 }
