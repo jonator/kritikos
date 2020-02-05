@@ -52,9 +52,6 @@
         </td>
       </tr>
     </table>
-    <div id="errors-wrapper">
-      <div v-for="e in errors" v-bind:key="e.id" class="error">{{e.text}}</div>
-    </div>
     <div id="footer-wrapper">
       <button id="cancel-button" @click="$emit('dismiss')">cancel</button>
       <button
@@ -86,15 +83,6 @@ export default {
       };
       this.$store.dispatch("CREATE_SESSION", newSession);
     }
-  },
-  mounted: function() {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type == "addErrors") {
-        this.errors = mutation.payload.map((e, i) => {
-          return { id: i, text: e };
-        });
-      }
-    });
   }
 };
 </script>

@@ -15,7 +15,18 @@
 import Modal from "./subviews/Modal.vue";
 
 export default {
-  components: { Modal }
+  components: { Modal },
+  mounted: function() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type == "addErrors") {
+        mutation.payload.forEach(err => {
+          this.$toasted.global.api_error({
+            message: err
+          });
+        });
+      }
+    });
+  }
 };
 </script>
 
