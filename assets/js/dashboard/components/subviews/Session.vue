@@ -43,16 +43,20 @@
         </td>
       </tr>
     </table>
-    <VotesBarchart :votes="session.votes" />
+    <div id="data-display-container">
+      <VotesBarchart :votes="session.votes" />
+      <Feedback :votes="session.votes" />
+    </div>
   </div>
 </template>
 
 <script>
 import VotesBarchart from "../charts/VotesBarchart.vue";
 import ExportSessionButton from "../ExportSessionButton.vue";
+import Feedback from "./Feedback.vue";
 
 export default {
-  components: { VotesBarchart, ExportSessionButton },
+  components: { VotesBarchart, ExportSessionButton, Feedback },
   data: function() {
     return {
       session: this.$store.state.sessions.find(s => {
@@ -105,5 +109,16 @@ export default {
 }
 #public-link-cell button {
   height: 25px;
+}
+#data-display-container {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 1fr 1fr;
+}
+@media screen and (max-width: 1150px) {
+  #data-display-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 }
 </style>

@@ -128,9 +128,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#votes-barchart-container {
-  width: 100%;
-}
-</style>

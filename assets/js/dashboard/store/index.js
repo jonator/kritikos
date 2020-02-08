@@ -11,6 +11,7 @@ export default new Vuex.Store({
     state: {
         userRecord: initialState.userRecord,
         sessions: initialState.sessions.map(utils.presentSession),
+        voteLevels: voteLevels,
         sessionsFilters: {
             filterTags: []
         },

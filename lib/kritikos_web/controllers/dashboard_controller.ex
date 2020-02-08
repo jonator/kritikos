@@ -9,7 +9,7 @@ defmodule KritikosWeb.DashboardController do
   def dashboard(conn, _params, user) do
     token = Auth.sign_user_token(user.id)
     user_record = Auth.get_user(user.id, preload: :profile)
-    user_sessions = Sessions.get_for_user(user.id, preload: [:votes, :tags])
+    user_sessions = Sessions.get_for_user(user.id, preload: [{:votes, :feedback}, :tags])
 
     render(conn, "dashboard.html",
       socket_token: token,
