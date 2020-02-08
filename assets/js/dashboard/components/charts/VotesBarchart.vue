@@ -4,7 +4,8 @@
       Vote count by category
       <helper-tooltip>This chart illustrates the number of recorded votes for a given vote level category: frown, neutral, and happy.</helper-tooltip>
     </h3>
-    <svg width="500" height="500" id="bar-chart" />
+    <svg v-if="votes.length > 0" width="500" height="500" id="bar-chart" />
+    <p v-else>No votes to display</p>
   </div>
 </template>
 
@@ -128,3 +129,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#votes-barchart-container p {
+  font-style: italic;
+}
+</style>
