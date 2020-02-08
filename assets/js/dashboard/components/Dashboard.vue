@@ -2,6 +2,7 @@
   <div id="dashboard-content">
     <div id="sidebar-content">
       <router-link class="sidebar-item" tag="div" to="/sessions">Sessions</router-link>
+      <router-link class="sidebar-item" tag="div" to="/sessions-overview">Sessions overview</router-link>
       <router-link class="sidebar-item" tag="div" to="/my-profile">My profile</router-link>
     </div>
     <div id="subview-container">

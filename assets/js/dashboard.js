@@ -1,7 +1,7 @@
 // We need to import the CSS so that webpack will load it.
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
-import dashboardCss from "../css/dashboard.css"
+import "../css/dashboard.css"
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
@@ -18,19 +18,17 @@ import Dashboard from "./dashboard/components/Dashboard.vue";
 import MyProfile from "./dashboard/components/subviews/MyProfile.vue";
 import Sessions from "./dashboard/components/subviews/Sessions.vue";
 import Session from "./dashboard/components/subviews/Session.vue";
+import SessionsOverview from "./dashboard/components/subviews/SessionsOverview.vue";
 
 Vue.use(VueRouter)
 Vue.use(VueToasted)
 
-// Lets Register a Global Error Notification Toast.
 Vue.toasted.register('api_error',
     (payload) => {
-
         // if there is no message passed show default message
         if (!payload.message) {
             return "Oops.. Something Went Wrong.."
         }
-
         // if there is a message show it with the message
         return "Oops.. " + payload.message;
     },
@@ -43,7 +41,8 @@ Vue.toasted.register('api_error',
 const routes = [
     { id: 0, path: "/my-profile", component: MyProfile },
     { id: 1, path: "/sessions", component: Sessions },
-    { id: 3, path: "/sessions/:keyword", component: Session },
+    { id: 2, path: "/sessions/:keyword", component: Session },
+    { id: 3, path: "/sessions-overview", component: SessionsOverview },
     { path: "*", redirect: "/sessions" }
 ]
 

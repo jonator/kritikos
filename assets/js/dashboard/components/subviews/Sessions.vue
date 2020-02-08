@@ -48,7 +48,6 @@ import HelperTooltip from "../HelperTooltip.vue";
 import VueTagsInput from "@johmun/vue-tags-input";
 
 export default {
-  name: "Sessions",
   components: { SessionCard, CreateSessionCard, HelperTooltip, VueTagsInput },
   data: function() {
     return {
