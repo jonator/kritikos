@@ -118,7 +118,7 @@ export default {
 @media screen and (max-width: 1150px) {
   #data-display-container {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto;
   }
 }
 </style>
