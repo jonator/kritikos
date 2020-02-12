@@ -39,6 +39,11 @@ export default {
       currentVoteLevelId: mostCommonVoteLevelId(this.votes)
     };
   },
+  watch: {
+    votes: function() {
+      this.renderSmileys();
+    }
+  },
   computed: {
     feedbacks: function() {
       const curVotes = this.votes.filter(
@@ -55,12 +60,7 @@ export default {
     }
   },
   methods: {
-    selectVoteLevelTab: function(voteId) {
-      this.currentVoteLevelId = voteId;
-    }
-  },
-  mounted: function() {
-    this.$nextTick(() => {
+    renderSmileys: function() {
       const voteLevels = this.$store.state.voteLevels;
       const htmlTabs = document.getElementsByClassName("vote-level-tab");
       for (var i = 0; i < voteLevels.length; i++) {
@@ -69,7 +69,13 @@ export default {
         innerSVG.setAttribute("height", "40");
         innerSVG.setAttribute("width", "40");
       }
-    });
+    },
+    selectVoteLevelTab: function(voteId) {
+      this.currentVoteLevelId = voteId;
+    }
+  },
+  mounted: function() {
+    this.$nextTick(() => this.renderSmileys());
   }
 };
 </script>
