@@ -6,13 +6,8 @@ defmodule Kritikos.Sessions do
   alias Kritikos.Repo
   alias __MODULE__.{Session, Queries}
 
-  def start(profile_id, name, keyword, session_tags) do
-    case Session.create_changeset(%Session{}, %{
-           name: name,
-           keyword: keyword,
-           profile_id: profile_id,
-           tags: session_tags
-         })
+  def start(attrs) do
+    case Session.create_changeset(%Session{}, attrs)
          |> Repo.insert() do
       {:ok, _session} = valid ->
         valid

@@ -2,7 +2,13 @@
 
 <script>const keyword = "<%= @keyword %>";</script>
 <div id="live-session">
-    <div id="question">What did you think?</div>
+    <div id="question">
+        <%= if @prompt_question == nil do %>
+            What did you think?
+        <% else %>
+            <%= @prompt_question %>
+        <% end %>
+    </div>
 
     <div class="votes">
         <div id="happy"><%= svg_image("happy") %></div>

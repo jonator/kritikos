@@ -9,9 +9,16 @@ defmodule KritikosWeb.SessionsController do
     name = params["name"]
     keyword = params["keyword"]
     tags = params["tags"]
+    prompt_question = params["promptQuestion"]
     profile = Kritikos.Auth.get_assoc_profile(user)
 
-    case Sessions.start(profile.id, name, keyword, tags) do
+    case Sessions.start(%{
+           profile_id: profile.id,
+           profile: %{name: name},
+           tags: tags,
+           keyword: keyword,
+           prompt_question: prompt_question
+         }) do
       {:ok, session} ->
         conn
         |> render("show.json", %{session: session})

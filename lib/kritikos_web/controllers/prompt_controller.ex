@@ -64,14 +64,16 @@ defmodule KritikosWeb.PromptController do
   end
 
   defp render_existing_session(conn, template, params) do
-    if Sessions.get_open(params[:keyword]) != nil do
-      render(conn, template, params)
-    else
-      warn_unrecognized_request(conn)
+    case Sessions.get_open(params[:keyword]) do
+      nil ->
+        warn_unrecognized_request(conn)
 
-      conn
-      |> put_view(KritikosWeb.ErrorView)
-      |> render("error.html", message: "Feedback session #{params[:keyword]} doesn't exist!")
+        conn
+        |> put_view(KritikosWeb.ErrorView)
+        |> render("error.html", message: "Feedback session #{params[:keyword]} doesn't exist!")
+
+      session ->
+        render(conn, template, params ++ [prompt_question: session.prompt_question])
     end
   end
 
