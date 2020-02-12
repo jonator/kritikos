@@ -1,19 +1,18 @@
-import DashboardSocket from "../dashboard_socket";
+import { Socket } from "phoenix";
 
-const dashboardSocketPlugin = (socketRef) => store => {
-    socketRef = new DashboardSocket(store.state.userRecord.id, userToken, {
-        modelUpdated: function (newModelObject) {
-            store.commit("incorporateNewModel", newModelObject)
-        },
-        error: function (e) {
-            store.commit("addErrors", [e])
-        },
-        close: function () {
-        }
-    })
+var dashboardSocketPlugin = store => {
+    const error = e => console.error("SOCKER ERR", e)
+    var phoenixSocket = new Socket("/socket")
+    phoenixSocket.connect({ token: userToken })
+    phoenixSocket.onError(error)
+    var dashboardChannel = phoenixSocket.channel("dashboard:" + store.state.userRecord.id)
+    dashboardChannel.join()
+        .receive("ok", () => console.log("DASHBOARD_SOCKET", "joined dashboard channel"))
+    dashboardChannel.onError(error)
+    dashboardChannel.on("update_model", m => store.commit("incorporateModel", m))
 }
 
-var socketRef = {}
 
 export default
-    [dashboardSocketPlugin(socketRef)]
+    [dashboardSocketPlugin]
+

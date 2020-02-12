@@ -21,7 +21,6 @@
 function mostCommonVoteLevelId(votes) {
   var count = {};
   votes.forEach(v => {
-    // indexes might be messed up here (incorrectly counting)
     if (!count[v.voteLevelId]) {
       count[v.voteLevelId] = 1;
     } else {
@@ -45,7 +44,14 @@ export default {
       const curVotes = this.votes.filter(
         v => v.voteLevelId == this.currentVoteLevelId
       );
-      return curVotes.map(v => v.feedback);
+      return curVotes.reduce((acc, v) => {
+        if (v.feedback != undefined) {
+          acc.push(v.feedback);
+          return acc;
+        } else {
+          return acc;
+        }
+      }, []);
     }
   },
   methods: {

@@ -22,7 +22,7 @@
       </tr>
       <tr>
         <td>Vote count</td>
-        <td>{{ session.voteCount }}</td>
+        <td>{{ session.votes.length }}</td>
       </tr>
       <tr v-if="session.promptQuestion != null">
         <td>Custom prompt question</td>

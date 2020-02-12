@@ -64,10 +64,6 @@ defmodule Kritikos.Sessions do
   end
 
   def get_for_user(user_id, opts \\ [])
-
-  def get_for_user(user_id, []) do
-    Queries.for_user(user_id) |> Repo.all()
-  end
-
+  def get_for_user(user_id, []), do: Queries.for_user(user_id) |> Repo.all()
   def get_for_user(user_id, preload: keys), do: get_for_user(user_id) |> Repo.preload(keys)
 end

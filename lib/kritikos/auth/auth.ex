@@ -5,7 +5,7 @@ defmodule Kritikos.Auth do
   @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   alias Kritikos.Repo
   alias Kritikos.Helpers
-  alias __MODULE__.{User, Queries}
+  alias __MODULE__.{User, Profile, Queries}
 
   def sign_user_token(user_id) do
     Phoenix.Token.sign(KritikosWeb.Endpoint, @token_salt, user_id)

@@ -7,7 +7,7 @@
       </tr>
     </table>
     <a v-bind:href="session.link">{{ session.link }}</a>
-    <span v-if="session.voteCount != null">Vote count: {{ session.voteCount }}</span>
+    <span v-if="session.votes != null">Vote count: {{ session.votes.length }}</span>
     <span v-else>Keyword: {{ session.keyword }}</span>
     <div id="button-wrapper">
       <button v-on:click="$router.push('/sessions/'+session.keyword)">view</button>

@@ -2,21 +2,36 @@ import utils from "./utils";
 
 export default {
     addErrors: (state, errors) => {
+        console.error("MUTATION ERROR", errors);
         if (errors) state.errors = errors
         else state.errors = ["There was a problem performing that action"]
     },
     selectSubViewIndex: (state, index) => {
         state.currentSubViewIndex = index
     },
-    incorporateSession: (state, session) => {
-        var s = state.sessions.find(s => {
-            return s.id == session.id
-        })
-        if (s) {
-            Object.assign(s, utils.presentSession(session))
+    incorporateModel: (state, model) => {
+        if (model["session"]) {
+            const newSession = model["session"]
+            var existingSession = state.sessions.find(s => {
+                return s.id == newSession.id
+            })
+            if (existingSession) {
+                Object.assign(existingSession, utils.presentSession(newSession))
+            } else {
+                var s = utils.presentSession(newSession)
+                state.sessions.push(s)
+            }
+        } else if (model["vote"]) {
+            const newVote = model["vote"]
+            var vote = state.sessions.reduce((acc, s) => acc.concat(s.votes), []).find(v => v.id == newVote.id)
+            var session = state.sessions.find(s => s.id == newVote.sessionId)
+            if (vote && session) {
+                Object.assign(vote, newVote)
+            } else if (session) {
+                session.votes.push(newVote)
+            }
         } else {
-            var newSession = utils.presentSession(session)
-            state.sessions.push(newSession)
+            console.error("INVALID MODEL", model)
         }
     },
     openModal: (state, { form, initialState }) => {

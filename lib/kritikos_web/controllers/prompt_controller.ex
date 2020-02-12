@@ -15,14 +15,13 @@ defmodule KritikosWeb.PromptController do
   end
 
   def live_session_form(conn, %{"keyword" => keyword}) do
-    vote_level = get_session(conn, :vote_level)
-    vote_id = get_session(conn, :vote_id)
+    %{vote_id: voted_id, vote_level: voted_level} = get_session(conn, :vote)
 
-    if vote_level && vote_id do
+    if voted_level && voted_id do
       render_existing_session(conn, "live_session_form.html",
         keyword: keyword,
-        vote_level: vote_level,
-        vote_id: vote_id
+        vote_level: voted_level,
+        vote_id: voted_id
       )
     else
       conn |> redirect(to: "/" <> keyword)
@@ -34,19 +33,24 @@ defmodule KritikosWeb.PromptController do
 
     Votes.update_or_submit_feedback(vote_id, params["text"])
 
+    update_host_dashboard_model(vote_id)
+
     conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
   def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
     {int_vote_level, ""} = Integer.parse(level)
-    vote_id_nullable = get_session(conn, :vote_id)
 
     {:ok, vote} =
-      if vote_id_nullable == nil do
-        Votes.submit_vote(keyword, int_vote_level)
-      else
-        Votes.update_vote(vote_id_nullable, %{vote_level_id: int_vote_level})
+      case get_session(conn, :vote) do
+        %{vote_id: voted_id, keyword: ^keyword} ->
+          Votes.update_vote(voted_id, %{vote_level_id: int_vote_level})
+
+        _ ->
+          Votes.submit_vote(keyword, int_vote_level)
       end
+
+    update_host_dashboard_model(vote.id)
 
     render_feedback_form(conn, vote.vote_level_id, vote.id, keyword)
   end
@@ -73,14 +77,12 @@ defmodule KritikosWeb.PromptController do
 
   defp render_feedback_form(conn, vote_level, vote_id, keyword) do
     conn
-    |> put_session(:vote_level, vote_level)
-    |> put_session(:vote_id, vote_id)
+    |> put_session(:vote, %{vote_level: vote_level, vote_id: vote_id, keyword: keyword})
     |> render("redirect.json", redirect: "/" <> keyword <> "/form")
   end
 
   defp already_voted?(conn, _params) do
-    did_vote = get_session(conn, :vote_level) && get_session(conn, :vote_id)
-
+    did_vote = get_session(conn, :vote) != nil
     Plug.Conn.assign(conn, :already_voted, did_vote)
   end
 
@@ -97,5 +99,13 @@ defmodule KritikosWeb.PromptController do
         "." <>
         Integer.to_string(d)
     )
+  end
+
+  defp update_host_dashboard_model(vote_id) do
+    vote = Kritikos.Votes.get_vote(vote_id, preload: [{:session, :profile}])
+
+    KritikosWeb.DashboardChannel.broadcast_model_update(vote.session.profile.user_id, %{
+      vote: vote
+    })
   end
 end

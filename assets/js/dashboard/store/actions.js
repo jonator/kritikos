@@ -19,7 +19,7 @@ export default {
     CREATE_SESSION: ({ commit }, session) => {
         apiRequestWithTokenAndErrors("POST", "/api/sessions/start", session, commit, (resp, didError) => {
             if (!didError) {
-                commit("incorporateSession", resp.session)
+                commit("incorporateModel", { session: resp.session })
                 commit("dismissModal")
             }
         })
@@ -34,7 +34,7 @@ export default {
             }
             apiRequestWithTokenAndErrors("GET", "/api/sessions/" + keyword, null, commit, (resp, didError) => {
                 if (!didError) {
-                    commit("incorporateSession", resp.session)
+                    commit("incorporateModel", { session: resp.session })
                     resolve()
                 } else {
                     reject()
@@ -44,7 +44,7 @@ export default {
     },
     END_SESSION: ({ commit }, keyword) => {
         apiRequestWithTokenAndErrors("POST", "/api/sessions/" + keyword + "/end", null, commit, (resp, didError) => {
-            if (!didError) commit("incorporateSession", resp.session)
+            if (!didError) commit("incorporateModel", { session: resp.session })
         })
     },
     EXPORT_SESSION: ({ }, keyword) => {

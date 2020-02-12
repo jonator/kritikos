@@ -2,8 +2,12 @@ defmodule Kritikos.Votes do
   import Ecto.Query
   alias Kritikos.Repo
   alias __MODULE__.VoteLevel
+  alias Kritikos.Helpers
   alias Kritikos.Sessions
   alias Kritikos.Votes.{Vote, Feedback}
+
+  def get_vote(vote_id, opts \\ [])
+  def get_vote(vote_id, opts), do: Helpers.get_schema(Vote, vote_id, opts)
 
   def submit_vote(session_keyword, vote_level_id) do
     Sessions.get_open(session_keyword)
