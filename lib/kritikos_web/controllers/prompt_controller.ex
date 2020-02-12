@@ -11,7 +11,7 @@ defmodule KritikosWeb.PromptController do
   end
 
   def kiosk_live_session(conn, %{"keyword" => keyword}) do
-    render_existing_session(conn, "kiosk_live_session.html", keyword: keyword)
+    render_existing_session(conn, "live_session.html", keyword: keyword, is_kiosk: true)
   end
 
   def live_session_form(conn, %{"keyword" => keyword}) do
@@ -73,6 +73,13 @@ defmodule KritikosWeb.PromptController do
         |> render("error.html", message: "Feedback session #{params[:keyword]} doesn't exist!")
 
       session ->
+        params =
+          if params[:is_kiosk] == nil do
+            params ++ [is_kiosk: nil]
+          else
+            params
+          end
+
         render(conn, template, params ++ [prompt_question: session.prompt_question])
     end
   end

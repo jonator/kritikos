@@ -17,4 +17,8 @@
     </div>
 </div>
 
+<script>
+const isKiosk = <%= @is_kiosk != nil %>
+</script>
+
 <script src="<%= Routes.static_path(@conn, "/js/livesession.js") %>"></script>

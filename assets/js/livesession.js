@@ -3,6 +3,7 @@ import utils from "./utils.js"
 
 const keywordApiPath = "/api/vote/" + keyword
 
+
 document.getElementById("happy").children[0].onclick = () => {
     utils.apiRequest("POST", keywordApiPath + "/3").then(toForm)
 }
@@ -16,5 +17,5 @@ document.getElementById("frown").children[0].onclick = () => {
 }
 
 function toForm(response) {
-    window.location.href = response.redirect
+    if (!isKiosk) window.location.href = response.redirect
 }
