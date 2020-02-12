@@ -5,8 +5,8 @@
       <div
         class="vote-level-tab"
         v-for="(v, index) in $store.state.voteLevels"
-        :key="v.id"
-        :class="{ active: index == currentVoteLevelId -1, clickable: index != currentVoteLevelId -1 }"
+        :key="index"
+        :class="{ active: index == currentVoteLevelId - 1, clickable: index != currentVoteLevelId - 1 }"
         @click="selectVoteLevelTab(v.id)"
       >{{v.voteLevelId}}</div>
     </div>
@@ -18,30 +18,40 @@
 </template>
 
 <script>
-function mostCommonVoteLevelId(votes) {
+function mostCommonVoteLevelId(voteLevels, votes) {
   var count = {};
+  voteLevels.forEach(vl => {
+    count[vl.id] = 0;
+  });
   votes.forEach(v => {
-    if (!count[v.voteLevelId]) {
-      count[v.voteLevelId] = 1;
-    } else {
-      count[v.voteLevelId]++;
-    }
+    if (v.feedback != undefined || v.feedback) count[v.voteLevelId]++;
   });
   const counts = Object.values(count);
   let highestIndex = counts.indexOf(Math.max(...counts));
-  return parseInt(Object.keys(counts)[highestIndex]);
+  if (highestIndex == -1) return 1;
+  return parseInt(Object.keys(counts)[highestIndex]) + 1;
 }
 
 export default {
   props: ["votes"],
   data: function() {
     return {
-      currentVoteLevelId: mostCommonVoteLevelId(this.votes)
+      currentVoteLevelId: mostCommonVoteLevelId(
+        this.$store.state.voteLevels,
+        this.votes
+      )
     };
   },
   watch: {
-    votes: function() {
-      this.renderSmileys();
+    votes: {
+      handler: function() {
+        this.renderSmileys();
+        this.currentVoteLevelId = mostCommonVoteLevelId(
+          this.$store.state.voteLevels,
+          this.votes
+        );
+      },
+      deep: true
     }
   },
   computed: {
@@ -70,8 +80,8 @@ export default {
         innerSVG.setAttribute("width", "40");
       }
     },
-    selectVoteLevelTab: function(voteId) {
-      this.currentVoteLevelId = voteId;
+    selectVoteLevelTab: function(voteLevelId) {
+      this.currentVoteLevelId = voteLevelId;
     }
   },
   mounted: function() {

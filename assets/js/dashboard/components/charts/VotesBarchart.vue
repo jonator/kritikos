@@ -21,9 +21,12 @@ export default {
     };
   },
   watch: {
-    votes: function() {
-      this.votesProcessed = this.votes;
-      this.renderBarChart(this.votesProcessed);
+    votes: {
+      handler: function() {
+        this.votesProcessed = this.votes;
+        this.renderBarChart(this.votesProcessed);
+      },
+      deep: true
     }
   },
   components: { HelperTooltip },
