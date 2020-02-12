@@ -6,7 +6,7 @@ defmodule KritikosWeb.SessionsController do
   plug KritikosWeb.Plug.EnsureAuthenticated, store: :token
 
   def start_session(conn, params, user) do
-    name = params["name"]
+    session_name = params["name"]
     keyword = params["keyword"]
     tags = params["tags"]
     prompt_question = params["promptQuestion"]
@@ -14,7 +14,7 @@ defmodule KritikosWeb.SessionsController do
 
     case Sessions.start(%{
            profile_id: profile.id,
-           profile: %{name: name},
+           name: session_name,
            tags: tags,
            keyword: keyword,
            prompt_question: prompt_question

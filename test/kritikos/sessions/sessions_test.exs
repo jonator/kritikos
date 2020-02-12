@@ -20,8 +20,8 @@ defmodule Kritikos.SessionsTest do
     alias Kritikos.Sessions.Session
 
     @valid_attrs %{
-      end_datetime: "2010-04-17T14:00:00Z",
-      keyword: "some keyword",
+      name: "For testing purposes",
+      keyword: "somekeyword",
       start_datetime: "2010-04-17T14:00:00Z"
     }
     @update_attrs %{
@@ -32,7 +32,7 @@ defmodule Kritikos.SessionsTest do
     @invalid_attrs %{end_datetime: nil, keyword: nil, start_datetime: nil}
 
     test "starting a session", %{user: %{profile: %{id: prof_id}}} do
-      {:ok, session} = Sessions.start(prof_id, "For testing purposes", "test", [])
+      {:ok, session} = Sessions.start(Map.merge(%{profile_id: prof_id}, @valid_attrs))
     end
   end
 end
