@@ -43,6 +43,6 @@ var router = new VueRouter({
 new Vue({
     router,
     store,
-    el: "#dashboard",
+    el: "#dashboard-mount",
     render: h => h(Dashboard)
 })

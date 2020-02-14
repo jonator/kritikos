@@ -1,24 +1,6 @@
 @import "./templates/global.css";
 @import "./phoenix.css";
 
-header {
-    height: 100px;
-}
-
-button {
-    margin: 0;
-}
-
-#header-container {
-    padding: 25px;
-    display: flex;
-    justify-content: space-between;
-}
-
-#dashboard-content {
-    height: calc(100vh - 120px - 1px);
-}
-
 .cards {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -75,4 +57,4 @@ button {
 
 h3 div {
     display: inline-flex;
-  }
+}

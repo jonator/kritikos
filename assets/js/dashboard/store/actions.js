@@ -13,6 +13,16 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 }
 
 export default {
+    LOG_OUT: ({ commit }) => {
+        console.log('LOG OUT=============')
+        fetch("/api/users/logout", {
+            method: "POST",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "text/html"
+            }
+        }).then(resp => window.location.href = resp.url)
+    },
     SELECT_SUBVIEW_INDEX: ({ commit }, index) => {
         commit("selectSubViewIndex", index)
     },

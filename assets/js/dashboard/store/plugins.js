@@ -1,7 +1,7 @@
 import { Socket } from "phoenix";
 
 var dashboardSocketPlugin = store => {
-    const error = e => console.error("SOCKER ERR", e)
+    const error = e => console.error("SOCKET ERR", e)
     var phoenixSocket = new Socket("/socket")
     phoenixSocket.connect({ token: userToken })
     phoenixSocket.onError(error)

@@ -30,7 +30,7 @@ defmodule KritikosWeb.SessionsController do
     end
   end
 
-  def end_session(conn, %{"keyword" => keyword}, user) do
+  def end_session(conn, %{"keyword" => keyword}, _user) do
     case Sessions.stop(keyword) do
       {:ok, session} ->
         conn

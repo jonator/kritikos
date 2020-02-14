@@ -1,31 +1,13 @@
-<header>
-    <div id="header-container">
-        <span id="logo">Kritikos</span>
-        <div id="action-area">
-            <span id="email"><%=
-                FormatHelpers.format_map_with_keys(@user_record, [:email])["email"]
-            %></span>
-            <button onclick="logout()">Log out</button>
-        </div>
-    </div>
-</header>
-<div id="dashboard" v-cloak></div>
+<div id="dashboard-mount" v-cloak></div>
 
 <script>
-function logout() {
-    fetch("/api/users/logout", {
-        method: "POST",
-        cache: "no-cache",
-        headers: {
-            "Content-Type": "text/html"
-        }
-    }).then(resp => window.location.href=resp.url)
-}
+/* initial state */
 const userToken = <%= to_js_object(@socket_token) %>;
 const initialState = {
     userRecord: <%=
         @user_record
-        |> FormatHelpers.format_map_with_keys(Map.keys(@user_record))
+        |> FormatHelpers.format_map_with_keys(
+            Map.keys(@user_record))
         |> to_js_object()
     %>,
     sessions: <%=
