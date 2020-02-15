@@ -8,7 +8,9 @@
       </button>
       <div v-if="showFilters" id="filters-wrapper">
         <div id="filter-tags">
-          <span>Include tags</span>
+          <div>
+            <span>Include tags</span>
+          </div>
           <VueTagsInput
             v-model="filterTag"
             :tags="$store.state.sessionsFilters.filterTags"
@@ -97,8 +99,7 @@ export default {
   margin-bottom: 30px;
 }
 #filters-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 400px;
   padding: 30px;
 }
 #filter-tags {
