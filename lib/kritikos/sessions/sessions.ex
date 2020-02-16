@@ -25,9 +25,15 @@ defmodule Kritikos.Sessions do
       session ->
         now = DateTime.utc_now()
 
-        session
-        |> Session.changeset(%{end_datetime: now})
-        |> Repo.update()
+        case session
+             |> Session.changeset(%{end_datetime: now})
+             |> Repo.update() do
+          {:ok, updated_session} ->
+            {:ok, updated_session |> Repo.preload([{:votes, :feedback}])}
+
+          {:error, _changeset} = err ->
+            err
+        end
     end
   end
 
