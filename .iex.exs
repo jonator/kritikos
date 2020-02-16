@@ -10,6 +10,8 @@ alias Kritikos.Votes.{Vote, Feedback}
 Module.create(
   H,
   quote do
+    require Ecto.Query
+
     def delete_all_models do
       delete_all_inorder([Feedback, Vote, Tag, Session])
     end
@@ -55,6 +57,25 @@ Module.create(
         end)
 
       %{sessions: session_inserts, votes: vote_inserts, feedback: feedback_inserts}
+    end
+
+    def vote_random(profile_id) when is_integer(profile_id) do
+      {:ok, vote} =
+        Repo.all(from(s in Session, where: s.profile_id == ^profile_id, select: s.keyword))
+        |> Enum.random()
+        |> Votes.submit_vote(Enum.random(1..3))
+
+      KritikosWeb.DashboardChannel.broadcast_model_update(profile_id, %{vote: vote})
+    end
+
+    def vote_random(profile_id, session_keyword) do
+      {:ok, vote} = Votes.submit_vote(session_keyword, Enum.random(1..3))
+
+      KritikosWeb.DashboardChannel.broadcast_model_update(profile_id, %{vote: vote})
+    end
+
+    def gen_vote_random(profile_id, n) do
+      Enum.map(1..n, fn _ -> vote_random(profile_id) end)
     end
   end,
   Macro.Env.location(__ENV__)

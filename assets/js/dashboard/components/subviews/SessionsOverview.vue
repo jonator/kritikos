@@ -1,6 +1,6 @@
 <template>
   <div id="sessions-overview-container">
-    <h2>Vote & feedback data from all sessions</h2>
+    <h2>Data from all sessions</h2>
     <div id="sessions-overview-wrapper">
       <VotesBarchart :votes="votes" />
       <Feedback :votes="votes" />
@@ -14,13 +14,13 @@ import Feedback from "../subviews/Feedback.vue";
 
 export default {
   components: { VotesBarchart, Feedback },
-  data: function() {
-    return {
-      votes: this.$store.state.sessions.reduce(
+  computed: {
+    votes: function() {
+      return this.$store.state.sessions.reduce(
         (acc, s) => acc.concat(s.votes),
         []
-      )
-    };
+      );
+    }
   }
 };
 </script>

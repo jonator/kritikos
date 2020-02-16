@@ -7,6 +7,10 @@ defmodule KritikosWeb.DashboardChannel do
     {:ok, socket}
   end
 
+  def broadcast_model_update(user_id, %_{} = model) do
+    broadcast_model_update(user_id, Map.from_struct(model))
+  end
+
   def broadcast_model_update(user_id, model) do
     PubSub.broadcast(Kritikos.PubSub, "dashboard:#{user_id}", {:update_model, model})
   end
