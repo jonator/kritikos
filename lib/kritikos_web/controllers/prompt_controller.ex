@@ -111,9 +111,9 @@ defmodule KritikosWeb.PromptController do
   end
 
   defp update_host_dashboard_model(vote_id) do
-    vote = Kritikos.Votes.get_vote(vote_id, preload: [{:session, :profile}, :feedback])
+    vote = Kritikos.Votes.get_vote(vote_id, preload: [{:session, :user}, :feedback])
 
-    KritikosWeb.DashboardChannel.broadcast_model_update(vote.session.profile.user_id, %{
+    KritikosWeb.DashboardChannel.broadcast_model_update(vote.session.user.id, %{
       vote: Map.drop(vote, [:session])
     })
   end

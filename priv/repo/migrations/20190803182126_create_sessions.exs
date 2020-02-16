@@ -8,9 +8,9 @@ defmodule Kritikos.Repo.Migrations.CreateSessions do
       add :prompt_question, :string
       add :start_datetime, :utc_datetime, null: false
       add :end_datetime, :utc_datetime
-      add :profile_id, references(:user_profiles)
+      add :user_id, references(:users)
     end
 
-    create index(:sessions, [:profile_id])
+    create index(:sessions, [:user_id])
   end
 end

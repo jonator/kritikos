@@ -5,7 +5,7 @@ defmodule Kritikos.Auth do
   @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   alias Kritikos.Repo
   alias Kritikos.Helpers
-  alias __MODULE__.{User, Profile, Queries}
+  alias __MODULE__.{User, Queries}
 
   def sign_user_token(user_id) do
     Phoenix.Token.sign(KritikosWeb.Endpoint, @token_salt, user_id)
@@ -24,27 +24,8 @@ defmodule Kritikos.Auth do
   def get_user(user_id, opts \\ [])
   def get_user(user_id, opts), do: Helpers.get_schema(User, user_id, opts)
 
-  def get_profile(profile_id, opts \\ [])
-  def get_profile(profile_id, opts), do: Helpers.get_schema(Profile, profile_id, opts)
-
-  def get_assoc_profile(%User{} = user), do: Repo.preload(user, :profile).profile
-
   def get_active_user(user_id) do
-    case get_user(user_id) do
-      %User{is_active: true} = user ->
-        {:ok, user}
-
-      %User{is_active: false} ->
-        {:error, "user inactive"}
-
-      nil ->
-        {:error, "user doesn't exist"}
-    end
-  end
-
-  def get_user_assocs(user_id, assocs) do
-    Queries.user_assocs(user_id, assocs)
-    |> Repo.all()
+    Repo.one(Queries.active_user(user_id))
   end
 
   def authenticate_user(email, plain_text_password) do
@@ -64,7 +45,7 @@ defmodule Kritikos.Auth do
   end
 
   def register_user(attrs \\ %{}) do
-    case %User{} |> User.create_changeset(attrs) |> Repo.insert() do
+    case User.create_changeset(%User{}, attrs) |> Repo.insert() do
       {:ok, _user} = user_valid ->
         user_valid
 

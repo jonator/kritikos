@@ -1,7 +1,7 @@
 defmodule Kritikos.Sessions.Session do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Kritikos.Auth.Profile
+  alias Kritikos.Auth.User
   alias Kritikos.Sessions.Tag
   alias Kritikos.Votes.Vote
 
@@ -11,7 +11,7 @@ defmodule Kritikos.Sessions.Session do
     field :prompt_question, :string
     field :start_datetime, :utc_datetime
     field :end_datetime, :utc_datetime
-    belongs_to :profile, Profile
+    belongs_to :user, User
     has_many :votes, Vote
     has_many :tags, Tag
   end
@@ -21,10 +21,10 @@ defmodule Kritikos.Sessions.Session do
     now = %{DateTime.utc_now() | microsecond: {0, 0}}
 
     session
-    |> cast(attrs, [:keyword, :name, :prompt_question, :profile_id])
+    |> cast(attrs, [:keyword, :name, :prompt_question, :user_id])
     |> cast_assoc(:tags, with: &Tag.create_changeset/2)
-    |> validate_required([:keyword, :profile_id])
-    |> assoc_constraint(:profile)
+    |> validate_required([:keyword, :user_id])
+    |> assoc_constraint(:user)
     |> validate_length(:keyword, min: 3, max: 15)
     |> validate_format(:keyword, ~r/^[A-Za-z0-9_-]*$/,
       message: "invalid format (must only contain A-Z, a-z, 0-9, _, and no spaces)"

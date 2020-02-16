@@ -34,7 +34,7 @@ new Vue({
 })
 
 function register(email, firstLastName, password, passwordConfirmation) {
-    const payload = { user: { email: email, profile: { first_last_name: firstLastName }, password: password, password_confirmation: passwordConfirmation } }
+    const payload = { user: { email: email, first_last_name: firstLastName, password: password, password_confirmation: passwordConfirmation } }
     return utils.apiRequest("POST", "/api/user", payload)
 }
 

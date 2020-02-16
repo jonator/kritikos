@@ -10,10 +10,9 @@ defmodule KritikosWeb.SessionsController do
     keyword = params["keyword"]
     tags = params["tags"]
     prompt_question = params["promptQuestion"]
-    profile = Kritikos.Auth.get_assoc_profile(user)
 
     case Sessions.start(%{
-           profile_id: profile.id,
+           user_id: user.id,
            name: session_name,
            tags: tags,
            keyword: keyword,

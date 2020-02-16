@@ -9,7 +9,7 @@ defmodule Kritikos.Sessions.Queries do
   end
 
   def for_user(user_id) do
-    Auth.Queries.user_assocs(user_id, [:profile, :sessions])
+    Ecto.assoc(Auth.get_user(user_id), :sessions)
   end
 
   def all_open do
