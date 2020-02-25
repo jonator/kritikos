@@ -2,7 +2,7 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
   @behaviour Plug
   @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   import Plug.Conn
-  alias Kritikos.Auth
+  alias Kritikos.{Auth, Auth.User}
 
   def init([store: :cookie] = opts), do: opts
   def init([store: :token] = opts), do: opts
@@ -31,11 +31,11 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
             case Phoenix.Token.verify(KritikosWeb.Endpoint, @token_salt, token, max_age: 86_400) do
               {:ok, user_id} ->
                 case Auth.get_active_user(user_id) do
-                  {:ok, user} ->
+                  %User{} = user ->
                     assign(conn, :user, user)
 
-                  {:error, reason} ->
-                    invalid_token_resp(conn, Atom.to_string(reason))
+                  nil ->
+                    invalid_token_resp(conn, "inactive user")
                 end
 
               {:error, reason} ->
