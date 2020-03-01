@@ -9,27 +9,22 @@ defmodule Kritikos.AuthTest do
         email: "test@email",
         password: "some password",
         password_confirmation: "some password",
-        profile: %{first_last_name: "John Doe"}
+        first_last_name: "John Doe"
       })
 
     [user: user]
   end
 
   describe "users" do
-    alias Kritikos.Auth.{User, Profile}
+    alias Kritikos.Auth.User
 
     @valid_attrs %{
       email: "some@email",
       password: "some password",
       password_confirmation: "some password",
-      profile: %{first_last_name: "John Doe"}
+      first_last_name: "John Doe"
     }
-    @update_attrs %{
-      email: "some@updatedemail",
-      is_active: false,
-      password: "some updated password"
-    }
-    @invalid_attrs %{email: nil, is_active: nil, password: nil}
+    @invalid_attrs %{email: nil, is_active: nil, password: nil, password_confirmation: "pass"}
 
     def handle_virtual_fields(user) do
       %User{user | password: nil}
@@ -38,17 +33,6 @@ defmodule Kritikos.AuthTest do
     test "get_user/1 returns the user with given id", %{user: user} do
       user = handle_virtual_fields(user)
       assert Auth.get_user(user.id).id == user.id
-    end
-
-    test "get_profile/1 returns users profile", %{user: user} do
-      %Profile{} = profile = Auth.get_profile(user.profile.id)
-      assert profile.user_id == user.id
-      assert profile.first_last_name == "John Doe"
-    end
-
-    test "get_assoc_profile/1 gets associated profile", %{user: user} do
-      %Profile{} = profile = Auth.get_assoc_profile(user)
-      assert profile.id == user.profile.id
     end
 
     test "register_user/1 with valid data creates a user" do
