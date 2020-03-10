@@ -2,15 +2,19 @@
   <div id="session-card-container">
     <table>
       <tr>
-        <td v-if="session.name">{{ session.name }}</td>
-        <td v-else>{{ session.keyword }}</td>
+        <td v-if="session.name">
+          <b>{{ session.name }}</b>
+        </td>
+        <td v-else>
+          <b>{{ session.keyword }}</b>
+        </td>
       </tr>
     </table>
     <a v-bind:href="session.link">{{ session.link }}</a>
     <span v-if="session.votes != null">Vote count: {{ session.votes.length }}</span>
     <span v-else>Keyword: {{ session.keyword }}</span>
     <div id="button-wrapper">
-      <button v-on:click="$router.push('/sessions/'+session.keyword)">view</button>
+      <button v-on:click="$router.push('/sessions/'+session.keyword)">results</button>
       <button
         class="warning"
         v-if="!session.isEnded"
@@ -40,5 +44,8 @@ export default {
 #button-wrapper {
   display: inline-flex;
   justify-content: space-evenly;
+}
+#button-wrapper button {
+  margin: 0;
 }
 </style>
