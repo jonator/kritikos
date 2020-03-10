@@ -70,7 +70,9 @@ defmodule KritikosWeb.PromptController do
 
         conn
         |> put_view(KritikosWeb.ErrorView)
-        |> render("error.html", message: "Feedback session #{params[:keyword]} doesn't exist!")
+        |> render("error.html",
+          message: "Feedback session #{params[:keyword]} was closed or doesn't exist!"
+        )
 
       session ->
         params =
