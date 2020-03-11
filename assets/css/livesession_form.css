@@ -2,15 +2,24 @@
 @import "./phoenix.css";
 
 #session-form {
-    width: 80%;
+    width: 40%;
+    min-width: 400px;
     margin: 0 auto;
     padding-top: 2%;
     max-width: 800px;
     text-align: center;
 }
 
-/* Thanks prompt */
+#selected-vote {
+    height: 70px;
+}
 
+#selected-vote svg {
+    height: 50px;
+    width: 50px;
+}
+
+/* Thanks prompt */
 
 svg.forming-ideas {
     height: 50vh;

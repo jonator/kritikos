@@ -1,10 +1,18 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
 <script>
     const keyword = "<%= @keyword %>";
-    const voteId = "<%= @vote_id %>";  
+    const voteId = "<%= @vote_id %>";
 </script>
 <div id="session-form">
+    <div id="selected-vote">
+    <%= case @vote_level do
+            1 -> svg_image("frown")
+            2 -> svg_image("neutral")
+            3 -> svg_image("happy")
+        end %>
+    </div>
     <h3 class="form-details">Any details of your experience?</h3>
+    <p>All feedback is anonymous</p><br>
     <textarea id="input" rows="4" cols="50"></textarea><br>
     <button id="submit-form">Submit</button>
 </div>

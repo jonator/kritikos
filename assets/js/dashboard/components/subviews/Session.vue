@@ -2,9 +2,6 @@
   <div id="session-container">
     <div id="actions">
       <button v-on:click="$router.push('/sessions')">back</button>
-      <div id="session-actions">
-        <button v-if="!session.endDatetime" class="warning" v-on:click="endSession">close</button>
-      </div>
     </div>
     <table>
       <tr>
@@ -17,7 +14,12 @@
         <td>Public link</td>
         <td id="public-link-cell">
           <a v-bind:href="session.link">{{ session.link }}</a>
-          <ExportSessionButton :sessionKeyword="session.keyword" />
+          <div id="session-actions">
+            <button v-if="!session.endDatetime" class="warning" v-on:click="endSession">close</button>
+            <button
+              v-on:click="$store.dispatch('OPEN_MODAL', {form: 'ExportSession', initialState: {keyword: session.keyword}})"
+            >export</button>
+          </div>
         </td>
       </tr>
       <tr>
@@ -52,11 +54,10 @@
 
 <script>
 import VotesBarchart from "../charts/VotesBarchart.vue";
-import ExportSessionButton from "../ExportSessionButton.vue";
 import Feedback from "./Feedback.vue";
 
 export default {
-  components: { VotesBarchart, ExportSessionButton, Feedback },
+  components: { VotesBarchart, Feedback },
   data: function() {
     return {
       session: this.$store.state.sessions.find(s => {
@@ -106,9 +107,6 @@ export default {
 }
 #public-link-cell a {
   margin: auto auto auto 0;
-}
-#public-link-cell button {
-  height: 25px;
 }
 #data-display-container {
   display: grid;
