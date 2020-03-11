@@ -44,22 +44,25 @@ defmodule Kritikos.SessionsTest do
     @invalid_attrs %{end_datetime: nil, keyword: nil, start_datetime: nil}
 
     test "starting a session", %{user: u} do
-      {:ok, session} = Sessions.start(Map.merge(%{user_id: u.id}, @valid_attrs))
+      {start_session_status, session} = Sessions.start(Map.merge(%{user_id: u.id}, @valid_attrs))
 
+      assert start_session_status == :ok
       assert @valid_attrs.keyword == session.keyword
     end
 
     test "starting an invalid session", %{user: u} do
-      {:error, cs} = Sessions.start(Map.merge(%{user_id: u.id}, @invalid_attrs))
+      {session_start_status, cs} = Sessions.start(Map.merge(%{user_id: u.id}, @invalid_attrs))
       # silence warning
       _ = cs
 
+      assert session_start_status == :error
       assert cs = %Ecto.Changeset{valid?: false}
     end
 
     test "ending a session", %{session: s} do
-      {:ok, updated_session} = Sessions.stop(s.keyword)
+      {end_session_status, updated_session} = Sessions.stop(s.keyword)
 
+      assert end_session_status == :ok
       assert s.keyword == updated_session.keyword
       assert s.id == updated_session.id
       assert updated_session.end_datetime != nil
@@ -69,33 +72,66 @@ defmodule Kritikos.SessionsTest do
   describe "sessions voting" do
     test "submitting a vote", %{session: s} do
       vote_level = Enum.random(1..3)
-      {:ok, vote} = Votes.submit_vote(s.keyword, vote_level)
+      {vote_status, vote} = Votes.submit_vote(s.keyword, vote_level)
 
       assert vote != nil
+      assert vote_status == :ok
       assert vote.session_id == s.id
       assert vote.vote_level_id == vote_level
     end
 
+    test "voting on a closed session", %{session: %{keyword: k}} do
+      {:ok, closed_session} = Sessions.stop(k)
+      {try_vote_status, _} = Votes.submit_vote(k, Enum.random(1..3))
+
+      assert closed_session.end_datetime != nil
+      assert try_vote_status == :error
+    end
+
+    test "updating vote on closed session", %{session: %{keyword: k}, vote: v} do
+      {:ok, closed_session} = Sessions.stop(k)
+      {try_update_vote_status, _} = Votes.update_vote(v.id, %{vote_level_id: Enum.random(1..3)})
+
+      assert closed_session.end_datetime != nil
+      assert try_update_vote_status == :error
+    end
+
     test "updating an existing vote", %{vote: v} do
       new_vote_level_id = 3
-      {:ok, updated_vote} = Votes.update_vote(v.id, %{vote_level_id: new_vote_level_id})
 
+      {update_vote_status, updated_vote} =
+        Votes.update_vote(v.id, %{vote_level_id: new_vote_level_id})
+
+      assert update_vote_status == :ok
       assert updated_vote.id == v.id
       assert updated_vote.vote_level_id == new_vote_level_id
     end
 
     test "add feedback", %{vote: v} do
       feedback_text = "THIS IS FEEDBACK!@!!!!!@!@"
-      {:ok, feedback} = Votes.update_or_submit_feedback(v.id, feedback_text)
+      {add_feedback_status, feedback} = Votes.update_or_submit_feedback(v.id, feedback_text)
 
+      assert add_feedback_status == :ok
       assert feedback.vote_id == v.id
       assert feedback.text == feedback_text
     end
 
+    test "sending feedback on a closed session", %{session: %{keyword: k}, vote: v} do
+      {:ok, closed_session} = Sessions.stop(k)
+      feedback_text = "should fail"
+      {try_feedback_status, _} = Votes.update_or_submit_feedback(v.id, feedback_text)
+
+      assert closed_session.end_datetime != nil
+      assert try_feedback_status == :error
+    end
+
     test "update existing feedback", %{feedback: fb} do
       updated_feedback_text = "THIS WAS UPDATED!@!!@!@@#$##$#"
-      {:ok, updated_feedback} = Votes.update_or_submit_feedback(fb.vote_id, updated_feedback_text)
 
+      {update_feedback_status, updated_feedback} =
+        Votes.update_or_submit_feedback(fb.vote_id, updated_feedback_text)
+
+      assert update_feedback_status == :ok
       assert updated_feedback.vote_id == fb.vote_id
       assert updated_feedback.text != fb.text
       assert updated_feedback.text == updated_feedback_text
