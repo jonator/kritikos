@@ -81,7 +81,13 @@ export default {
         promptQuestion: this.promptQuestion,
         tags: this.tags
       };
-      this.$store.dispatch("CREATE_SESSION", newSession);
+      if (this.$store.getters.filtersAreSet) {
+        if (confirm("Are you sure? Creating a session will clear filters")) {
+          this.$store.dispatch("CREATE_SESSION", newSession);
+        }
+      } else {
+        this.$store.dispatch("CREATE_SESSION", newSession);
+      }
     }
   }
 };

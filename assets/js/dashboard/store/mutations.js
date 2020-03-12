@@ -34,6 +34,9 @@ export default {
             console.error("INVALID MODEL", model)
         }
     },
+    clearSessionsFilters: state => {
+        state.sessionsFilters.filterTags = []
+    },
     openModal: (state, { form, initialState }) => {
         state.currentModalName = form
         state.modalState = initialState

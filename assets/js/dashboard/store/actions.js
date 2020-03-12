@@ -14,7 +14,6 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 
 export default {
     LOG_OUT: ({ commit }) => {
-        console.log('LOG OUT=============')
         fetch("/api/users/logout", {
             method: "POST",
             cache: "no-cache",
@@ -33,6 +32,7 @@ export default {
                 commit("dismissModal")
             }
         })
+        commit("clearSessionsFilters")
     },
     FETCH_SESSION: ({ commit, state }, params) => {
         return new Promise((resolve, reject) => {

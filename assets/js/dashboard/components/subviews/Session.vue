@@ -11,7 +11,12 @@
         <td />
       </tr>
       <tr>
-        <td>Public link</td>
+        <td>
+          <div id="url-wrapper">
+            Public URL
+            <HelperTooltip>This link is used by your audience to provide feedback through a simple web applet. Click to preview. Your input will not affect feedback data.</HelperTooltip>
+          </div>
+        </td>
         <td id="public-link-cell">
           <a v-bind:href="session.link">{{ session.link }}</a>
           <div id="session-actions">
@@ -53,11 +58,12 @@
 </template>
 
 <script>
+import HelperTooltip from "../HelperTooltip.vue";
 import VotesBarchart from "../charts/VotesBarchart.vue";
 import Feedback from "./Feedback.vue";
 
 export default {
-  components: { VotesBarchart, Feedback },
+  components: { HelperTooltip, VotesBarchart, Feedback },
   data: function() {
     return {
       session: this.$store.state.sessions.find(s => {
@@ -87,6 +93,9 @@ export default {
 <style scoped>
 #session-container {
   max-width: 1000px;
+}
+#url-wrapper {
+  display: flex;
 }
 #actions {
   padding-bottom: 30px;

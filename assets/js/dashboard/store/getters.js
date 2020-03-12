@@ -11,5 +11,8 @@ export default {
             }
         }
         return null;
+    },
+    filtersAreSet: state => {
+        return state.sessionsFilters.filterTags.length > 0
     }
 }

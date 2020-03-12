@@ -1,15 +1,18 @@
 <template>
   <div id="export-session-form-container">
-    <h3>Export session "{{ $store.state.modalState.keyword }}"</h3>
+    <h3>Get "{{ $store.state.modalState.keyword }}" to your audience</h3>
+    <p>Useful methods for getting this session to your audience (more export methods coming soon)</p>
     <table>
       <col width="180" />
       <col width="10" />
       <tr>
         <td>
-          QR Code
-          <HelperTooltip
-            :vPosition="'top'"
-          >Most modern smartphones have QR code scanning built into camera app</HelperTooltip>
+          <div style="display: flex">
+            QR Code
+            <HelperTooltip
+              :vPosition="'top'"
+            >Most modern smartphones have QR code scanning built into camera app</HelperTooltip>
+          </div>
         </td>
         <td>
           <button

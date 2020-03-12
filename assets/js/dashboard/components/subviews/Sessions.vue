@@ -8,8 +8,8 @@
       </button>
       <div v-if="showFilters" id="filters-wrapper">
         <div id="filter-tags">
-          <div>
-            <span>Include tags</span>
+          <div id="filter-label">
+            <span>Include tags on session</span>
           </div>
           <VueTagsInput
             v-model="filterTag"
@@ -17,6 +17,8 @@
             :allow-edit-tags="true"
             :maxlength="15"
             :add-on-key="[13, ' ']"
+            :autocomplete-items="tagsAutoComplete"
+            :add-only-from-autocomplete="true"
             @tags-changed="tagsChanged"
           />
         </div>
@@ -59,20 +61,31 @@ export default {
   },
   computed: {
     filteredSessions: function() {
-      var sessions = this.$store.state.sessions;
+      const sessions = this.$store.state.sessions;
       const filterTagsText = this.$store.state.sessionsFilters.filterTags.map(
         ft => ft.text
       );
       if (filterTagsText.length == 0) return sessions;
       return sessions.filter(s => {
         const sessionTagsText = s.tags.map(st => st.text);
-        var hasAtLeastOneTag = false;
-        sessionTagsText.forEach(stt => {
-          if (filterTagsText.includes(stt)) {
-            hasAtLeastOneTag = true;
+        var hasAllTags = true;
+        filterTagsText.forEach(filterTag => {
+          if (!sessionTagsText.includes(filterTag)) {
+            hasAllTags = false;
           }
         });
-        return hasAtLeastOneTag;
+        return hasAllTags;
+      });
+    },
+    tagsAutoComplete: function() {
+      const sessions = this.$store.state.sessions;
+      return Array.from(
+        sessions.reduce((set, session) => {
+          session.tags.forEach(tag => set.add(tag.text));
+          return set;
+        }, new Set())
+      ).map((tag, i) => {
+        return { id: i, text: tag };
       });
     },
     openSessions: function() {
@@ -99,7 +112,7 @@ export default {
   margin-bottom: 30px;
 }
 #filters-wrapper {
-  max-width: 400px;
+  max-width: 600px;
   padding: 30px;
 }
 #filter-tags {
