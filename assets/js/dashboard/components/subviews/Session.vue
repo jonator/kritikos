@@ -37,11 +37,11 @@
       </tr>
       <tr>
         <td>Start date/time</td>
-        <td>{{ session.startDatetime }}</td>
+        <td>{{ session.startMoment.format("LLLL") }} ({{ session.startMoment.fromNow() }})</td>
       </tr>
       <tr v-if="session.endDatetime">
         <td>End date/time</td>
-        <td>{{ session.endDatetime }}</td>
+        <td>{{ session.endMoment.format("LLLL") }} ({{ session.endMoment.fromNow() }})</td>
       </tr>
       <tr>
         <td>Tags</td>
@@ -61,14 +61,18 @@
 import HelperTooltip from "../HelperTooltip.vue";
 import VotesBarchart from "../charts/VotesBarchart.vue";
 import Feedback from "./Feedback.vue";
+import moment from "moment";
 
 export default {
   components: { HelperTooltip, VotesBarchart, Feedback },
   data: function() {
+    var s = this.$store.state.sessions.find(s => {
+      return s.keyword == this.$route.params.keyword;
+    });
+    s.startMoment = moment(s.startDatetime);
+    s.endMoment = moment(s.endDatetime);
     return {
-      session: this.$store.state.sessions.find(s => {
-        return s.keyword == this.$route.params.keyword;
-      })
+      session: s
     };
   },
   methods: {

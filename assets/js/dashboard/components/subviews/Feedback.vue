@@ -11,13 +11,22 @@
       >{{v.voteLevelId}}</div>
     </div>
     <div v-if="feedbacks.length > 0" id="feedbacks-container">
-      <p class="feedback" v-for="f in feedbacks" :key="f.id">{{ f.text }}</p>
+      <table>
+        <col width="70%" />
+        <col width="30%" />
+        <tr class="feedback" v-for="f in feedbacks" :key="f.id">
+          <td id="feedback-text">{{ f.text }}</td>
+          <td id="feedback-time">{{ f.voteDatetime.format("lll") }}</td>
+        </tr>
+      </table>
     </div>
     <p id="no-feedback" v-else>No feedback given for this category</p>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
 function mostCommonVoteLevelId(voteLevels, votes) {
   var count = {};
   voteLevels.forEach(vl => {
@@ -61,8 +70,10 @@ export default {
       );
       return curVotes.reduce((acc, v) => {
         if (v.feedback != undefined) {
-          acc.push(v.feedback);
-          return acc;
+          return acc.concat({
+            ...v.feedback,
+            voteDatetime: moment(v.voteDatetime)
+          });
         } else {
           return acc;
         }
@@ -114,5 +125,12 @@ h3 {
 }
 #no-feedback {
   font-style: italic;
+}
+#feedback-text {
+  max-width: 100%;
+}
+#feedback-time {
+  text-align: end;
+  font-size: 70%;
 }
 </style>

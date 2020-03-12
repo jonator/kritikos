@@ -125,6 +125,9 @@ export default {
 .cards {
   padding-bottom: 30px;
 }
+#session-cards {
+  padding-bottom: 300px;
+}
 #filters-button {
   display: inline-flex;
   background-color: transparent;
