@@ -5,6 +5,7 @@ defmodule KritikosWeb.PromptController do
   require Logger
 
   plug :already_voted?
+  plug Kritikos.Plug.AllowIframe
 
   def live_session(conn, %{"keyword" => keyword}) do
     render_existing_session(conn, "live_session.html", keyword: keyword)

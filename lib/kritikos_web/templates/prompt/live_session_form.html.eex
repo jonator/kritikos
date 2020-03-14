@@ -12,8 +12,8 @@
         end %>
     </div>
     <h3 class="form-details">Any details of your experience?</h3>
-    <p>All feedback is anonymous</p><br>
-    <textarea id="input" rows="4" cols="50"></textarea><br>
+    <p>All feedback is anonymous</p>
+    <textarea id="input" rows="4" cols="50"></textarea>
     <button id="submit-form">Submit</button>
 </div>
 
