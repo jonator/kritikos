@@ -4,6 +4,7 @@
       <button v-on:click="$router.push('/sessions')">back</button>
     </div>
     <table>
+      <col width="200" />
       <tr>
         <td>
           <h2>{{ session.keyword }}</h2>
@@ -19,8 +20,8 @@
         </td>
         <td id="public-link-cell">
           <a v-bind:href="session.link">{{ session.link }}</a>
-          <div id="session-actions">
-            <button v-if="!session.endDatetime" class="warning" v-on:click="endSession">close</button>
+          <div id="session-actions" v-if="!sessionIsEnded">
+            <button class="warning" v-on:click="endSession">close</button>
             <button
               v-on:click="$store.dispatch('OPEN_MODAL', {form: 'ExportSession', initialState: {keyword: session.keyword}})"
             >export</button>
@@ -39,7 +40,7 @@
         <td>Start date/time</td>
         <td>{{ session.startMoment.format("LLLL") }} ({{ session.startMoment.fromNow() }})</td>
       </tr>
-      <tr v-if="session.endDatetime">
+      <tr v-if="sessionIsEnded">
         <td>End date/time</td>
         <td>{{ session.endMoment.format("LLLL") }} ({{ session.endMoment.fromNow() }})</td>
       </tr>
@@ -65,15 +66,22 @@ import moment from "moment";
 
 export default {
   components: { HelperTooltip, VotesBarchart, Feedback },
-  data: function() {
-    var s = this.$store.state.sessions.find(s => {
-      return s.keyword == this.$route.params.keyword;
-    });
-    s.startMoment = moment(s.startDatetime);
-    s.endMoment = moment(s.endDatetime);
-    return {
-      session: s
-    };
+  computed: {
+    session: function() {
+      var s = this.$store.state.sessions.find(s => {
+        return s.keyword == this.$route.params.keyword;
+      });
+      s.startMoment = moment(s.startDatetime);
+      console.log("SESSION", s);
+      s.endMoment = moment(s.endDatetime);
+      return s;
+    },
+    sessionIsEnded: function() {
+      return (
+        this.session.endDatetime != null ||
+        this.session.endDatetime != undefined
+      );
+    }
   },
   methods: {
     endSession: function() {
