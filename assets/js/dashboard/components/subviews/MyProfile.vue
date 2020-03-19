@@ -15,6 +15,7 @@
           <td>Password</td>
           <td>
             <button
+              id="change-password-button"
               v-on:click="$store.dispatch('OPEN_MODAL', { form: 'ChangePassword', 
                                                           initialState: {
                                                             currentPassword: '',
@@ -22,7 +23,6 @@
                                                             confirmNewPassword: ''
                                                           }
                                                         })"
-              id="change-pass-button"
             >change password</button>
           </td>
         </tr>
@@ -30,3 +30,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+#change-password-button {
+  margin: 0;
+}
+</style>
