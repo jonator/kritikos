@@ -44,15 +44,11 @@ defmodule Kritikos.Auth do
     end
   end
 
-  def register_user(attrs \\ %{}) do
-    case User.create_changeset(%User{}, attrs) |> Repo.insert() do
-      {:ok, _user} = user_valid ->
-        user_valid
+  def register_user(attrs \\ %{}),
+    do: User.create_changeset(%User{}, attrs) |> Repo.insert()
 
-      {:error, _changeset} = error_result ->
-        error_result
-    end
-  end
+  def update_user(user, attrs \\ %{}),
+    do: User.changeset(user, attrs) |> Repo.update()
 
   defp check_password(email, plain_text_password) do
     Repo.get_by(User, email: email)

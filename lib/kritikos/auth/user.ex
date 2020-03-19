@@ -18,19 +18,26 @@ defmodule Kritikos.Auth.User do
     timestamps()
   end
 
-  def create_changeset(user, attrs) do
-    user
-    |> cast(attrs, [:email, :password, :password_confirmation, :first_last_name])
-    |> validate_required([:email, :password, :password_confirmation, :first_last_name])
-    |> unique_constraint(:email)
-    |> validate_format(:email, ~r/@/)
-    |> validate_required([:first_last_name])
-    |> validate_format(:first_last_name, ~r/\ /, message: "must contain a space between names")
-    |> validate_length(:first_last_name, max: 35)
-    |> capitalize_first_last_name
-    |> validate_confirmation(:password, message: "does not match password")
-    |> put_password_hash
-  end
+  def create_changeset(user, attrs),
+    do:
+      user
+      |> cast(attrs, [:email, :password, :password_confirmation, :first_last_name])
+      |> validate_required([:email, :password, :password_confirmation, :first_last_name])
+      |> unique_constraint(:email)
+      |> validate_format(:email, ~r/@/)
+      |> validate_required([:first_last_name])
+      |> validate_format(:first_last_name, ~r/\ /, message: "must contain a space between names")
+      |> validate_length(:first_last_name, max: 35)
+      |> capitalize_first_last_name
+      |> validate_password_confirmation
+      |> put_password_hash
+
+  def changeset(user, attrs),
+    do:
+      user
+      |> cast(attrs, [:password, :password_confirmation])
+      |> validate_password_confirmation
+      |> put_password_hash
 
   defp capitalize_first_last_name(
          %Ecto.Changeset{valid?: true, changes: %{first_last_name: name}} = changeset
@@ -46,14 +53,16 @@ defmodule Kritikos.Auth.User do
 
   defp capitalize_first_last_name(changeset), do: changeset
 
+  defp validate_password_confirmation(changeset),
+    do: validate_confirmation(changeset, :password, message: "does not match password")
+
   defp put_password_hash(
          %Ecto.Changeset{
            valid?: true,
            changes: %{password: password, password_confirmation: _}
          } = changeset
-       ) do
-    change(changeset, Bcrypt.add_hash(password))
-  end
+       ),
+       do: change(changeset, Bcrypt.add_hash(password))
 
   defp put_password_hash(changeset), do: changeset
 end

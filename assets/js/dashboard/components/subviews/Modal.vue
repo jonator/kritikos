@@ -11,11 +11,12 @@
 </template>
 
 <script>
+import ChangePassword from "./modals/ChangePassword.vue";
 import CreateSessionForm from "./modals/CreateSessionForm.vue";
 import ExportSession from "./modals/ExportSession.vue";
 
 export default {
-  components: { CreateSessionForm, ExportSession },
+  components: { ChangePassword, CreateSessionForm, ExportSession },
   data: function() {
     return { initialModalState: { ...this.$store.state.modalState } };
   },

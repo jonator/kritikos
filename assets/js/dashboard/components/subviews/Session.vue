@@ -72,7 +72,6 @@ export default {
         return s.keyword == this.$route.params.keyword;
       });
       s.startMoment = moment(s.startDatetime);
-      console.log("SESSION", s);
       s.endMoment = moment(s.endDatetime);
       return s;
     },

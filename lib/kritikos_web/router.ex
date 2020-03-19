@@ -33,7 +33,7 @@ defmodule KritikosWeb.Router do
     post "/users/login", SessionController, :create
     post "/users/logout", SessionController, :drop
     post "/user", UserController, :create
-    put "/user", UserController, :update
+    patch "/user/password", UserController, :update_password
     post "/vote/:keyword/:level", PromptController, :submit_vote
     post "/:keyword/submit_form", PromptController, :submit_feedback
     post "/closeCurrentSession", DashboardController, :close_current_session

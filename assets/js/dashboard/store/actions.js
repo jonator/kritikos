@@ -74,5 +74,16 @@ export default {
     },
     UPDATE_SESSIONS_FILTER: ({ commit }, filterState) => {
         commit("updateSessionsFilter", filterState)
+    },
+    UPDATE_USER_PASSWORD: ({ commit }, attrs) => {
+        const body = {
+            attrs: attrs
+        }
+        return new Promise((resolve, reject) => {
+            apiRequestWithTokenAndErrors("PATCH", "/api/user/password", body, commit, (resp, didError) => {
+                if (!didError) resolve()
+                else reject()
+            })
+        })
     }
 }
