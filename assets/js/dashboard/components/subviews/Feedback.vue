@@ -110,18 +110,19 @@ h3 {
 }
 #feedbacks-container {
   max-height: 450px;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 #vote-level-tabs {
   width: 100%;
   display: inline-flex;
   justify-content: space-evenly;
-  margin-bottom: 30px;
+}
+.vote-level-tab {
+  opacity: 0.4;
 }
 .vote-level-tab.active {
-  border-bottom: 2px solid #eaeaea;
-  opacity: 0.6;
+  opacity: 1;
 }
 #no-feedback {
   font-style: italic;
