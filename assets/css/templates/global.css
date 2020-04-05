@@ -57,3 +57,7 @@ button.confirm {
     font-weight: bold;
     font-style: italic;
 }
+
+table td {
+    border: transparent;
+}

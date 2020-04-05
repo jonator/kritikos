@@ -46,7 +46,7 @@
       </tr>
       <tr>
         <td>Tags</td>
-        <td>
+        <td id="tags-list">
           <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
         </td>
       </tr>
@@ -138,5 +138,11 @@ export default {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
   }
+}
+#tags-list {
+  display: flex;
+}
+#tags-list div {
+  padding-right: 5px;
 }
 </style>

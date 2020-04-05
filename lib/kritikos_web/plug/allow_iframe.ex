@@ -1,4 +1,4 @@
-defmodule Kritikos.Plug.AllowIframe do
+defmodule KritikosWeb.Plug.AllowIframe do
   @moduledoc """
   Allows affected resources to be open in iframe.
   """
