@@ -17,5 +17,5 @@ document.getElementById("frown").children[0].onclick = () => {
 }
 
 function toForm(response) {
-    if (!isKiosk) window.location.href = response.redirect
+    if (!isKiosk) window.location = response.redirect
 }

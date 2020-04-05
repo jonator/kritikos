@@ -5,7 +5,8 @@ defmodule KritikosWeb.PromptController do
   require Logger
 
   plug :already_voted?
-  plug Kritikos.Plug.AllowIframe
+  plug :session_owner?
+  plug KritikosWeb.Plug.AllowIframe
 
   def live_session(conn, %{"keyword" => keyword}) do
     render_existing_session(conn, "live_session.html", keyword: keyword)
@@ -16,18 +17,23 @@ defmodule KritikosWeb.PromptController do
   end
 
   def live_session_form(conn, %{"keyword" => keyword}) do
-    %{vote_id: voted_id, vote_level: voted_level} = get_session(conn, :vote)
+    %{vote_id: voted_id, vote_level: voted_level} = get_session(conn, :vote) |> IO.inspect()
 
-    if voted_level && voted_id do
+    if voted_level do
       render_existing_session(conn, "live_session_form.html",
         keyword: keyword,
-        vote_level: voted_level,
+        vote_level: voted_level |> Integer.parse() |> elem(0),
         vote_id: voted_id
       )
     else
       conn |> redirect(to: "/" <> keyword)
     end
   end
+
+  def submit_feedback(%{assigns: %{already_voted: true}} = conn, %{
+        "keyword" => keyword
+      }),
+      do: conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
 
   def submit_feedback(conn, %{"keyword" => keyword} = params) do
     {vote_id, ""} = Integer.parse(params["vote_id"])
@@ -39,7 +45,14 @@ defmodule KritikosWeb.PromptController do
     conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
+  def submit_vote(%{assigns: %{already_voted: true}} = conn, %{
+        "keyword" => keyword,
+        "level" => level
+      }),
+      do: render_feedback_form(conn, level, nil, keyword)
+
   def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
+    IO.inspect(conn.assigns)
     {int_vote_level, ""} = Integer.parse(level)
 
     {:ok, vote} =
@@ -56,18 +69,18 @@ defmodule KritikosWeb.PromptController do
     render_feedback_form(conn, vote.vote_level_id, vote.id, keyword)
   end
 
-  def thanks(conn, %{"keyword" => keyword}) do
-    if conn.assigns[:already_voted] do
-      conn |> render_existing_session("thanks.html", keyword: keyword)
-    else
-      conn |> redirect(to: "/" <> keyword)
-    end
+  def thanks(%Plug.Conn{assigns: %{already_voted: true}} = conn, %{"keyword" => kw}) do
+    conn |> render_existing_session("thanks.html", keyword: kw)
+  end
+
+  def thanks(%Plug.Conn{assigns: %{already_voted: false}} = conn, %{"keyword" => kw}) do
+    conn |> redirect(to: "/" <> kw)
   end
 
   defp render_existing_session(conn, template, params) do
     case Sessions.get_open(params[:keyword]) do
       nil ->
-        warn_unrecognized_request(conn)
+        log_warn_unrecognized_request(conn)
 
         conn
         |> put_view(KritikosWeb.ErrorView)
@@ -93,12 +106,25 @@ defmodule KritikosWeb.PromptController do
     |> render("redirect.json", redirect: "/" <> keyword <> "/form")
   end
 
-  defp already_voted?(conn, _params) do
-    did_vote = get_session(conn, :vote) != nil
+  defp already_voted?(conn, _plug_params) do
+    did_vote = not is_nil(get_session(conn, :vote))
     Plug.Conn.assign(conn, :already_voted, did_vote)
   end
 
-  defp warn_unrecognized_request(conn) do
+  defp session_owner?(%{params: %{"keyword" => keyword}} = conn, _plug_params) do
+    is_owner =
+      with %{id: user_id} <- get_session(conn, :user),
+           %{user_id: ^user_id} <- Sessions.get_open(keyword) do
+        true
+      else
+        _ ->
+          false
+      end
+
+    Plug.Conn.assign(conn, :session_owner, is_owner)
+  end
+
+  defp log_warn_unrecognized_request(conn) do
     [a, b, c, d | _] = conn.remote_ip |> Tuple.to_list()
 
     Logger.warn(
