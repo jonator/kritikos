@@ -28,3 +28,9 @@
 .votes div svg:hover {
     cursor: pointer;
 }
+
+#owner-banner {
+    text-align: center;
+    font-weight: bold;
+    background-color: cyan;
+}

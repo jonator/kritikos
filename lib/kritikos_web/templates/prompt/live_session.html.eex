@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession.css") %>"/>
 
 <script>const keyword = "<%= @keyword %>";</script>
+<%= if @session_owner do %>
+<div id="owner-banner">Your input will not be counted because you are the owner of the session.</div>
+<% end %>
 <div id="live-session">
     <div id="question">
         <%= if @prompt_question == nil do %>

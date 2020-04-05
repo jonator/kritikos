@@ -19,6 +19,12 @@
     width: 50px;
 }
 
+#owner-banner {
+    text-align: center;
+    font-weight: bold;
+    background-color: cyan;
+}
+
 /* Thanks prompt */
 
 svg.forming-ideas {

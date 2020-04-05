@@ -128,6 +128,9 @@ export default {
 #public-link-cell a {
   margin: auto auto auto 0;
 }
+#public-link-cell button {
+  margin-bottom: 0;
+}
 #data-display-container {
   display: grid;
   gap: 30px;

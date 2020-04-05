@@ -3,6 +3,9 @@
     const keyword = "<%= @keyword %>";
     const voteId = "<%= @vote_id %>";
 </script>
+<%= if @session_owner do %>
+<div id="owner-banner">Your input will not be counted because you are the owner of the session.</div>
+<% end %>
 <div id="session-form">
     <div id="selected-vote">
     <%= case @vote_level do
