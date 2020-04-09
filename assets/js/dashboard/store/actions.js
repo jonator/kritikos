@@ -85,5 +85,8 @@ export default {
                 else reject()
             })
         })
+    },
+    TOGGLE_SESSION_INFO_DRAWER: ({ commit }) => {
+        commit("toggleSessionInfoDrawer")
     }
 }

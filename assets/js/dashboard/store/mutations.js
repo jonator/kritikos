@@ -46,5 +46,8 @@ export default {
     },
     updateSessionsFilter: (state, filterState) => {
         Object.assign(state.sessionsFilters, filterState)
+    },
+    toggleSessionInfoDrawer: (state) => {
+        state.sessionInfoDrawerOpen = !state.sessionInfoDrawerOpen
     }
 }

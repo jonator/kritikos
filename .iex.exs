@@ -35,7 +35,7 @@ Module.create(
             tags: Enum.shuffle(keywords) |> Enum.map(fn t -> %{text: t} end),
             prompt_question: "This is " <> k <> "?",
             keyword: k,
-            name: "Named " <> k
+            name: k <> "name"
           }
 
           Session.create_changeset(user_session, attrs) |> Repo.insert() |> elem(1)

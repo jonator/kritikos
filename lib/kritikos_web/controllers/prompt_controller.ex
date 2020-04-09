@@ -87,8 +87,6 @@ defmodule KritikosWeb.PromptController do
   defp render_existing_session(conn, template, params) do
     case Sessions.get_open(params[:keyword]) do
       nil ->
-        log_warn_unrecognized_request(conn)
-
         conn
         |> put_view(KritikosWeb.ErrorView)
         |> render("error.html",
@@ -131,21 +129,6 @@ defmodule KritikosWeb.PromptController do
       end
 
     Plug.Conn.assign(conn, :session_owner, is_owner)
-  end
-
-  defp log_warn_unrecognized_request(conn) do
-    [a, b, c, d | _] = conn.remote_ip |> Tuple.to_list()
-
-    Logger.warn(
-      "Remote ip: " <>
-        Integer.to_string(a) <>
-        "." <>
-        Integer.to_string(b) <>
-        "." <>
-        Integer.to_string(c) <>
-        "." <>
-        Integer.to_string(d)
-    )
   end
 
   defp update_host_dashboard_model(vote_id) do

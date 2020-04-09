@@ -7,7 +7,7 @@
       <col width="200" />
       <tr>
         <td>
-          <h2>{{ session.keyword }}</h2>
+          <h2>{{ session.name }}</h2>
         </td>
         <td />
       </tr>
@@ -28,26 +28,31 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr v-if="infoDrawerOpen">
         <td>Vote count</td>
         <td>{{ session.votes.length }}</td>
       </tr>
-      <tr v-if="session.promptQuestion != null">
+      <tr v-if="session.promptQuestion != null && infoDrawerOpen">
         <td>Custom prompt question</td>
         <td>{{ session.promptQuestion }}</td>
       </tr>
-      <tr>
+      <tr v-if="infoDrawerOpen">
         <td>Start date/time</td>
         <td>{{ session.startMoment.format("LLLL") }} ({{ session.startMoment.fromNow() }})</td>
       </tr>
-      <tr v-if="sessionIsEnded">
+      <tr v-if="sessionIsEnded && infoDrawerOpen">
         <td>End date/time</td>
         <td>{{ session.endMoment.format("LLLL") }} ({{ session.endMoment.fromNow() }})</td>
       </tr>
-      <tr>
+      <tr v-if="infoDrawerOpen">
         <td>Tags</td>
         <td id="tags-list">
           <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a v-on:click="toggleInfoDrawer">{{ infoDrawerOpen ? "Less" : "More" }} info</a>
         </td>
       </tr>
     </table>
@@ -80,11 +85,17 @@ export default {
         this.session.endDatetime != null ||
         this.session.endDatetime != undefined
       );
+    },
+    infoDrawerOpen: function() {
+      return this.$store.state.sessionInfoDrawerOpen;
     }
   },
   methods: {
     endSession: function() {
       this.$store.dispatch("END_SESSION", this.session.keyword);
+    },
+    toggleInfoDrawer: function() {
+      this.$store.dispatch("TOGGLE_SESSION_INFO_DRAWER");
     }
   },
   beforeRouteUpdate(to, from, next) {
