@@ -128,9 +128,11 @@ h3 {
   font-style: italic;
 }
 #feedback-text {
-  max-width: 100%;
+  word-wrap: break-word;
+  max-width: 350px;
 }
 #feedback-time {
+  vertical-align: top;
   text-align: end;
   font-size: 70%;
 }

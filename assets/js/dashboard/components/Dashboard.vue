@@ -5,7 +5,7 @@
         <div v-if="isMobile" class="clickable" id="menu-button" v-on:click="menuVisible = true">
           <i class="gg-menu"></i>
         </div>
-        <span v-if="!isMobile" id="logo">Kritikos</span>
+        <span v-if="!isMobile" v-on:click="toLanding" id="logo">Kritikos</span>
         <div id="action-area">
           <span id="email">{{ $store.state.userRecord.email }}</span>
           <button v-if="!isMobile" v-on:click="logout">Log out</button>
@@ -64,6 +64,9 @@ export default {
     },
     logout: function() {
       this.$store.dispatch("LOG_OUT");
+    },
+    toLanding: function() {
+      document.location.href = "/";
     }
   },
   mounted: function() {
