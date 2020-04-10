@@ -28,28 +28,38 @@
           </div>
         </td>
       </tr>
-      <tr v-if="infoDrawerOpen">
-        <td>Vote count</td>
-        <td>{{ session.votes.length }}</td>
-      </tr>
-      <tr v-if="session.promptQuestion != null && infoDrawerOpen">
-        <td>Custom prompt question</td>
-        <td>{{ session.promptQuestion }}</td>
-      </tr>
-      <tr v-if="infoDrawerOpen">
-        <td>Start date/time</td>
-        <td>{{ session.startMoment.format("LLLL") }} ({{ session.startMoment.fromNow() }})</td>
-      </tr>
-      <tr v-if="sessionIsEnded && infoDrawerOpen">
-        <td>End date/time</td>
-        <td>{{ session.endMoment.format("LLLL") }} ({{ session.endMoment.fromNow() }})</td>
-      </tr>
-      <tr v-if="infoDrawerOpen">
-        <td>Tags</td>
-        <td id="tags-list">
-          <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
-        </td>
-      </tr>
+      <transition name="slide-fade">
+        <tr v-if="infoDrawerOpen">
+          <td>Vote count</td>
+          <td>{{ session.votes.length }}</td>
+        </tr>
+      </transition>
+      <transition name="slide-fade">
+        <tr v-if="session.promptQuestion != null && infoDrawerOpen">
+          <td>Custom prompt question</td>
+          <td>{{ session.promptQuestion }}</td>
+        </tr>
+      </transition>
+      <transition name="slide-fade">
+        <tr v-if="infoDrawerOpen">
+          <td>Start date/time</td>
+          <td>{{ session.startMoment.format("LLLL") }} ({{ session.startMoment.fromNow() }})</td>
+        </tr>
+      </transition>
+      <transition name="slide-fade">
+        <tr v-if="sessionIsEnded && infoDrawerOpen">
+          <td>End date/time</td>
+          <td>{{ session.endMoment.format("LLLL") }} ({{ session.endMoment.fromNow() }})</td>
+        </tr>
+      </transition>
+      <transition name="slide-fade">
+        <tr v-if="infoDrawerOpen">
+          <td>Tags</td>
+          <td id="tags-list">
+            <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
+          </td>
+        </tr>
+      </transition>
       <tr>
         <td>
           <a v-on:click="toggleInfoDrawer">{{ infoDrawerOpen ? "Less" : "More" }} info</a>
@@ -158,5 +168,18 @@ export default {
 }
 #tags-list div {
   padding-right: 5px;
+}
+
+/* info transition */
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-10px);
+  opacity: 0;
 }
 </style>
