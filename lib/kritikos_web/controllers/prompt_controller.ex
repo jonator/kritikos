@@ -37,10 +37,10 @@ defmodule KritikosWeb.PromptController do
     end
   end
 
-  def submit_feedback(%{assigns: %{already_voted: true}} = conn, %{
+  def submit_feedback(%{assigns: %{session_owner: true}} = conn, %{
         "keyword" => keyword
       }),
-      do: conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
+      do: render(conn, "redirect.json", redirect: "/" <> keyword <> "/thanks")
 
   def submit_feedback(conn, %{"keyword" => keyword} = params) do
     {vote_id, ""} = Integer.parse(params["vote_id"])
@@ -49,10 +49,10 @@ defmodule KritikosWeb.PromptController do
 
     update_host_dashboard_model(vote_id)
 
-    conn |> render("redirect.json", redirect: "/" <> keyword <> "/thanks")
+    render(conn, "redirect.json", redirect: "/" <> keyword <> "/thanks")
   end
 
-  def submit_vote(%{assigns: %{already_voted: true}} = conn, %{
+  def submit_vote(%{assigns: %{session_owner: true}} = conn, %{
         "keyword" => keyword,
         "level" => level
       }),

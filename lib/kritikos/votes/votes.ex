@@ -38,7 +38,9 @@ defmodule Kritikos.Votes do
   end
 
   def update_or_submit_feedback(vote_id, feedback_text) do
-    vote = Repo.get(Vote, vote_id) |> Repo.preload(:session)
+    vote =
+      Repo.get(Vote, vote_id)
+      |> Repo.preload(:session)
 
     if vote == nil || Sessions.get_open(vote.session.keyword) == nil do
       {:error, "associated session is closed"}
