@@ -3,14 +3,9 @@
     <div id="actions">
       <button v-on:click="$router.push('/sessions')">back</button>
     </div>
+    <h2>Results for {{ session.name }}</h2>
     <table>
       <col width="200" />
-      <tr>
-        <td>
-          <h2>Results for {{ session.name }}</h2>
-        </td>
-        <td />
-      </tr>
       <tr>
         <td>
           <div id="url-wrapper">
