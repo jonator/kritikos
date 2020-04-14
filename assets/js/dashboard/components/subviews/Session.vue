@@ -7,7 +7,7 @@
       <col width="200" />
       <tr>
         <td>
-          <h2>{{ session.name }}</h2>
+          <h2>Results for {{ session.name }}</h2>
         </td>
         <td />
       </tr>

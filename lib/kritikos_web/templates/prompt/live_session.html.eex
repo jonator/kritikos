@@ -12,7 +12,7 @@
             <%= @prompt_question %>
         <% end %>
     </div>
-
+    All feedback is anonymous
     <div class="votes">
         <div id="happy"><%= svg_image("happy") %></div>
         <div id="neutral"><%= svg_image("neutral") %></div>

@@ -5,12 +5,13 @@
     width: 60%;
     margin: 0 auto;
     max-width: 800px;
+    text-align: center;
+    font-size: 80%;
 }
 
 #question {
     font-size: 200%;
     padding: 10%;
-    text-align: center;
 }
 
 .votes {
