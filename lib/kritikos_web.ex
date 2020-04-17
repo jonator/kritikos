@@ -41,8 +41,8 @@ defmodule KritikosWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import KritikosWeb.ErrorHelpers
       import KritikosWeb.Gettext
+      import KritikosWeb.SharedView
       alias KritikosWeb.Router.Helpers, as: Routes
     end
   end

@@ -6,9 +6,9 @@ document.getElementById("submit-form").onclick = () => {
     const url = "/api/" + keyword + "/submit_form"
     const body = {
         text: textInput,
-        voter_number: voterNumber
+        vote_id: voteId
     }
-    utils.fetchData("POST", url, body).then(r => r.json()).then(r => {
+    utils.apiRequest("POST", url, body).then(r => {
         window.location.href = r.redirect
     })
 }

@@ -1,6 +1,5 @@
 defmodule KritikosWeb.SessionController do
   use KritikosWeb, :controller
-
   alias Kritikos.Auth
 
   def create(conn, %{"user" => %{"email" => email, "password" => password}}) do
@@ -11,11 +10,11 @@ defmodule KritikosWeb.SessionController do
         |> put_status(:ok)
         |> render("login.json", user: user)
 
-      {:error, msg} ->
+      {:error, reasons} ->
         conn
         |> put_view(KritikosWeb.ErrorView)
         |> put_status(:unauthorized)
-        |> render("error.json", message: msg)
+        |> render("error.json", message: reasons)
     end
   end
 

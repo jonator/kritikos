@@ -1,7 +1,15 @@
-/* reference: http://snapsvg.io/ */
-
 body {
     margin: 0;
+    user-select: none;
+}
+
+#logo {
+    float: left;
+    font-family: "grec";
+    font-size: 32px;
+}
+#logo:hover {
+    cursor: pointer;
 }
 
 @font-face {
@@ -16,9 +24,16 @@ body {
     opacity: 0.5;
 }
 
+a {
+    cursor: pointer;
+}
+
 *[href] {
     cursor: pointer;
 }
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }
 
 .wrap {
     width: 55%;
@@ -30,4 +45,19 @@ body {
 button.warning {
     background-color: red;
     border-color: lightsalmon;
+}
+
+button.confirm {
+    background-color: rgb(11, 146, 11);
+    border-color: green;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    font-style: italic;
+}
+
+table td {
+    border: transparent;
 }

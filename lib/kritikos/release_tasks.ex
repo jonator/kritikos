@@ -15,6 +15,7 @@ defmodule Kritikos.ReleaseTasks do
 
   def seeds_up(_) do
     seeds_down(nil)
+    Repo.query("CREATE TABLE IF NOT EXISTS vote_levels")
     Repo.insert!(%VoteLevel{description: "frown"})
     Repo.insert!(%VoteLevel{description: "neutral"})
     Repo.insert!(%VoteLevel{description: "happy"})

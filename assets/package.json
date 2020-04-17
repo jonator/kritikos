@@ -1,6 +1,6 @@
 {
   "repository": "https://github.com/jonator/kritikos",
-  "description": "Client assets for kritikos",
+  "description": "Web client assets for kritikos",
   "license": "MIT",
   "scripts": {
     "deploy": "webpack --mode production",
@@ -8,9 +8,13 @@
   },
   "dependencies": {
     "d3": "^5.14.2",
+    "moment": "^2.24.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "vue": "^2.6.10"
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.5",
+    "vue-toasted": "^1.1.27",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -21,6 +25,10 @@
     "mini-css-extract-plugin": "^0.4.0",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
+    "vue-loader": "^15.8.3",
+    "vue-svg-loader": "^0.15.0",
+    "@johmun/vue-tags-input": "^2.1.0",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   }

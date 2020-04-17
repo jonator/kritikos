@@ -1,3 +1,22 @@
+<header id="header">
+    <div class="wrap">
+        <span id="logo" onclick="buttonOnClick('/')">Kritikos</span>
+        <button id="<%= @button.id %>" class="landing-action" onclick="buttonOnClick('<%= @button.href %>')"><%= @button.text %></button>
+        <script>
+            function buttonOnClick(url) {
+                fetch(url, {
+                    method: "GET",
+                    cache: "no-cache",
+                    headers: {
+                        "Content-Type": "text/html"
+                    }
+                }).then(resp => window.location.href=resp.url)
+            }
+        </script>
+    </div>
+</header>
+
+
 <article>
     <section id="hero">
         <div class="wrap saw">

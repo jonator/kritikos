@@ -1,12 +1,13 @@
-defmodule Kritikos.Plug.NoCache do
+defmodule KritikosWeb.Plug.NoCache do
   @behaviour Plug
+  alias Plug.Conn
 
   def init(opts), do: opts
 
   def call(conn, _) do
     conn
-    |> Plug.Conn.put_resp_header("Cache-Control", "no-cache, no-store, must-revalidate")
-    |> Plug.Conn.put_resp_header("Pragma", "no-cache")
-    |> Plug.Conn.put_resp_header("Expires", "0")
+    |> Conn.put_resp_header("Cache-Control", "no-cache, no-store, must-revalidate")
+    |> Conn.put_resp_header("Pragma", "no-cache")
+    |> Conn.put_resp_header("Expires", "0")
   end
 end

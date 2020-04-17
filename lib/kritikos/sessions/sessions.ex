@@ -2,118 +2,69 @@ defmodule Kritikos.Sessions do
   @moduledoc """
   Contains API for accessing sessions data.
   """
-  import Ecto.Query, warn: false
-  import Kritikos.Repo
-  alias Kritikos.Sessions.{LiveSession, KeywordFactory, ResolvedSession}
-  alias Kritikos.Votes.{ResolvedVote, ResolvedTextual, VoteLevel}
+  require DateTime
+  alias Kritikos.Repo
+  alias __MODULE__.{Session, Queries}
 
-  def start(host_id) do
-    keyword = KeywordFactory.next_available_for_user(host_id)
-    LiveSession.start_link(%LiveSession{host_id: host_id, keyword: keyword})
-  end
+  def start(attrs) do
+    case Session.create_changeset(%Session{}, attrs)
+         |> Repo.insert() do
+      {:ok, _session} = valid ->
+        valid
 
-  def sessions_for_user(user_id) do
-    all(from rs in ResolvedSession, where: rs.host_id == ^user_id)
-  end
-
-  def summaries_for_user(user_id) do
-    Enum.map(sessions_for_user(user_id), fn session ->
-      res_overall_feedback_id =
-        get_resolved_votes_for_session(session.id)
-        |> resolved_overall_feedback_id()
-
-      overall_feedback_desc =
-        case res_overall_feedback_id do
-          id when is_integer(id) ->
-            one(
-              from vl in VoteLevel,
-                where: vl.id == ^res_overall_feedback_id,
-                select: vl.description
-            )
-
-          :empty ->
-            :empty
-        end
-
-      text_resp_votes_count =
-        get_resolved_texts_for_session(session.id)
-        |> Enum.count()
-
-      %{
-        session: session,
-        texts_count: text_resp_votes_count,
-        overall_feedback: overall_feedback_desc
-      }
-    end)
-    |> Enum.sort(&(DateTime.compare(&1.session.end_datetime, &2.session.end_datetime) == :gt))
-  end
-
-  def previous_overview(keyword, user_id) do
-    with %ResolvedSession{} = res_session <-
-           one(
-             from rs in ResolvedSession, where: rs.host_id == ^user_id and rs.keyword == ^keyword
-           ),
-         [%ResolvedVote{} | _] = res_votes <- get_resolved_votes_for_session(res_session.id),
-         [%ResolvedTextual{} | _] = res_text_votes <-
-           get_resolved_texts_for_session(res_session.id) do
-      {:ok, res_session, res_votes, res_text_votes}
-    else
-      nil ->
-        {:error, "Keyword doesn't have a closed session"}
-
-      [] ->
-        {:error, "No votes for this session"}
-
-      _ ->
-        {:error, "Problems opening session information"}
+      {:error, _changeset} = err ->
+        err
     end
   end
 
-  def all_overview(user_id) do
-    user_votes = resolved_votes_for_user(user_id)
+  def stop(keyword) do
+    case get_open(keyword) do
+      nil ->
+        {:error, "session not open"}
 
-    overall_feedback =
-      user_votes
-      |> resolved_overall_feedback_id()
+      session ->
+        now = DateTime.utc_now()
 
-    session_count = sessions_for_user(user_id) |> Enum.count()
+        case session
+             |> Session.changeset(%{end_datetime: now})
+             |> Repo.update() do
+          {:ok, updated_session} ->
+            {:ok, updated_session |> Repo.preload([{:votes, :feedback}])}
 
-    %{
-      session_count: session_count,
-      overall_feedback: overall_feedback,
-      vote_count: Enum.count(user_votes)
-    }
+          {:error, _changeset} = err ->
+            err
+        end
+    end
   end
 
-  defp get_resolved_votes_for_session(session_id) do
-    all(from rv in ResolvedVote, where: rv.session_id == ^session_id)
+  def export_qr_code(keyword) do
+    port_string =
+      Integer.to_string(Application.get_env(:kritikos, KritikosWeb.Endpoint)[:http][:port])
+
+    host = Application.get_env(:kritikos, KritikosWeb.Endpoint)[:url][:host]
+    Kritikos.Exporter.qr_code_png_binary(host <> ":" <> port_string <> keyword)
   end
 
-  defp get_resolved_texts_for_session(session_id) do
-    all(
-      from rv in ResolvedVote,
-        join: rtv in ResolvedTextual,
-        on: rv.id == rtv.vote_id and rv.session_id == ^session_id,
-        select: rtv,
-        order_by: [desc: rv.vote_level_id]
-    )
+  def get_open(keyword, opts \\ [])
+
+  def get_open(keyword, []),
+    do:
+      Queries.open(keyword)
+      |> Repo.one()
+
+  def get_open(keyword, preload: keys), do: get_open(keyword) |> Repo.preload(keys)
+
+  def get_all_open do
+    Queries.all_open()
+    |> Repo.all()
   end
 
-  defp resolved_overall_feedback_id([_ | _] = res_votes) do
-    Enum.reduce(res_votes, %{}, fn rv, acc ->
-      Map.update(acc, rv.vote_level_id, 1, &(&1 + 1))
-    end)
-    |> Enum.max()
-    |> elem(0)
+  def get_all_open_for_user(user_id) do
+    Queries.all_open_for_user(user_id)
+    |> Repo.all()
   end
 
-  defp resolved_overall_feedback_id([]), do: :empty
-
-  defp resolved_votes_for_user(user_id) do
-    all(
-      from rv in ResolvedVote,
-        join: rs in ResolvedSession,
-        on: rs.id == rv.session_id and rs.host_id == ^user_id
-    )
-  end
+  def get_for_user(user_id, opts \\ [])
+  def get_for_user(user_id, []), do: Queries.for_user(user_id) |> Repo.all()
+  def get_for_user(user_id, preload: keys), do: get_for_user(user_id) |> Repo.preload(keys)
 end

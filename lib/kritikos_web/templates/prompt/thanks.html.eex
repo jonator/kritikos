@@ -1,4 +1,7 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
+<%= if @session_owner do %>
+<div id="owner-banner">Your input will not be counted because you are the owner of the session.</div>
+<% end %>
 <article id="session-form">
     <section>
     <%= svg_image("forming_ideas", class: "forming-ideas") %>

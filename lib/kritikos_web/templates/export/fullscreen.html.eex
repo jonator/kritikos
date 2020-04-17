@@ -1,9 +1,0 @@
-<article id="export-fullscreen">
-    <section id="qr-code-png">
-        <img src="/export/qrcode/<%= @keyword %>.png">
-        <br>
-        <span>Use phone camera to scan
-        <br>Or go to <span id="host"><%= host_url(@keyword) %></span>
-        </span>
-    </section>
-</article>

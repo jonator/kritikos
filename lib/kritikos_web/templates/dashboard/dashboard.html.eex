@@ -1,22 +1,20 @@
-<article>
-    <section id="activities">
-        <div class="wrap">
-            <%= if @keyword do %>
-                <div id="open-current-session" class="menu-item">
-                    <div>Current session:<br/><span id="current-session-label"><%= @keyword %></span>
-                    </div>
-                </div>
-            <% else %>
-                <div id="create-new-session" class="menu-item">
-                    <div>Create new session</div>
-                </div>
-            <% end %>
-            <div id="view-previous-sessions" class="menu-item">
-                <div>View previous sessions</div>
-            </div>
-            <div id="view-all-sessions" class="menu-item">
-                <div>View all sessions</div>
-            </div>
-        </div>
-    </section>
-</article>
+<div id="dashboard-mount" v-cloak></div>
+
+<script>
+/* initial state */
+const userToken = <%= to_js_object(@socket_token) %>;
+const initialState = {
+    userRecord: <%=
+        @user_record
+        |> FormatHelpers.format_map_with_keys(
+            Map.keys(@user_record))
+        |> to_js_object()
+    %>,
+    sessions: <%=
+        @sessions
+        |> Enum.map(&format_session/1)
+        |> to_js_object()
+    %>
+}
+const voteLevels = <%= vote_data_js_object() %>
+</script>

@@ -2,18 +2,35 @@
 @import "./phoenix.css";
 
 #session-form {
-    width: 80%;
+    width: 40%;
+    min-width: 400px;
     margin: 0 auto;
     padding-top: 2%;
     max-width: 800px;
     text-align: center;
 }
 
-/* Thanks prompt */
+#selected-vote {
+    height: 70px;
+}
 
+#selected-vote svg {
+    height: 50px;
+    width: 50px;
+}
+
+#owner-banner {
+    text-align: center;
+    font-weight: bold;
+    background-color: cyan;
+}
+
+/* Thanks prompt */
 
 svg.forming-ideas {
     height: 50vh;
     width: 40vw;
+    max-height: 400px;
+    max-width: 400px;
     min-width: 200px;
 }

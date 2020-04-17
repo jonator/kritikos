@@ -23,7 +23,7 @@ defmodule KritikosWeb.GuardedController do
         apply(__MODULE__, action_name(conn), [
           conn,
           conn.params,
-          Plug.Conn.get_session(conn, :user)
+          conn.assigns[:user]
         ])
       end
     end

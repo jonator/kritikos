@@ -1,14 +1,27 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession.css") %>"/>
 
 <script>const keyword = "<%= @keyword %>";</script>
+<%= if @session_owner do %>
+<div id="owner-banner">Your input will not be counted because you are the owner of the session.</div>
+<% end %>
 <div id="live-session">
-    <div id="question">What did you think?</div>
-
+    <div id="question">
+        <%= if @prompt_question == nil do %>
+            What did you think?
+        <% else %>
+            <%= @prompt_question %>
+        <% end %>
+    </div>
+    All feedback is anonymous
     <div class="votes">
         <div id="happy"><%= svg_image("happy") %></div>
         <div id="neutral"><%= svg_image("neutral") %></div>
         <div id="frown"><%= svg_image("frown") %></div>
     </div>
 </div>
+
+<script>
+const isKiosk = <%= @is_kiosk != nil %>
+</script>
 
 <script src="<%= Routes.static_path(@conn, "/js/livesession.js") %>"></script>

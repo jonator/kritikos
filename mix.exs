@@ -5,7 +5,7 @@ defmodule Kritikos.MixProject do
     [
       app: :kritikos,
       version: "0.1.0",
-      elixir: "~> 1.9.1",
+      elixir: "~> 1.10.0",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -68,7 +68,13 @@ defmodule Kritikos.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: [
+        "ecto.drop",
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "run priv/repo/seeds.exs",
+        "test"
+      ]
     ]
   end
 end

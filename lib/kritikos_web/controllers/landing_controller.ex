@@ -18,7 +18,6 @@ defmodule KritikosWeb.LandingController do
       end
 
     conn
-    |> put_layout("header.html")
     |> render("landing.html", button: button)
   end
 

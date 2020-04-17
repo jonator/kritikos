@@ -1,11 +1,22 @@
 <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/livesession_form.css") %>"/>
 <script>
     const keyword = "<%= @keyword %>";
-    const voterNumber = "<%= @voter_number %>";  
+    const voteId = "<%= @vote_id %>";
 </script>
+<%= if @session_owner do %>
+<div id="owner-banner">Your input will not be counted because you are the owner of the session.</div>
+<% end %>
 <div id="session-form">
+    <div id="selected-vote">
+    <%= case @vote_level do
+            1 -> svg_image("frown")
+            2 -> svg_image("neutral")
+            3 -> svg_image("happy")
+        end %>
+    </div>
     <h3 class="form-details">Any details of your experience?</h3>
-    <textarea id="input" rows="4" cols="50"></textarea><br>
+    <p>All feedback is anonymous</p>
+    <textarea id="input" rows="4" cols="50"></textarea>
     <button id="submit-form">Submit</button>
 </div>
 
