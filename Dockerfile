@@ -1,5 +1,3 @@
-# docker build --rm -t kritikos-web:latest -t kritikos-web:mvp1 --build-arg secret=`mix phx.gen.secret`,project_id=kritikos-257816 .
-# does not include migrating database
 FROM elixir:alpine
 ARG app_name=kritikos
 ENV MIX_ENV=prod TERM=xterm
