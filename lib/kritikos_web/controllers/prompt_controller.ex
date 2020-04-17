@@ -59,7 +59,6 @@ defmodule KritikosWeb.PromptController do
       do: render_feedback_form(conn, level, nil, keyword)
 
   def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
-    IO.inspect(conn.assigns)
     {int_vote_level, ""} = Integer.parse(level)
 
     {:ok, vote} =

@@ -1,4 +1,5 @@
 # docker build --rm -t kritikos-web:latest -t kritikos-web:mvp1 --build-arg secret=`mix phx.gen.secret`,project_id=kritikos-257816 .
+# does not include migrating database
 FROM elixir:alpine
 ARG app_name=kritikos
 ENV MIX_ENV=prod TERM=xterm
@@ -19,7 +20,6 @@ RUN mix release ${app_name} \
     && mv /opt/release/bin/${app_name} /opt/release/bin/start_server
 
 FROM alpine:3.9
-ARG project_id
 ARG secret
 RUN apk update \
     && apk --no-cache --update add bash ca-certificates openssl-dev \
@@ -28,11 +28,10 @@ RUN apk update \
     -O /usr/local/bin/cloud_sql_proxy \
     && chmod +x /usr/local/bin/cloud_sql_proxy \
     && mkdir -p /tmp/cloudsql
-ENV PORT=8080 GCLOUD_PROJECT_ID=${project_id} REPLACE_OS_VARS=true SECRET=${secret}
+ENV PORT=8080 REPLACE_OS_VARS=true SECRET=${secret}
 EXPOSE ${PORT}
 WORKDIR /opt/app
 COPY --from=0 /opt/release .
-CMD (/usr/local/bin/cloud_sql_proxy \
-    -instances=${GCLOUD_PROJECT_ID}:us-central1:kritikos-db -dir=/tmp/cloudsql &) && \
+CMD (cloud_sql_proxy -instances=kritikos-257816:us-central1:kritikos-db -dir=/tmp/cloudsql &) && \
     ./bin/start_server eval "Kritikos.ReleaseTasks.migrate_database" && \
     ./bin/start_server start
