@@ -1,0 +1,20 @@
+<div id="dashboard-mount" v-cloak></div>
+
+<script>
+/* initial state */
+const userToken = <%= to_js_object(@socket_token) %>;
+const initialState = {
+    userRecord: <%=
+        @user_record
+        |> FormatHelpers.format_map_with_keys(
+            Map.keys(@user_record))
+        |> to_js_object()
+    %>,
+    sessions: <%=
+        @sessions
+        |> Enum.map(&format_session/1)
+        |> to_js_object()
+    %>
+}
+const voteLevels = <%= vote_data_js_object() %>
+</script>

@@ -1,0 +1,37 @@
+@import "./templates/global.css";
+@import "./phoenix.css";
+
+#live-session {
+    width: 60%;
+    margin: 0 auto;
+    max-width: 800px;
+    text-align: center;
+    font-size: 80%;
+}
+
+#question {
+    font-size: 200%;
+    padding: 10%;
+}
+
+.votes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.votes div {
+    height: 60%;
+    width: 60%;
+    max-width: 100px;
+    margin: auto;
+}
+
+.votes div svg:hover {
+    cursor: pointer;
+}
+
+#owner-banner {
+    text-align: center;
+    font-weight: bold;
+    background-color: cyan;
+}

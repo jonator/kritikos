@@ -5,12 +5,19 @@ defmodule Kritikos.MixProject do
     [
       app: :kritikos,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.10.0",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: [
+        kritikos: [
+          include_executables_for: [:unix],
+          applications: [runtime_tools: :permanent],
+          include_erts: true
+        ]
+      ]
     ]
   end
 
@@ -42,10 +49,12 @@ defmodule Kritikos.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:comeonin, ">= 4.1.2"},
-      {:guardian, "~> 1.2.1"},
-      {:bcrypt_elixir, "~> 0.12"},
+      {:bcrypt_elixir, "~> 2.0"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:phoenix_inline_svg, "~> 1.3.1"},
+      {:eqrcode, "~> 0.1.6"},
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -59,7 +68,13 @@ defmodule Kritikos.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: [
+        "ecto.drop",
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "run priv/repo/seeds.exs",
+        "test"
+      ]
     ]
   end
 end

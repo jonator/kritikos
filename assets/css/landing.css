@@ -1,0 +1,145 @@
+@import "./templates/global.css";
+@import "./portal.css";
+@import "./phoenix.css";
+
+/* HEADER */
+
+
+body {
+    height: calc(100vh - 120px);
+}
+
+main {
+    margin-top: 120px;
+}
+
+header#header {
+    position: fixed;
+    height: 120px;
+    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 99;
+}
+
+header#header .wrap {
+    padding: 35px 0 10px;
+}
+
+header#header:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    right: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.landing-action {
+    float: right;
+    align-self: center;
+}
+
+button #dashboard {
+    width: 150px;
+}
+
+button #portal {
+    width: 100px;
+}
+
+
+/* CONTENT */
+
+
+@media only screen and (max-width: 600px) {
+    #header .wrap {
+        width: 80%;
+    }
+    article section .wrap {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        padding-right: 0%;
+        padding-bottom: 10%;
+    }
+    .wrap svg {
+        height: 150px;
+        width: 80%;
+    }
+    article section .wrap .insert {
+        position: relative;
+    }
+
+    article section .wrap.reverse {
+        padding-left: 0%;
+    }
+  }
+
+.saw:after {
+    bottom: -60px;
+    content: '';
+    position: absolute;
+    border-left: transparent 60px solid;
+    border-right: transparent 60px solid;
+    z-index: 2;
+}
+
+#hero {
+    /* background-color: #edece8; */
+    background-color: aliceblue;
+
+}
+
+.row {
+    position: relative;
+}
+
+.insert {
+    position: absolute;
+}
+
+.insert.left {
+    left: 0;
+}
+
+.insert.right {
+    right: 0;
+}
+
+.insert.bottom {
+    bottom: 0;
+}
+
+svg {
+    height: 78%;
+    width: 22vw;
+}
+
+article {
+    overflow-y: hidden;
+}
+
+.wrap {
+    min-height: 280px;
+    padding: 80px 0 0 0;
+    padding-right: 25%;
+}
+
+.wrap:after {
+    left: 2%;
+    right: auto;
+    border-top: 60px aliceblue solid;
+}
+
+.wrap.reverse {
+    padding-right: 0;
+    padding-left: 25%;
+}
+.wrap.reverse:after {
+    right: 2%;
+    left: auto;
+    border-top: 60px white solid;
+}

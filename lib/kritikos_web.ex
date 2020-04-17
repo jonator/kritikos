@@ -29,8 +29,10 @@ defmodule KritikosWeb do
 
   def view do
     quote do
+      use PhoenixInlineSvg.Helpers, otp_app: :kritikos
+
       use Phoenix.View,
-        root: "lib/pong_web/templates",
+        root: "lib/kritikos_web/templates",
         namespace: KritikosWeb
 
       # Import convenience functions from controllers
@@ -39,8 +41,8 @@ defmodule KritikosWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import KritikosWeb.ErrorHelpers
       import KritikosWeb.Gettext
+      import KritikosWeb.SharedView
       alias KritikosWeb.Router.Helpers, as: Routes
     end
   end

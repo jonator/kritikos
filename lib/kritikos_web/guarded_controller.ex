@@ -17,14 +17,13 @@ defmodule KritikosWeb.GuardedController do
     end
   end
   """
-
   defmacro __using__(_opts \\ []) do
     quote do
       def action(conn, _opts) do
         apply(__MODULE__, action_name(conn), [
           conn,
           conn.params,
-          Kritikos.Auth.Guardian.Plug.current_resource(conn)
+          conn.assigns[:user]
         ])
       end
     end

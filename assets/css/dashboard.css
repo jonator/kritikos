@@ -1,0 +1,61 @@
+@import "./templates/global.css";
+@import "./phoenix.css";
+
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 30px;
+    padding-right: 30px;
+    max-width: 3400px;
+}
+.cards > * {
+    border: 1px solid #eaeaea;
+    padding: 10px;
+    justify-content: center;
+    text-align: center;
+    height: 300px;
+}
+.cards > *:hover {
+    background-color: #fdfcfc;
+}
+
+@media screen and (max-width: 3000px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 2400px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 1900px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 1450px) {
+    .cards {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+h3 div {
+    display: inline-flex;
+}

@@ -1,0 +1,8 @@
+@import "./templates/global.css";
+@import "./phoenix.css";
+
+#error-reason {
+    padding-top: 20px;
+    text-align: center;
+    /* font-size: 2em; */
+}

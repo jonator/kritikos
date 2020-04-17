@@ -1,0 +1,11 @@
+@import "./templates/global.css";
+
+article {
+    justify-content: center;
+    text-align: center;
+    padding-top: 20px;
+}
+
+#host {
+    font-weight: bold;
+}

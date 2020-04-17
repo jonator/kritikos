@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -7,6 +7,8 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :kritikos, KritikosWeb.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "ZqlOOOs/G6dbTot3SpxziwEtIkex8K+Yx+VVXM6vVSod/45HPkRj4wVHeeNGdds/",
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -18,6 +20,15 @@ config :kritikos, KritikosWeb.Endpoint,
       "development",
       "--watch-stdin",
       cd: Path.expand("../assets", __DIR__)
+    ]
+  ],
+  live_reload: [
+    # Watch static and templates for browser reloading.
+    patterns: [
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
+      ~r{lib/kritikos_web/views/.*(ex)$},
+      ~r{lib/kritikos_web/templates/.*(eex)$}
     ]
   ]
 
@@ -45,17 +56,6 @@ config :kritikos, KritikosWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
-# Watch static and templates for browser reloading.
-config :kritikos, KritikosWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
-      ~r{priv/gettext/.*(po)$},
-      ~r{lib/pong_web/views/.*(ex)$},
-      ~r{lib/pong_web/templates/.*(eex)$}
-    ]
-  ]
-
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
@@ -70,6 +70,6 @@ config :phoenix, :plug_init_mode, :runtime
 config :kritikos, Kritikos.Repo,
   username: "postgres",
   password: "postgres",
-  database: "kritikos_dev",
+  database: "kritikos_db",
   hostname: "localhost",
   pool_size: 10

@@ -1,17 +1,13 @@
 defmodule KritikosWeb.UserView do
   use KritikosWeb, :view
-  alias KritikosWeb.{UserView, FormatHelpers}
-
-  def render("show.json", %{jwt: jwt, user: user}) do
-    %{user: Map.merge(render_one(user, UserView, "user.json"), %{token: jwt})}
-  end
+  alias KritikosWeb.FormatHelpers
 
   def render("show.json", %{user: user}) do
-    %{user: render_one(user, UserView, "user.json")}
+    %{user: render_one(user, __MODULE__, "user.json")}
   end
 
-  def render("login.json", %{jwt: jwt, user: user}) do
-    %{user: Map.merge(render_one(user, UserView, "user.json"), %{token: jwt})}
+  def render("login.json", %{user: user}) do
+    %{user: render_one(user, __MODULE__, "user.json"), redirect: "/dashboard"}
   end
 
   def render("user.json", %{user: user}) do
@@ -22,6 +18,4 @@ defmodule KritikosWeb.UserView do
     |> Map.take([:id, :email])
     |> FormatHelpers.camelize()
   end
-
-  def render("error.json", %{message: msg}), do: %{error: msg}
 end

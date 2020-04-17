@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
@@ -13,6 +13,8 @@ config :logger, level: :warn
 config :kritikos, Kritikos.Repo,
   username: "postgres",
   password: "postgres",
-  database: "pong_test",
+  database: "kritikos_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :bcrypt_elixir, log_rounds: 4

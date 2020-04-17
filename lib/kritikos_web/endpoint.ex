@@ -1,6 +1,8 @@
 defmodule KritikosWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :kritikos
 
+  plug KritikosWeb.Plug.HealthCheck, path: "/status"
+
   socket "/socket", KritikosWeb.UserSocket,
     websocket: true,
     longpoll: false
@@ -33,14 +35,19 @@ defmodule KritikosWeb.Endpoint do
 
   plug Plug.MethodOverride
   plug Plug.Head
+  plug KritikosWeb.Plug.NoCache
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_pong_key",
-    signing_salt: "XMwElk3D"
+    key: "_kritikos_key",
+    signing_salt: "XMwElk3D",
+    encryption_salt: "cookie store encryption salt",
+    key_length: 64,
+    max_age: 86_400,
+    log: :debug
 
   plug KritikosWeb.Router
 end
