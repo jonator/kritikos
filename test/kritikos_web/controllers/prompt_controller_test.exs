@@ -1,5 +1,5 @@
 defmodule KritikosWeb.PromptControllerTest do
-  use KritikosWeb.ConnCase
+  use KritikosWeb.ConnCase, async: true
   alias Plug.Conn
   alias Plug.Test
   alias Kritikos.{Auth, Votes, Sessions}
