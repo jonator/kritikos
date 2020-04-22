@@ -15,6 +15,16 @@ import ChangePassword from "./modals/ChangePassword.vue";
 import CreateSessionForm from "./modals/CreateSessionForm.vue";
 import ExportSession from "./modals/ExportSession.vue";
 
+const withinModalBox = event => {
+  try {
+    // chrome
+    return event.path.find(elem => elem.id == "modal-container");
+  } catch (error) {
+    // safari
+    return event.srcElement.id != "modal-wrapper";
+  }
+};
+
 export default {
   components: { ChangePassword, CreateSessionForm, ExportSession },
   data: function() {
@@ -26,7 +36,7 @@ export default {
         JSON.stringify(this.initialModalState) !=
         JSON.stringify(this.$store.state.modalState);
 
-      if (!event || !event.path.find(elem => elem.id == "modal-container")) {
+      if (!event || !withinModalBox(event)) {
         this.$store.dispatch("DISMISS_MODAL", modalChanged);
       }
     }
