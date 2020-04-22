@@ -40,8 +40,8 @@ defmodule Kritikos.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.0"},
-      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix, "~> 1.5.0-rc.0", override: true},
+      {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
@@ -51,7 +51,7 @@ defmodule Kritikos.MixProject do
       {:comeonin, ">= 4.1.2"},
       {:bcrypt_elixir, "~> 2.0"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.1"},
       {:phoenix_inline_svg, "~> 1.3.1"},
       {:eqrcode, "~> 0.1.6"},
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false}
