@@ -5,7 +5,7 @@ defmodule KritikosWeb.UserController do
 
   plug KritikosWeb.Plug.EnsureAuthenticated, [store: :token] when action in [:update_password]
 
-  def create(conn, %{"user" => user_params}) do
+  def create(conn, %{"user" => user_params}, nil) do
     case Auth.register_user(user_params) do
       {:ok, user} ->
         conn

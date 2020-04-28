@@ -42,14 +42,19 @@ defmodule KritikosWeb.PromptController do
       }),
       do: render(conn, "redirect.json", redirect: "/" <> keyword <> "/thanks")
 
-  def submit_feedback(conn, %{"keyword" => keyword} = params) do
-    {vote_id, ""} = Integer.parse(params["vote_id"])
-
-    Votes.update_or_submit_feedback(vote_id, params["text"])
+  def submit_feedback(conn, %{"vote_id" => vote_id, "text" => text, "keyword" => keyword})
+      when is_integer(vote_id) do
+    Votes.update_or_submit_feedback(vote_id, text)
 
     update_host_dashboard_model(vote_id)
 
     render(conn, "redirect.json", redirect: "/" <> keyword <> "/thanks")
+  end
+
+  def submit_feedback(conn, %{"vote_id" => vid_string} = params) do
+    {vote_id, ""} = Integer.parse(vid_string)
+
+    submit_feedback(conn, Map.put(params, "vote_id", vote_id))
   end
 
   def submit_vote(%{assigns: %{session_owner: true}} = conn, %{
@@ -58,16 +63,14 @@ defmodule KritikosWeb.PromptController do
       }),
       do: render_feedback_form(conn, level, nil, keyword)
 
-  def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
-    {int_vote_level, ""} = Integer.parse(level)
-
+  def submit_vote(conn, %{"keyword" => keyword, "level" => level}) when is_integer(level) do
     {:ok, vote} =
       case get_session(conn, :vote) do
         %{vote_id: voted_id, keyword: ^keyword} ->
-          Votes.update_vote(voted_id, %{vote_level_id: int_vote_level})
+          Votes.update_vote(voted_id, %{vote_level_id: level})
 
         _ ->
-          Votes.submit_vote(keyword, int_vote_level)
+          Votes.submit_vote(keyword, level)
       end
 
     update_host_dashboard_model(vote.id)
@@ -75,8 +78,14 @@ defmodule KritikosWeb.PromptController do
     render_feedback_form(conn, vote.vote_level_id, vote.id, keyword)
   end
 
+  def submit_vote(conn, %{"keyword" => keyword, "level" => level}) do
+    {int_vote_level, ""} = Integer.parse(level)
+
+    submit_vote(conn, %{"keyword" => keyword, "level" => int_vote_level})
+  end
+
   def thanks(%Plug.Conn{assigns: %{already_voted: true}} = conn, %{"keyword" => kw}) do
-    conn |> render_existing_session("thanks.html", keyword: kw)
+    conn |> render("thanks.html", keyword: kw)
   end
 
   def thanks(%Plug.Conn{assigns: %{already_voted: false}} = conn, %{"keyword" => kw}) do

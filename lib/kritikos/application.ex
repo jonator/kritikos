@@ -4,6 +4,7 @@ defmodule Kritikos.Application do
   def start(_type, _args) do
     children = [
       Kritikos.Repo,
+      {Phoenix.PubSub, name: Kritikos.PubSub},
       KritikosWeb.Endpoint
     ]
 

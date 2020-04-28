@@ -16,6 +16,7 @@
         v-model="confirmNewPassword"
       />
       <button type="submit">submit</button>
+      <button type="cancel" @click.prevent="handleCancel">cancel</button>
     </form>
   </div>
 </template>
@@ -35,6 +36,9 @@ export default {
           duration: 5000
         });
       });
+    },
+    handleCancel: function() {
+      this.$store.dispatch("DISMISS_MODAL", false);
     }
   }
 };

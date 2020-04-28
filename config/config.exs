@@ -13,7 +13,7 @@ config :kritikos,
 # Configures the endpoint
 config :kritikos, KritikosWeb.Endpoint,
   render_errors: [view: KritikosWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Kritikos.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: Kritikos.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,

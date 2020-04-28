@@ -6,8 +6,8 @@ defmodule KritikosWeb.Plug.NoCache do
 
   def call(conn, _) do
     conn
-    |> Conn.put_resp_header("Cache-Control", "no-cache, no-store, must-revalidate")
-    |> Conn.put_resp_header("Pragma", "no-cache")
-    |> Conn.put_resp_header("Expires", "0")
+    |> Conn.put_resp_header("cache-control", "no-cache, no-store, must-revalidate")
+    |> Conn.put_resp_header("pragma", "no-cache")
+    |> Conn.put_resp_header("expires", "0")
   end
 end
