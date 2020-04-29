@@ -1,5 +1,4 @@
 defmodule KritikosWeb.SharedView do
-  @pretty_print Mix.env() == :dev
   def pretty_print_date_time(date_time) do
     year =
       if DateTime.utc_now().year == date_time.year do
@@ -33,7 +32,7 @@ defmodule KritikosWeb.SharedView do
   end
 
   def to_js_object(data) do
-    {:ok, json} = Jason.encode(data, escape: :javascript_safe, pretty: @pretty_print)
+    {:ok, json} = Jason.encode(data, escape: :javascript_safe, pretty: Mix.env() == :dev)
 
     {:safe, json}
   end

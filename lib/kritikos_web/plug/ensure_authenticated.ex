@@ -1,6 +1,5 @@
 defmodule KritikosWeb.Plug.EnsureAuthenticated do
   @behaviour Plug
-  @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   import Plug.Conn
   alias Kritikos.{Auth, Auth.User}
 
@@ -28,7 +27,7 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
             invalid_token_resp(conn)
 
           token ->
-            case Phoenix.Token.verify(KritikosWeb.Endpoint, @token_salt, token, max_age: 86_400) do
+            case Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt(), token, max_age: 86_400) do
               {:ok, user_id} ->
                 case Auth.get_active_user(user_id) do
                   %User{} = user ->
@@ -61,4 +60,6 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
     |> Phoenix.Controller.render("redirect.json", %{message: msg, redirect: "/portal"})
     |> halt
   end
+
+  defp token_salt, do: Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
 end
