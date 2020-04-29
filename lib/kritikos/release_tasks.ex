@@ -2,6 +2,7 @@ defmodule Kritikos.ReleaseTasks do
   @app :kritikos
   alias Kritikos.Repo
   alias Kritikos.Votes.VoteLevel
+  require Logger
 
   def migrate_database do
     for repo <- repos() do
@@ -14,11 +15,16 @@ defmodule Kritikos.ReleaseTasks do
   end
 
   def seeds_up(_) do
-    seeds_down(nil)
-    Repo.query("CREATE TABLE IF NOT EXISTS vote_levels")
-    Repo.insert!(%VoteLevel{description: "frown"})
-    Repo.insert!(%VoteLevel{description: "neutral"})
-    Repo.insert!(%VoteLevel{description: "happy"})
+    if seeds_down(nil) do
+      try do
+        Repo.query("CREATE TABLE IF NOT EXISTS vote_levels")
+        Repo.insert!(%VoteLevel{description: "frown"})
+        Repo.insert!(%VoteLevel{description: "neutral"})
+        Repo.insert!(%VoteLevel{description: "happy"})
+      rescue
+        _ -> Logger.warn("Seeds already up")
+      end
+    end
   end
 
   def reset_database do
@@ -34,12 +40,19 @@ defmodule Kritikos.ReleaseTasks do
   end
 
   def seeds_down(_) do
-    Repo.delete_all(VoteLevel)
-    Repo.query("ALTER SEQUENCE vote_levels_id_seq RESTART")
-  end
-
-  def rollback_database(repo, version) do
-    {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
+    if length(Repo.all(VoteLevel)) != 3 do
+      try do
+        Repo.delete_all(VoteLevel)
+        Repo.query("ALTER SEQUENCE vote_levels_id_seq RESTART")
+        true
+      rescue
+        _ ->
+          Logger.warn("Seeds shouldn't be dropped")
+          false
+      end
+    else
+      false
+    end
   end
 
   defp repos do
