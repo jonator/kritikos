@@ -3,6 +3,7 @@ defmodule Kritikos.Sessions do
   Contains API for accessing sessions data.
   """
   require DateTime
+  require Logger
   alias Kritikos.Repo
   alias __MODULE__.{Session, Queries}
 
@@ -47,10 +48,10 @@ defmodule Kritikos.Sessions do
           port
       end
 
-    IO.inspect(port_string)
-
     host = Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:host]
-    Kritikos.Exporter.qr_code_png_binary(host <> ":" <> port_string <> "/" <> keyword)
+    export_string = host <> ":" <> port_string <> "/" <> keyword
+    Logger.info("Exporting QR Code: #{export_string}")
+    Kritikos.Exporter.qr_code_png_binary(export_string)
   end
 
   def get_open(keyword, opts \\ [])
