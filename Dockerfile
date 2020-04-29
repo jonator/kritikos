@@ -1,6 +1,6 @@
 FROM elixir:alpine
 ARG app_name=kritikos
-ENV MIX_ENV=prod TERM=xterm
+ENV MIX_ENV=prod TERM=xterm PORT=8080
 WORKDIR /opt/app
 RUN apk update \
     && apk --no-cache --update add nodejs nodejs-npm build-base \
