@@ -5,7 +5,7 @@
 <article id="session-form">
     <section>
     <%= svg_image("forming_ideas", class: "forming-ideas") %>
-    <h1>Thanks for the feedback!</h1><br/>
+    <h3>Thanks for the feedback!</h3><br/>
     <a href="/">What is Kritikos?</a>
     </section>
 </article>
