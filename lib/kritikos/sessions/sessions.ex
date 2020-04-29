@@ -39,10 +39,18 @@ defmodule Kritikos.Sessions do
 
   def export_qr_code(keyword) do
     port_string =
-      Integer.to_string(Application.get_env(:kritikos, KritikosWeb.Endpoint)[:http][:port])
+      case Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:port] do
+        port when is_integer(port) ->
+          Integer.to_string(port)
 
-    host = Application.get_env(:kritikos, KritikosWeb.Endpoint)[:url][:host]
-    Kritikos.Exporter.qr_code_png_binary(host <> ":" <> port_string <> keyword)
+        port ->
+          port
+      end
+
+    IO.inspect(port_string)
+
+    host = Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:host]
+    Kritikos.Exporter.qr_code_png_binary(host <> ":" <> port_string <> "/" <> keyword)
   end
 
   def get_open(keyword, opts \\ [])
