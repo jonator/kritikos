@@ -2,8 +2,6 @@ defmodule KritikosWeb.UserSocket do
   use Phoenix.Socket, log: :debug
   alias Kritikos.Auth
 
-  @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
-
   ## Channels
   channel "dashboard:*", KritikosWeb.DashboardChannel
 
@@ -19,7 +17,7 @@ defmodule KritikosWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(%{"token" => token}, socket, _connect_info) do
-    case Phoenix.Token.verify(KritikosWeb.Endpoint, @token_salt, token, max_age: 86_400) do
+    case Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt(), token, max_age: 86_400) do
       {:ok, user_id} ->
         socket = assign(socket, :user, Auth.get_user(user_id))
         {:ok, socket}
@@ -40,4 +38,6 @@ defmodule KritikosWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   def id(socket), do: "user_socket:#{socket.assigns.user.id}"
+
+  defp token_salt, do: Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
 end

@@ -2,17 +2,16 @@ defmodule Kritikos.Auth do
   @moduledoc """
   The Auth context.
   """
-  @token_salt Application.get_env(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   alias Kritikos.Repo
   alias Kritikos.Helpers
   alias __MODULE__.{User, Queries}
 
   def sign_user_token(user_id) do
-    Phoenix.Token.sign(KritikosWeb.Endpoint, @token_salt, user_id)
+    Phoenix.Token.sign(KritikosWeb.Endpoint, token_salt(), user_id)
   end
 
   def user_from_token(token) do
-    case Phoenix.Token.verify(KritikosWeb.Endpoint, @token_salt, token, max_age: 86_400) do
+    case Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt(), token, max_age: 86_400) do
       {:ok, user_id} ->
         {:ok, get_user(user_id)}
 
@@ -53,5 +52,9 @@ defmodule Kritikos.Auth do
   defp check_password(email, plain_text_password) do
     Repo.get_by(User, email: email)
     |> Bcrypt.check_pass(plain_text_password)
+  end
+
+  defp token_salt do
+    Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:secret_key_base]
   end
 end

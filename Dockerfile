@@ -1,5 +1,3 @@
-# docker build --rm -t kritikos-web:latest -t kritikos-web:mvp1 --build-arg secret=`mix phx.gen.secret`,project_id=kritikos-257816 .
-# does not include migrating database
 FROM elixir:alpine
 ARG app_name=kritikos
 ENV MIX_ENV=prod TERM=xterm
@@ -31,6 +29,8 @@ RUN apk update \
 ENV PORT=8080 REPLACE_OS_VARS=true SECRET=${secret}
 EXPOSE ${PORT}
 WORKDIR /opt/app
+COPY rel/kritikos-257816-0a56ad203b89.json .
+ENV GOOGLE_APPLICATION_CREDENTIALS=/opt/app/kritikos-257816-0a56ad203b89.json
 COPY --from=0 /opt/release .
 CMD (cloud_sql_proxy -instances=kritikos-257816:us-central1:kritikos-db -dir=/tmp/cloudsql &) && \
     ./bin/start_server eval "Kritikos.ReleaseTasks.migrate_database" && \
