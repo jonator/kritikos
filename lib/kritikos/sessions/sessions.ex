@@ -39,17 +39,9 @@ defmodule Kritikos.Sessions do
   end
 
   def export_qr_code(keyword) do
-    port_string =
-      case Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:port] do
-        port when is_integer(port) ->
-          Integer.to_string(port)
-
-        port ->
-          port
-      end
-
     host = Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:host]
-    export_string = host <> ":" <> port_string <> "/" <> keyword
+    export_string = "https://" <> host <> "/" <> keyword
+
     Logger.info("Exporting QR Code: #{export_string}")
     Kritikos.Exporter.qr_code_png_binary(export_string)
   end
