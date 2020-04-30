@@ -5,10 +5,12 @@
       <col width="180" />
       <col width="10" />
       <tr>
-        <td>Name</td>
-        <td></td>
+        <td>Session Name</td>
         <td>
-          <input type="text" placeholder="Work emails" v-model="name" />
+          <HelperTooltip>Only visible to you.</HelperTooltip>
+        </td>
+        <td>
+          <input type="text" placeholder="i.e. Dining room" v-model="name" />
         </td>
       </tr>
       <tr>
@@ -17,11 +19,7 @@
           <HelperTooltip>Will be in the URL that your audience will use to provide feedback. It must be unique and short, with only letters, numbers, and underscores/hyphens.</HelperTooltip>
         </td>
         <td>
-          <input
-            type="text"
-            placeholder="w_emails2019 (must be unique and short)"
-            v-model="keyword"
-          />
+          <input type="text" placeholder="i.e. dining_room2020" v-model="keyword" />
         </td>
       </tr>
       <tr>

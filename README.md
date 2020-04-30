@@ -2,12 +2,41 @@
 
 Web server for the Kritikos app.
 
-## Setup
+## Dev Setup
 
 1. Run postgres container on port 5432
 
-2. Setup DB: `mix ecto.setup`
+    `docker run -it --name kritikos_pg_dev -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:alpine`
 
-3. Setup client: `cd assets && npm install`
+2. Clone repo, Setup DB & run migrations
 
-3. Run `iex -S mix phx.server` to start server supervised by iex, or `mix phx.server` to start server independently
+    `mix ecto.setup`
+
+3. Setup client assets (js, svg, css, etc.)
+
+    `cd assets && npm install`
+
+3. Install elixir (on mac)
+
+    `brew install elixir`
+    
+4. Start server
+
+    `iex -S mix phx.server` to start server under interactive elixir, or `mix phx.server` to start server independently
+
+
+## Deployment
+
+1. Get the following secrets, put into `./rel/`
+
+    i. Google Auth Cloud SQL Service Account JSON artifact
+
+2. Build container (replace version)
+
+    ```docker build --rm -t jator/kritikos:latest -t jator/kritikos:release-<version> --build-arg secret=`mix phx.gen.secret` .```
+
+3. Push to registry (replace version)
+
+    `docker push jator/kritikos:release-<version>`
+
+4. SSH into root@kritikos.app droplet, update `docker-compose.yaml` to reflect newer web image version on registry, run `docker-compose up -d`
