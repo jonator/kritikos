@@ -30,7 +30,8 @@ config :kritikos, KritikosWeb.Endpoint,
       ~r{lib/kritikos_web/views/.*(ex)$},
       ~r{lib/kritikos_web/templates/.*(eex)$}
     ]
-  ]
+  ],
+  live_view: [signing_salt: "SECRET_SALT"]
 
 # ## SSL Support
 #

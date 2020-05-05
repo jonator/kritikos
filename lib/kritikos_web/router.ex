@@ -1,5 +1,6 @@
 defmodule KritikosWeb.Router do
   use KritikosWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,6 +14,16 @@ defmodule KritikosWeb.Router do
     plug :accepts, ["json"]
     plug :fetch_session
     plug :put_secure_browser_headers
+  end
+
+  pipeline :admin do
+    plug KritikosWeb.Plug.AdminOnly, email: "jonathanator0@gmail.com"
+  end
+
+  scope "/admin" do
+    pipe_through [:browser, :admin]
+
+    live_dashboard "/dashboard"
   end
 
   scope "/", KritikosWeb do
