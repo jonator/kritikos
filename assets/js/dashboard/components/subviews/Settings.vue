@@ -1,5 +1,5 @@
 <template>
-  <div id="my-profile-container" class="cards">
+  <div id="settings-container" class="cards">
     <div id="user-info">
       About me
       <table>
