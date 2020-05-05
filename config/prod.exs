@@ -19,6 +19,7 @@ config :kritikos, KritikosWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   check_origin: false
+  check_origin: ["//kritikos.app"]
 
 # Do not print debug messages in production
 config :logger, level: :info
