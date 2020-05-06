@@ -1,29 +1,6 @@
 <template>
   <div id="sessions-container">
-    <div id="filters-container">
-      <button @click="showFilters = !showFilters" id="filters-button">
-        <span>Filters</span>
-        <i v-if="showFilters" class="gg-chevron-up" />
-        <i v-else class="gg-chevron-down" />
-      </button>
-      <div v-if="showFilters" id="filters-wrapper">
-        <div id="filter-tags">
-          <div id="filter-label">
-            <span>Include tags on session</span>
-          </div>
-          <VueTagsInput
-            v-model="filterTag"
-            :tags="$store.state.sessionsFilters.filterTags"
-            :allow-edit-tags="true"
-            :maxlength="15"
-            :add-on-key="[13, ' ']"
-            :autocomplete-items="tagsAutoComplete"
-            :add-only-from-autocomplete="true"
-            @tags-changed="tagsChanged"
-          />
-        </div>
-      </div>
-    </div>
+    <TagsFilters />
     <div id="session-cards">
       <h3>
         Open sessions
@@ -50,54 +27,21 @@ import SessionCard from "./SessionCard.vue";
 import CreateSessionCard from "./CreateSessionCard.vue";
 import HelperTooltip from "../HelperTooltip.vue";
 import VueTagsInput from "@johmun/vue-tags-input";
+import TagsFilters from "./TagsFilters.vue";
 
 export default {
-  components: { SessionCard, CreateSessionCard, HelperTooltip, VueTagsInput },
-  data: function() {
-    return {
-      showFilters: false,
-      filterTag: ""
-    };
+  components: {
+    SessionCard,
+    CreateSessionCard,
+    HelperTooltip,
+    TagsFilters
   },
   computed: {
-    filteredSessions: function() {
-      const sessions = this.$store.state.sessions;
-      const filterTagsText = this.$store.state.sessionsFilters.filterTags.map(
-        ft => ft.text
-      );
-      if (filterTagsText.length == 0) return sessions;
-      return sessions.filter(s => {
-        const sessionTagsText = s.tags.map(st => st.text);
-        var hasAllTags = true;
-        filterTagsText.forEach(filterTag => {
-          if (!sessionTagsText.includes(filterTag)) {
-            hasAllTags = false;
-          }
-        });
-        return hasAllTags;
-      });
-    },
-    tagsAutoComplete: function() {
-      const sessions = this.$store.state.sessions;
-      return Array.from(
-        sessions.reduce((set, session) => {
-          session.tags.forEach(tag => set.add(tag.text));
-          return set;
-        }, new Set())
-      ).map((tag, i) => {
-        return { id: i, text: tag };
-      });
-    },
     openSessions: function() {
-      return this.filteredSessions.filter(s => !s.isEnded);
+      return this.$store.getters.filteredSessions.filter(s => !s.isEnded);
     },
     closedSessions: function() {
-      return this.filteredSessions.filter(s => s.isEnded);
-    }
-  },
-  methods: {
-    tagsChanged: function(newTags) {
-      this.$store.dispatch("UPDATE_SESSIONS_FILTER", { filterTags: newTags });
+      return this.$store.getters.filteredSessions.filter(s => s.isEnded);
     }
   }
 };
@@ -108,37 +52,11 @@ export default {
   overflow-y: auto;
   height: calc(100vh - 120px - 1px);
 }
-#filters-container {
-  margin-bottom: 30px;
-}
-#filters-wrapper {
-  max-width: 600px;
-  padding: 30px;
-}
-#filter-tags {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-}
-#filter-tags span {
-  margin: auto;
-}
 .cards {
   padding-bottom: 30px;
 }
 #session-cards {
   padding-bottom: 300px;
-}
-#filters-button {
-  display: inline-flex;
-  background-color: transparent;
-  color: black;
-}
-#filters-button:hover {
-  background-color: lightblue;
-}
-#filters-button i {
-  margin: auto;
-  margin-left: 5px;
 }
 
 /* chevron-down */

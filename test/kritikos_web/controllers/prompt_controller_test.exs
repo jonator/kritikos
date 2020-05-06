@@ -54,7 +54,7 @@ defmodule KritikosWeb.PromptControllerTest do
         |> Test.init_test_session(%{vote: "this is the vote we gave, would be struct"})
         |> get("/" <> keyword <> "/thanks")
 
-      assert html_response(conn, 200) =~ "<h1>Thanks for the feedback!</h1><br/>"
+      assert html_response(conn, 200) =~ "<h3>Thanks for the feedback!</h3><br/>"
     end
   end
 
@@ -98,7 +98,7 @@ defmodule KritikosWeb.PromptControllerTest do
         |> get("/" <> keyword <> "/thanks")
 
       # should not be affected by close
-      assert html_response(conn, 200) =~ "<h1>Thanks for the feedback!</h1><br/>"
+      assert html_response(conn, 200) =~ "<h3>Thanks for the feedback!</h3><br/>"
     end
   end
 

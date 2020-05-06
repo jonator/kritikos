@@ -1,6 +1,7 @@
 <template>
   <div id="sessions-overview-container">
     <h2>Data from all sessions</h2>
+    <tags-filters />
     <div id="sessions-overview-wrapper">
       <VotesBarchart :votes="votes" />
       <Feedback :votes="votes" />
@@ -11,12 +12,13 @@
 <script>
 import VotesBarchart from "../charts/VotesBarchart.vue";
 import Feedback from "../subviews/Feedback.vue";
+import TagsFilters from "./TagsFilters.vue";
 
 export default {
-  components: { VotesBarchart, Feedback },
+  components: { VotesBarchart, Feedback, TagsFilters },
   computed: {
     votes: function() {
-      return this.$store.state.sessions.reduce(
+      return this.$store.getters.filteredSessions.reduce(
         (acc, s) => acc.concat(s.votes),
         []
       );
