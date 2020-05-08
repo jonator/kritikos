@@ -5,8 +5,11 @@ export default {
     filtersAreSet: state => {
         return state.sessionsFilters.filterTags.length > 0
     },
-    filteredSessions: state => {
-        const sessions = state.sessions;
+    sessions: state => {
+        return state.sessions.sort((leftS, rightS) => rightS.id - leftS.id) // descending
+    },
+    filteredSessions: (state, getters) => {
+        const sessions = getters.sessions;
         const filterTagsText = state.sessionsFilters.filterTags.map(
             ft => ft.text
         );
