@@ -2,7 +2,7 @@ import utils from "./utils";
 
 export default {
     addErrors: (state, errors) => {
-        console.error("MUTATION ERROR", errors);
+        console.error("ERROR", errors);
         if (errors) state.errors = errors
         else state.errors = ["There was a problem performing that action"]
     },

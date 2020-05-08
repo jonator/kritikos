@@ -6,17 +6,31 @@
         Open sessions
         <helper-tooltip>Your audience can access sessions that are open through the link. This link provides a simple feedback form that your audience can use to provide anonymous feedback.</helper-tooltip>
       </h3>
-      <div id="open-session-container" class="cards">
-        <CreateSessionCard />
-        <SessionCard v-for="session in openSessions" :key="session.id" :sessionId="session.id" />
-      </div>
+      <transition-group tag="div" name="list" id="open-session-container" class="cards">
+        <CreateSessionCard v-bind:key="0" />
+        <SessionCard
+          v-for="session in openSessions"
+          v-bind:key="session.id"
+          :sessionId="session.id"
+        />
+      </transition-group>
       <h3>
         Closed sessions
         <helper-tooltip>Closed sessions no longer provide a feedback form at the session link, and only hold data that was collected while it was open.</helper-tooltip>
       </h3>
-      <div v-if="closedSessions.length > 0" id="closed-session-container" class="cards">
-        <SessionCard v-for="session in closedSessions" :key="session.id" :sessionId="session.id" />
-      </div>
+      <transition-group
+        tag="div"
+        name="list"
+        v-if="closedSessions.length > 0"
+        id="closed-session-container"
+        class="cards"
+      >
+        <SessionCard
+          v-for="session in closedSessions"
+          v-bind:key="session.id"
+          :sessionId="session.id"
+        />
+      </transition-group>
       <span v-else>Sessions that are closed will go here, you have none.</span>
     </div>
   </div>
@@ -107,5 +121,51 @@ export default {
   transform: rotate(-45deg);
   left: 4px;
   bottom: 2px;
+}
+
+/* insert animation */
+.list-enter-active,
+.list-leave-active,
+.list-move {
+  transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+  transition-property: opacity, transform;
+}
+
+.list-enter {
+  opacity: 0;
+  transform: translateX(50px) scaleY(0.5);
+}
+
+.list-enter-to {
+  opacity: 1;
+  transform: translateX(0) scaleY(1);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: center top;
+}
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-enter {
+  background-color: lightgreen;
+}
+.list-leave-to {
+  background-color: lightsalmon;
 }
 </style>
