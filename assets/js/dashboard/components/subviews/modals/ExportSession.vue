@@ -15,7 +15,7 @@
             >Most modern smartphones have QR code scanning built into camera app</HelperTooltip>
           </div>
         </td>
-        <td>
+        <td id="download-button-container">
           <button
             v-on:click="$store.dispatch('EXPORT_SESSION', $store.state.modalState.keyword)"
           >download</button>
@@ -70,9 +70,13 @@ export default {
 </script>
 
 <style scoped>
+#download-button-container {
+  display: grid;
+  justify-content: right;
+}
 #embed-iframe-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 #code-wrapper {
   margin-top: auto;
