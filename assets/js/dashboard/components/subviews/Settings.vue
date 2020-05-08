@@ -49,6 +49,14 @@
         </tr>
       </table>
     </div>
+    <div v-if="$store.state.userRecord.isAdmin" id="admin">
+      Admin
+      <table>
+        <tr>
+          <a href="/admin/dashboard" target="_blank">Phoenix dashboard</a>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
