@@ -14,7 +14,7 @@
           </div>
         </td>
         <td id="public-link-cell">
-          <a v-bind:href="session.link">{{ session.link }}</a>
+          <a v-bind:href="session.link" target="_blank">{{ session.link }}</a>
           <div id="session-actions" v-if="!sessionIsEnded">
             <button class="warning" v-on:click="endSession">close</button>
             <button

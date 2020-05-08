@@ -6,6 +6,6 @@
     <section>
     <%= svg_image("forming_ideas", class: "forming-ideas") %>
     <h3>Thanks for the feedback!</h3><br/>
-    <a href="/">What is Kritikos?</a>
+    <a href="/" target="_blank">What is Kritikos?</a>
     </section>
 </article>

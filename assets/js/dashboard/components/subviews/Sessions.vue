@@ -1,45 +1,36 @@
 <template>
   <div id="sessions-container">
-    <div id="filters-container">
-      <button @click="showFilters = !showFilters" id="filters-button">
-        <span>Filters</span>
-        <i v-if="showFilters" class="gg-chevron-up" />
-        <i v-else class="gg-chevron-down" />
-      </button>
-      <div v-if="showFilters" id="filters-wrapper">
-        <div id="filter-tags">
-          <div id="filter-label">
-            <span>Include tags on session</span>
-          </div>
-          <VueTagsInput
-            v-model="filterTag"
-            :tags="$store.state.sessionsFilters.filterTags"
-            :allow-edit-tags="true"
-            :maxlength="15"
-            :add-on-key="[13, ' ']"
-            :autocomplete-items="tagsAutoComplete"
-            :add-only-from-autocomplete="true"
-            @tags-changed="tagsChanged"
-          />
-        </div>
-      </div>
-    </div>
+    <TagsFilters />
     <div id="session-cards">
       <h3>
         Open sessions
         <helper-tooltip>Your audience can access sessions that are open through the link. This link provides a simple feedback form that your audience can use to provide anonymous feedback.</helper-tooltip>
       </h3>
-      <div id="open-session-container" class="cards">
-        <CreateSessionCard />
-        <SessionCard v-for="session in openSessions" :key="session.id" :sessionId="session.id" />
-      </div>
+      <transition-group tag="div" name="list" id="open-session-container" class="cards">
+        <CreateSessionCard v-bind:key="0" />
+        <SessionCard
+          v-for="session in openSessions"
+          v-bind:key="session.id"
+          :sessionId="session.id"
+        />
+      </transition-group>
       <h3>
         Closed sessions
         <helper-tooltip>Closed sessions no longer provide a feedback form at the session link, and only hold data that was collected while it was open.</helper-tooltip>
       </h3>
-      <div v-if="closedSessions.length > 0" id="closed-session-container" class="cards">
-        <SessionCard v-for="session in closedSessions" :key="session.id" :sessionId="session.id" />
-      </div>
+      <transition-group
+        tag="div"
+        name="list"
+        v-if="closedSessions.length > 0"
+        id="closed-session-container"
+        class="cards"
+      >
+        <SessionCard
+          v-for="session in closedSessions"
+          v-bind:key="session.id"
+          :sessionId="session.id"
+        />
+      </transition-group>
       <span v-else>Sessions that are closed will go here, you have none.</span>
     </div>
   </div>
@@ -50,54 +41,21 @@ import SessionCard from "./SessionCard.vue";
 import CreateSessionCard from "./CreateSessionCard.vue";
 import HelperTooltip from "../HelperTooltip.vue";
 import VueTagsInput from "@johmun/vue-tags-input";
+import TagsFilters from "./TagsFilters.vue";
 
 export default {
-  components: { SessionCard, CreateSessionCard, HelperTooltip, VueTagsInput },
-  data: function() {
-    return {
-      showFilters: false,
-      filterTag: ""
-    };
+  components: {
+    SessionCard,
+    CreateSessionCard,
+    HelperTooltip,
+    TagsFilters
   },
   computed: {
-    filteredSessions: function() {
-      const sessions = this.$store.state.sessions;
-      const filterTagsText = this.$store.state.sessionsFilters.filterTags.map(
-        ft => ft.text
-      );
-      if (filterTagsText.length == 0) return sessions;
-      return sessions.filter(s => {
-        const sessionTagsText = s.tags.map(st => st.text);
-        var hasAllTags = true;
-        filterTagsText.forEach(filterTag => {
-          if (!sessionTagsText.includes(filterTag)) {
-            hasAllTags = false;
-          }
-        });
-        return hasAllTags;
-      });
-    },
-    tagsAutoComplete: function() {
-      const sessions = this.$store.state.sessions;
-      return Array.from(
-        sessions.reduce((set, session) => {
-          session.tags.forEach(tag => set.add(tag.text));
-          return set;
-        }, new Set())
-      ).map((tag, i) => {
-        return { id: i, text: tag };
-      });
-    },
     openSessions: function() {
-      return this.filteredSessions.filter(s => !s.isEnded);
+      return this.$store.getters.filteredSessions.filter(s => !s.isEnded);
     },
     closedSessions: function() {
-      return this.filteredSessions.filter(s => s.isEnded);
-    }
-  },
-  methods: {
-    tagsChanged: function(newTags) {
-      this.$store.dispatch("UPDATE_SESSIONS_FILTER", { filterTags: newTags });
+      return this.$store.getters.filteredSessions.filter(s => s.isEnded);
     }
   }
 };
@@ -108,37 +66,11 @@ export default {
   overflow-y: auto;
   height: calc(100vh - 120px - 1px);
 }
-#filters-container {
-  margin-bottom: 30px;
-}
-#filters-wrapper {
-  max-width: 600px;
-  padding: 30px;
-}
-#filter-tags {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-}
-#filter-tags span {
-  margin: auto;
-}
 .cards {
   padding-bottom: 30px;
 }
 #session-cards {
   padding-bottom: 300px;
-}
-#filters-button {
-  display: inline-flex;
-  background-color: transparent;
-  color: black;
-}
-#filters-button:hover {
-  background-color: lightblue;
-}
-#filters-button i {
-  margin: auto;
-  margin-left: 5px;
 }
 
 /* chevron-down */
@@ -189,5 +121,51 @@ export default {
   transform: rotate(-45deg);
   left: 4px;
   bottom: 2px;
+}
+
+/* insert animation */
+.list-enter-active,
+.list-leave-active,
+.list-move {
+  transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+  transition-property: opacity, transform;
+}
+
+.list-enter {
+  opacity: 0;
+  transform: translateX(50px) scaleY(0.5);
+}
+
+.list-enter-to {
+  opacity: 1;
+  transform: translateX(0) scaleY(1);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: center top;
+}
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-enter {
+  background-color: lightgreen;
+}
+.list-leave-to {
+  background-color: lightsalmon;
 }
 </style>

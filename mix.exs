@@ -40,7 +40,7 @@ defmodule Kritikos.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.0-rc.0", override: true},
+      {:phoenix, "~> 1.5.1"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.0"},
@@ -54,7 +54,8 @@ defmodule Kritikos.MixProject do
       {:plug_cowboy, "~> 2.1"},
       {:phoenix_inline_svg, "~> 1.3.1"},
       {:eqrcode, "~> 0.1.6"},
-      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
+      {:phoenix_live_dashboard, "~> 0.1"}
     ]
   end
 

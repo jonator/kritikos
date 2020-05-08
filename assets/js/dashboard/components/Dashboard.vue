@@ -27,7 +27,7 @@
           </div>
           <router-link class="sidebar-item" tag="div" to="/sessions">Sessions</router-link>
           <router-link class="sidebar-item" tag="div" to="/sessions-overview">Sessions overview</router-link>
-          <router-link class="sidebar-item" tag="div" to="/my-profile">My profile</router-link>
+          <router-link class="sidebar-item" tag="div" to="/settings">Settings</router-link>
           <div class="sidebar-item" v-if="isMobile" v-on:click="logout">Log out</div>
         </div>
       </div>

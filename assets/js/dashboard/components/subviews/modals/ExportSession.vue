@@ -15,7 +15,7 @@
             >Most modern smartphones have QR code scanning built into camera app</HelperTooltip>
           </div>
         </td>
-        <td>
+        <td id="download-button-container">
           <button
             v-on:click="$store.dispatch('EXPORT_SESSION', $store.state.modalState.keyword)"
           >download</button>
@@ -59,19 +59,24 @@ export default {
     };
   },
   methods: {
-    copyIFrameHtmlToClipboard: url => {
+    copyIFrameHtmlToClipboard: function(url) {
       const htmlIFrame =
         '<iframe src="' + url + '" height="300" width="550" />';
       utils.copyToClipboard(htmlIFrame);
+      this.$toasted.success("📝 Copied!", { duration: 5000 });
     }
   }
 };
 </script>
 
 <style scoped>
+#download-button-container {
+  display: grid;
+  justify-content: right;
+}
 #embed-iframe-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 #code-wrapper {
   margin-top: auto;

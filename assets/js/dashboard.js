@@ -5,7 +5,7 @@ import VueRouter from "vue-router";
 import VueToasted from "vue-toasted";
 import store from "./dashboard/store";
 import Dashboard from "./dashboard/components/Dashboard.vue";
-import MyProfile from "./dashboard/components/subviews/MyProfile.vue";
+import Settings from "./dashboard/components/subviews/Settings.vue";
 import Sessions from "./dashboard/components/subviews/Sessions.vue";
 import Session from "./dashboard/components/subviews/Session.vue";
 import SessionsOverview from "./dashboard/components/subviews/SessionsOverview.vue";
@@ -29,7 +29,7 @@ Vue.toasted.register('api_error',
 )
 
 const routes = [
-    { id: 0, path: "/my-profile", component: MyProfile },
+    { id: 0, path: "/settings", component: Settings },
     { id: 1, path: "/sessions", component: Sessions },
     { id: 2, path: "/sessions/:keyword", component: Session },
     { id: 3, path: "/sessions-overview", component: SessionsOverview },

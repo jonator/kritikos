@@ -3,6 +3,8 @@ defmodule KritikosWeb.Endpoint do
 
   plug KritikosWeb.Plug.HealthCheck, path: "/status"
 
+  socket "/live", Phoenix.LiveView.Socket
+
   socket "/socket", KritikosWeb.UserSocket,
     websocket: true,
     longpoll: false
@@ -24,6 +26,10 @@ defmodule KritikosWeb.Endpoint do
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end
+
+  plug Phoenix.LiveDashboard.RequestLogger,
+    param_key: "request_logger",
+    cookie_key: "request_logger"
 
   plug Plug.RequestId
   plug Plug.Logger
