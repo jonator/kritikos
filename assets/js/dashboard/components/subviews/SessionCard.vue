@@ -10,7 +10,7 @@
         </td>
       </tr>
     </table>
-    <a v-bind:href="session.link">{{ session.link }}</a>
+    <a v-bind:href="session.link" target="_blank">{{ session.link }}</a>
     <span v-if="session.votes != null">Vote count: {{ session.votes.length }}</span>
     <span v-else>Keyword: {{ session.keyword }}</span>
     <div id="button-wrapper">

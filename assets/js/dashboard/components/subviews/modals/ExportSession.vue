@@ -59,10 +59,11 @@ export default {
     };
   },
   methods: {
-    copyIFrameHtmlToClipboard: url => {
+    copyIFrameHtmlToClipboard: function(url) {
       const htmlIFrame =
         '<iframe src="' + url + '" height="300" width="550" />';
       utils.copyToClipboard(htmlIFrame);
+      this.$toasted.success("📝 Copied!", { duration: 5000 });
     }
   }
 };
