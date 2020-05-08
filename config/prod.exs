@@ -18,7 +18,7 @@ config :kritikos, KritikosWeb.Endpoint,
   url: [host: "kritikos.app", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
-  check_origin: false
+  check_origin: false,
   check_origin: ["//kritikos.app"]
 
 # Do not print debug messages in production
