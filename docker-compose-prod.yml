@@ -2,7 +2,7 @@
 version: '3'
 services:
     web:
-        image: jator/kritikos:release-v0.1-alpha
+        image: jator/kritikos:release-v0.1.8
     nginx:
         image: nginx:1.17-alpine
         ports:
