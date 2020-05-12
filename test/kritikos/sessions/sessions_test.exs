@@ -59,6 +59,12 @@ defmodule Kritikos.SessionsTest do
       assert cs = %Ecto.Changeset{valid?: false}
     end
 
+    test "deleting session", %{session: s} do
+      {:ok, deleted_session} = Sessions.delete(s.id)
+
+      assert deleted_session.is_active == false
+    end
+
     test "ending a session", %{session: s} do
       {end_session_status, updated_session} = Sessions.stop(s.keyword)
 
