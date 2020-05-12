@@ -38,6 +38,33 @@ defmodule Kritikos.Sessions do
     end
   end
 
+  def delete(session_id) when is_integer(session_id) do
+    case Repo.get(Queries.active(), session_id) do
+      nil ->
+        {:error, "not found"}
+
+      session ->
+        case Session.changeset(session, %{is_active: false})
+             |> Repo.update() do
+          {:ok, updated_session} ->
+            {:ok, updated_session}
+
+          {:error, _changeset} = err ->
+            err
+        end
+    end
+  end
+
+  def delete(session_id) do
+    case Integer.parse(session_id) do
+      {int, _} ->
+        delete(int)
+
+      :error ->
+        {:error, "bad request"}
+    end
+  end
+
   def export_qr_code(keyword) do
     host = Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:host]
     export_string = "https://" <> host <> "/" <> keyword

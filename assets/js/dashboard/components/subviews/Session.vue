@@ -4,6 +4,9 @@
       <button v-on:click="$router.push('/sessions')">back</button>
     </div>
     <h2>Results for {{ session.name }}</h2>
+    <div v-if="sessionIsEnded" id="closed-session-actions">
+      <button id="delete-session" class="warning" @click="deleteSession">delete session</button>
+    </div>
     <table>
       <col width="200" />
       <tr>
@@ -87,7 +90,7 @@ export default {
     },
     sessionIsEnded: function() {
       return (
-        this.session.endDatetime != null ||
+        this.session.endDatetime != null &&
         this.session.endDatetime != undefined
       );
     },
@@ -101,6 +104,11 @@ export default {
     },
     toggleInfoDrawer: function() {
       this.$store.dispatch("TOGGLE_SESSION_INFO_DRAWER");
+    },
+    deleteSession: function() {
+      this.$store.dispatch("DELETE_SESSION", this.session.id).then(() => {
+        this.$router.replace({ path: "/sessions" });
+      });
     }
   },
   beforeRouteUpdate(to, from, next) {

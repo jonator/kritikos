@@ -57,6 +57,21 @@ export default {
             if (!didError) commit("incorporateModel", { session: resp.session })
         })
     },
+    DELETE_SESSION: ({ commit }, session_id) => {
+        return new Promise((resolve, reject) => {
+            if (confirm("Are you sure? Session data will also be deleted permanently")) {
+                apiRequestWithTokenAndErrors("POST", "/api/sessions/" + session_id + "/delete", null, commit, (resp, didError) => {
+                    if (!didError) {
+                        commit("removeModel", { session: resp.session });
+                        resolve();
+                    } else {
+                        reject();
+                    }
+
+                })
+            }
+        })
+    },
     EXPORT_SESSION: ({ }, keyword) => {
         baseUtils.download("/api/sessions/" + keyword + "/export/qr?token=" + userToken)
     },

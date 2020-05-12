@@ -11,6 +11,7 @@ defmodule Kritikos.Sessions.Session do
     field :prompt_question, :string
     field :start_datetime, :utc_datetime
     field :end_datetime, :utc_datetime
+    field :is_active, :boolean, default: true
     belongs_to :user, User
     has_many :votes, Vote
     has_many :tags, Tag
@@ -37,7 +38,7 @@ defmodule Kritikos.Sessions.Session do
 
   def changeset(session, attrs \\ %{}) do
     session
-    |> cast(attrs, [:end_datetime])
+    |> cast(attrs, [:end_datetime, :is_active])
     |> validate_end_datetime
   end
 

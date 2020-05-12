@@ -34,6 +34,11 @@ export default {
             console.error("INVALID MODEL", model)
         }
     },
+    removeModel: (state, model) => {
+        if (model["session"]) {
+            state.sessions = state.sessions.filter(s => s.id != model.session.id)
+        }
+    },
     clearSessionsFilters: state => {
         state.sessionsFilters.filterTags = []
     },

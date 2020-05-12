@@ -50,6 +50,7 @@ defmodule KritikosWeb.Router do
     post "/closeCurrentSession", DashboardController, :close_current_session
     post "/sessions/start", SessionsController, :start_session
     post "/sessions/:keyword/end", SessionsController, :end_session
+    post "/sessions/:session_id/delete", SessionsController, :delete_session
     get "/sessions/:keyword", SessionsController, :get_session
     get "/sessions/:keyword/export/qr", SessionsController, :export_session_qr
   end
