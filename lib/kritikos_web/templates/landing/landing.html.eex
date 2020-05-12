@@ -18,33 +18,50 @@
 
 
 <article>
-    <section id="hero">
-        <div class="wrap saw">
-            <h1>Kritikos</h1>
+    <section id="hero" class="top">
+        <div class="wrap">
+            <%# <h1>Kritikos</h1>
             <h4>The most effective feedback platform for lecturers</h4>
             <%= svg_image("data", "landing", class: "data insert right bottom") %>
+            <h1 id="word-carousel">
+            Get feedback from
+            <ul class="word-rotate">
+                <li>students</li>
+                <li>colleagues</li>
+                <li>patients</li>
+                <li>users</li>
+                <li>clients</li>
+                <li>attendees</li>
+                <li>audience members</li>
+                <li>friends</li>
+            </ul>
+            </h1>
         </div>
-        
+
     </section>
     <section>
         <div class="wrap saw reverse">
-            <h1>Instant & anonymized feedback</h1>
-            <h4>Audience visits a link on their mobile device to give feedback</h4>
+            <h1><span>1.</span> Start a session</h1>
+            <ul><li>A simple way to organize your data</li></ul>
             <%= svg_image("detailed_analysis", "landing", class: "detailed_analysis insert left bottom") %>
         </div>
     </section>
     <section id="hero">
         <div class="wrap saw">
-            <h1>Maximize granularity</h1>
-            <h4>Get better feedback, more often</h4>
+            <h1><span>2.</span> Send the link</h1>
+            <ul>
+                <li>Generate QR codes, embed iframes</li>
+                <li>Audience visits a link on their mobile device to give feedback</li>
+            </ul>
             <%= svg_image("observations", "landing", class: "observations insert right bottom") %>
         </div>
     </section>
     <section>
         <div class="wrap saw reverse">
-            <h1>Get the details</h1>
-            <h4>Give your audience the opportunity to elaborate on their experience<br>Leverage mobile web as a platform</h4>
+            <h1><span>3.</span> View your feedback</h1>
+            <ul><li>See visualized data in a simple web dashboard</li></ul>
             <%= svg_image("mobile_browsing", "landing", class: "mobile_browsing insert left bottom") %>
+            <button id=" <%= @button.id %>" class="start-button" onclick="buttonOnClick('<%= @button.href %>')">get feedback!</button>
         <div>
     </section>
 </article>
