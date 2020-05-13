@@ -51,7 +51,7 @@
             <h1><span>2.</span> Send the link</h1>
             <ul>
                 <li>Generate QR codes, embed iframes</li>
-                <li>Audience visits a link on their mobile device to give feedback</li>
+                <li>Users open link on their mobile device and give <b>anonymous</b> feedback</li>
             </ul>
             <%= svg_image("observations", "landing", class: "observations insert right bottom") %>
         </div>
