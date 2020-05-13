@@ -31,12 +31,12 @@ Web server for the Kritikos app.
 
     i. Google Auth Cloud SQL Service Account JSON artifact
 
-2. Build container (replace version)
+2. Update version in mix.exs and run
 
-    ```docker build --rm -t jator/kritikos:latest -t jator/kritikos:release-<version> --build-arg secret=`mix phx.gen.secret` .```
+    `make build`
 
 3. Push to registry (replace version)
 
-    `docker push jator/kritikos:release-<version>`
+    `make push`
 
 4. SSH into root@kritikos.app droplet, update `docker-compose.yaml` to reflect newer web image version on registry, run `docker-compose up -d`
