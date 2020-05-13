@@ -48,6 +48,19 @@ defmodule KritikosWeb.SessionsController do
     end
   end
 
+  def delete_session(conn, %{"session_id" => id}, _user) do
+    case Sessions.delete(id) do
+      {:ok, session} ->
+        conn
+        |> render("show.json", %{session: session})
+
+      {:error, reason} ->
+        conn
+        |> put_view(KritikosWeb.ErrorView)
+        |> render("error.json", %{message: reason})
+    end
+  end
+
   def get_session(conn, %{"keyword" => keyword}, _user) do
     case Sessions.get_open(keyword, preload: [:votes, :tags]) do
       nil ->

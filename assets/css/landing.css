@@ -53,8 +53,34 @@ button #portal {
 
 /* CONTENT */
 
+@media only screen and (max-width: 1320px) {
+    #hero.top div #word-carousel {
+        font-size: 2em;
+    }
+}
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1060px) {
+    #hero.top div #word-carousel {
+        font-size: 1.7em;
+        line-height: 2;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    #hero.top div #word-carousel {
+        font-size: 1.5em;
+        line-height: 2.2;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #hero.top div #word-carousel {
+        font-size: 1.2em;
+        line-height: 2.3;
+    }
+}
+
+@media only screen and (max-width: 650px) {
     #header .wrap {
         width: 80%;
     }
@@ -76,7 +102,25 @@ button #portal {
     article section .wrap.reverse {
         padding-left: 0%;
     }
-  }
+    #word-carousel {
+        font-size: 1.3em;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    #hero.top div #word-carousel {
+        font-size: 1em;
+        line-height: 2.4;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    #hero.top div #word-carousel {
+        font-size: 0.9em;
+        line-height: 2.8;
+    }
+}
 
 .saw:after {
     bottom: -60px;
@@ -88,11 +132,25 @@ button #portal {
 }
 
 #hero {
-    /* background-color: #edece8; */
     background-color: aliceblue;
-
 }
 
+#hero.top {
+    width: 100%;
+}
+
+#hero.top div {
+    padding-right: 0;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hero.top div h1 {
+    font-size: 2.5em;
+    line-height: 1.8;
+}
 .row {
     position: relative;
 }
@@ -120,6 +178,20 @@ svg {
 
 article {
     overflow-y: hidden;
+    margin-bottom: 50px;
+}
+
+section {
+    padding: 20px;
+}
+
+section span {
+    font-family: "grec";
+    font-size: 1.3em;
+}
+
+section button {
+    margin: 20px;
 }
 
 .wrap {
@@ -142,4 +214,22 @@ article {
     right: 2%;
     left: auto;
     border-top: 60px white solid;
+}
+
+.word-rotate {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 10em;
+    height: 1em;
+    position: relative;
+    display: inline-block;
+}
+
+.word-rotate li {
+    height: 1em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all 0.5s;
 }

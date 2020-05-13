@@ -27,32 +27,49 @@ Module.create(
       user = Auth.get_active_user(user_id)
       user_session = %Session{user_id: user.id}
 
-      keywords = ["apples", "bannanas", "fruit", "test", "abc", "wowow", "test2", "work"]
+      demos = [
+        {"Bathroom south", "bathroom_south", "How was overall cleanliness?",
+         ["bathroom", "2019", "customer_svc"]},
+        {"Bathroom north", "bathroom_north", "How was overall cleanliness?",
+         ["bathroom", "2020", "customer_svc"]},
+        {"Customer drinks", "drinks", "Was your order correct?", ["2020", "customer_svc"]},
+        {"Email marketing", "email_marketing", "Would you recommend us to a friend?",
+         ["email", "2020", "Spring"]}
+      ]
 
       session_inserts =
-        Enum.map(keywords, fn k ->
+        Enum.map(demos, fn {name, kw, question, tags} ->
           attrs = %{
-            tags: Enum.shuffle(keywords) |> Enum.map(fn t -> %{text: t} end),
-            prompt_question: "This is " <> k <> "?",
-            keyword: k,
-            name: k <> "name"
+            tags: Enum.shuffle(tags) |> Enum.map(fn t -> %{text: t} end),
+            prompt_question: question,
+            keyword: kw,
+            name: name
           }
 
           Session.create_changeset(user_session, attrs) |> Repo.insert() |> elem(1)
         end)
 
+      IO.inspect(session_inserts)
+
       vote_inserts =
         Enum.map(session_inserts, fn s ->
-          Enum.map(keywords, fn k ->
+          Enum.map(1..Enum.random(10..30), fn _ ->
             vote = Ecto.build_assoc(s, :votes, vote_level_id: Enum.random(1..3))
             Vote.create_changeset(vote, %{}) |> Repo.insert() |> elem(1)
           end)
         end)
         |> List.flatten()
 
+      demo_feedbacks = [
+        "Could have been better",
+        "I enjoyed it",
+        "Thanks",
+        "There were some problems with my coffee"
+      ]
+
       feedback_inserts =
         Enum.map(vote_inserts, fn v ->
-          feedback = Ecto.build_assoc(v, :feedback, text: Enum.random(keywords))
+          feedback = Ecto.build_assoc(v, :feedback, text: Enum.random(demo_feedbacks))
           Feedback.changeset(feedback, %{}) |> Repo.insert() |> elem(1)
         end)
 
