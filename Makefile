@@ -1,9 +1,9 @@
 .PHONY: help build run push deploy
 
-APP_NAME ?= `grep 'app:' mix.exs | sed -e 's/\[//g' -e 's/ //g' -e 's/app://' -e 's/[:,]//g'`
-APP_VSN ?= v`grep 'version:' mix.exs | cut -d '"' -f2`
-BUILD ?= `git rev-parse --short HEAD`
-SECRET ?= `mix phx.gen.secret`
+APP_NAME := $(shell grep 'app:' mix.exs | sed -e 's/\[//g' -e 's/ //g' -e 's/app://' -e 's/[:,]//g')
+APP_VSN := v$(shell grep 'version:' mix.exs | cut -d '"' -f2)
+BUILD := $(shell git rev-parse --short HEAD)
+SECRET := `mix phx.gen.secret`
 
 help:
 	@echo "$(APP_NAME):$(APP_VSN)-$(BUILD)"
@@ -11,7 +11,7 @@ help:
 
 build:
 	docker build --rm --build-arg secret=$(SECRET) \
-		-t $(APP_NAME):release-$(APP_VSN) \
+		-t jator/$(APP_NAME):release-$(APP_VSN) \
 		-t jator/$(APP_NAME):latest \
 		-t $(APP_NAME):latest .
 
@@ -23,4 +23,4 @@ push:
 	docker push jator/$(APP_NAME):release-$(APP_VSN)
 
 deploy: help build push
-	ssh root@kritikos.app 'sed -i "s|jator/kritikos:release-.*|jator/kritikos:release-$(APP_VSN)|g" ./docker-compose.yaml && docker-compse up -d'
+	ssh root@kritikos.app 'sed -i "s|jator/kritikos:release-.*|jator/kritikos:release-$(APP_VSN)|g" ./docker-compose.yaml && docker-compose up -d'
