@@ -4,7 +4,18 @@
       Vote count by category
       <helper-tooltip>This chart illustrates the number of recorded votes for a given vote level category: frown, neutral, and happy.</helper-tooltip>
     </h3>
-    <svg v-if="votes == null || votes.length > 0" width="400" height="400" id="bar-chart" />
+    <svg
+      v-if="votes == null || votes.length > 0 && !isMobile"
+      width="400"
+      height="400"
+      id="bar-chart"
+    />
+    <svg
+      v-if="votes == null || votes.length > 0 && isMobile"
+      width="325"
+      height="325"
+      id="bar-chart"
+    />
     <p v-else>No votes to display</p>
   </div>
 </template>
@@ -19,6 +30,11 @@ export default {
     return {
       votesProcessed: this.votes
     };
+  },
+  computed: {
+    isMobile: function() {
+      return this.$store.getters.isMobile;
+    }
   },
   watch: {
     votes: {
@@ -45,8 +61,8 @@ export default {
         return acc;
       }, {});
 
-      const voteCounts = Object.values(data);
-      const voteLevelKeys = Object.keys(data);
+      const voteCounts = Object.values(data).reverse();
+      const voteLevelKeys = Object.keys(data).reverse();
 
       var svg = d3.select("#bar-chart"),
         margin = {
@@ -86,10 +102,6 @@ export default {
       ]);
 
       g.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).tickValues([]));
-
-      g.append("g")
         .call(d3.axisLeft(y).ticks(Math.log(Math.max(...voteCounts)) * 2))
         .append("text")
         .attr("fill", "#000")
@@ -98,6 +110,10 @@ export default {
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
         .text("Count");
+
+      g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x).tickValues([]));
 
       var bar = g
         .selectAll(".bar")
@@ -115,9 +131,7 @@ export default {
         .attr("height", function(d) {
           return height - y(data[d]);
         })
-        .style("fill", "none")
-        .style("stroke", "black")
-        .style("stroke-width", "2");
+        .style("fill", "#d1d1d1");
 
       g.selectAll(".voteIcon")
         .data(voteLevelKeys)

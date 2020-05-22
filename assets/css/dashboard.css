@@ -6,7 +6,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     gap: 30px;
-    padding-right: 30px;
+    padding: 10px;
     max-width: 3400px;
 }
 .cards > * {

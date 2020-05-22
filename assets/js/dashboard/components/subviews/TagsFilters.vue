@@ -70,9 +70,18 @@ export default {
 #filters-container {
   margin-bottom: 30px;
 }
+.mobile #filters-container {
+  margin-top: 10px;
+}
 #filters-wrapper {
   max-width: 600px;
   padding: 30px;
+}
+.mobile #filters-wrapper {
+  padding: 5px;
+}
+#filter-label {
+  margin: auto;
 }
 #filter-tags {
   display: grid;

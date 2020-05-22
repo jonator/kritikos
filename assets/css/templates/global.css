@@ -3,6 +3,10 @@ body {
     user-select: none;
 }
 
+.mobile {
+    font-size: 0.8em;
+}
+
 #logo {
     float: left;
     font-family: "grec";

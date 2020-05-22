@@ -6,21 +6,23 @@
         class="vote-level-tab"
         v-for="(v, index) in $store.state.voteLevels"
         :key="index"
-        :class="{ active: index == currentVoteLevelId - 1, clickable: index != currentVoteLevelId - 1 }"
+        :class="{ active: v.id == currentVoteLevelId, clickable: v.id != currentVoteLevelId }"
         @click="selectVoteLevelTab(v.id)"
       >{{v.voteLevelId}}</div>
     </div>
-    <div v-if="feedbacks.length > 0" id="feedbacks-container">
-      <table>
+    <div id="feedbacks-container">
+      <table v-if="feedbacks.length > 0">
         <col width="70%" />
         <col width="30%" />
         <tr class="feedback" v-for="f in feedbacks" :key="f.id">
           <td id="feedback-text">{{ f.text }}</td>
-          <td id="feedback-time">{{ f.voteDatetime.format("lll") }}</td>
+          <td
+            id="feedback-time"
+          >{{ $store.getters.isMobile ? f.voteDatetime.format("MMM Do YY") : f.voteDatetime.format("lll") }}</td>
         </tr>
       </table>
+      <p v-else id="no-feedback">No feedback given for this category</p>
     </div>
-    <p id="no-feedback" v-else>No feedback given for this category</p>
   </div>
 </template>
 
@@ -44,6 +46,7 @@ function mostCommonVoteLevelId(voteLevels, votes) {
 export default {
   props: ["votes"],
   data: function() {
+    console.log(this.$store.state.voteLevels);
     return {
       currentVoteLevelId: mostCommonVoteLevelId(
         this.$store.state.voteLevels,
@@ -65,19 +68,19 @@ export default {
   },
   computed: {
     feedbacks: function() {
-      const curVotes = this.votes.filter(
-        v => v.voteLevelId == this.currentVoteLevelId
-      );
-      return curVotes.reduce((acc, v) => {
-        if (v.feedback != undefined) {
-          return acc.concat({
-            ...v.feedback,
-            voteDatetime: moment(v.voteDatetime)
-          });
-        } else {
-          return acc;
-        }
-      }, []);
+      return this.votes
+        .filter(v => v.voteLevelId == this.currentVoteLevelId)
+        .reduce((acc, v) => {
+          if (v.feedback != undefined) {
+            return acc.concat({
+              ...v.feedback,
+              voteDatetime: moment(v.voteDatetime)
+            });
+          } else {
+            return acc;
+          }
+        }, [])
+        .sort((a, b) => b.voteDatetime - a.voteDatetime);
     }
   },
   methods: {
@@ -109,7 +112,7 @@ h3 {
   text-align: left;
 }
 #feedbacks-container {
-  max-height: 450px;
+  height: 450px;
   overflow-y: scroll;
   overflow-x: hidden;
 }

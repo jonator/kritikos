@@ -49,3 +49,5 @@ npm-debug.log
 
 # Dont commit release artifacts
 /rel/
+
+iframe_test.html

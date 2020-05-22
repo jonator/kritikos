@@ -42,8 +42,6 @@
 <script>
 import Modal from "./subviews/Modal.vue";
 
-const mobileThresholdPixels = 680;
-
 export default {
   components: { Modal },
   data: function() {
@@ -54,7 +52,7 @@ export default {
   },
   computed: {
     isMobile: function() {
-      return this.size.width < mobileThresholdPixels;
+      return this.$store.getters.isMobile;
     }
   },
   methods: {
@@ -107,11 +105,16 @@ export default {
 .mobile #dashboard-content {
   grid-template-columns: 1fr;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 header {
   height: 100px;
   width: 100vw;
+}
+
+.mobile header {
+  margin: 0;
 }
 
 #menu-button {
@@ -137,8 +140,13 @@ button {
   justify-content: space-between;
 }
 
-#action-area {
+#action-area button {
+  margin-left: 20px;
+}
+
+.mobile #action-area {
   padding: 6px;
+  padding-top: 18px;
 }
 
 #mobile-logo-wrapper {

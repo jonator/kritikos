@@ -17,23 +17,23 @@ defmodule KritikosWeb.PromptController do
   end
 
   def live_session_form(conn, %{"keyword" => keyword}) do
-    %{vote_id: voted_id, vote_level: voted_level} = get_session(conn, :vote)
+    case get_session(conn, :vote) do
+      %{vote_id: voted_id, vote_level: voted_level} when not is_nil(voted_level) ->
+        voted_level =
+          if is_integer(voted_level) do
+            voted_level
+          else
+            Integer.parse(voted_level) |> elem(0)
+          end
 
-    voted_level =
-      if is_integer(voted_level) do
-        voted_level
-      else
-        Integer.parse(voted_level) |> elem(0)
-      end
+        render_existing_session(conn, "live_session_form.html",
+          keyword: keyword,
+          vote_level: voted_level,
+          vote_id: voted_id
+        )
 
-    if voted_level do
-      render_existing_session(conn, "live_session_form.html",
-        keyword: keyword,
-        vote_level: voted_level,
-        vote_id: voted_id
-      )
-    else
-      conn |> redirect(to: "/" <> keyword)
+      nil ->
+        conn |> redirect(to: "/" <> keyword)
     end
   end
 

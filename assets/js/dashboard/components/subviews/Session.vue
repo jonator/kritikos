@@ -129,6 +129,9 @@ export default {
 #session-container {
   max-width: 1000px;
 }
+.mobile #session-container {
+  padding-top: 10px;
+}
 #url-wrapper {
   display: flex;
 }
@@ -145,9 +148,20 @@ export default {
 #session-actions button {
   margin-left: 10px;
 }
+.mobile #session-actions {
+  padding-top: 5px;
+}
+.mobile #session-actions button {
+  margin-left: 0;
+  margin-right: 5px;
+}
 #public-link-cell {
   display: flex;
   justify-content: space-between;
+}
+.mobile #public-link-cell {
+  display: block;
+  padding: 10px;
 }
 #public-link-cell a {
   margin: auto auto auto 0;
