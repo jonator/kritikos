@@ -1,7 +1,7 @@
 <template>
   <div id="session-container">
     <div id="actions">
-      <button v-on:click="$router.push('/sessions')">back</button>
+      <button v-on:click="$router.go(-1)">back</button>
     </div>
     <h2>Results for {{ session.name }}</h2>
     <div v-if="sessionIsEnded" id="closed-session-actions">
@@ -137,9 +137,6 @@ export default {
 }
 #actions {
   padding-bottom: 30px;
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 30px;
 }
 #session-actions {
   display: inline-flex;

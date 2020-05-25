@@ -17,7 +17,6 @@ document.getElementById("frown").children[0].onclick = () => {
 }
 
 function toForm(response) {
-    console.log(response)
     if (!isKiosk) {
         const vote = response.vote
         const formReqQueryParams = {

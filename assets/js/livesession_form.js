@@ -12,7 +12,6 @@ document.getElementById("submit-form").onclick = () => {
 }
 
 function toThanks(response) {
-    console.log(response)
     if (response["message"] == "SESSION OWNER" || response["feedback"]) {
         window.location = "/" + keyword + "/thanks"
     } else {
