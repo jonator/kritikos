@@ -8,7 +8,15 @@ document.getElementById("submit-form").onclick = () => {
         text: textInput,
         vote_id: voteId
     }
-    utils.apiRequest("POST", url, body).then(r => {
-        window.location.href = r.redirect
-    })
+    utils.apiRequest("POST", url, body).then(toThanks)
+}
+
+function toThanks(response) {
+    console.log(response)
+    if (response["message"] == "SESSION OWNER" || response["feedback"]) {
+        window.location = "/" + keyword + "/thanks"
+    } else {
+        const errors = response.errors.reduce((acc, e) => acc + ", " + e, "")
+        alert("There was a problem!\n" + errors);
+    }
 }
