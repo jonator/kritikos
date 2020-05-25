@@ -7,7 +7,7 @@ defmodule KritikosWeb.LandingControllerTest do
     assert html_response(conn, 200) =~ "<title>Kritikos</title>"
 
     assert html_response(conn, 200) =~
-             "5.48731,25.46875l-2.84375,1.44238c-11.86328,6.00635-24.13086,12.21679-33.59863,21.58056a52.813,52.813,0,0,0-4.208,4.69971c11"
+             "<li>patients</li>\n                <li>users</li>\n                <li>clients</li>\n                <li>attendees</li>\n                <li>audience members</li>"
   end
 
   test "open portal", %{conn: conn} do
