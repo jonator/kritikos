@@ -2,7 +2,8 @@
 
 This app was built to make it easier to hear what your audience is really thinking -- more often.<br><br>
 
-<a class="button" href="https://kritikos.app/dashboard">Go to dashboard</a>
+Please verify your email so you know when you receive new feedback!<br>
+<a class="button" href="https://kritikos.app/dashboard?verifyEmail=<%= @verify_email_token %>">verify email</a>
 
 <br><br>
 

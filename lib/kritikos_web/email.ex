@@ -1,11 +1,11 @@
 defmodule KritikosWeb.Email do
   use Bamboo.Phoenix, view: KritikosWeb.EmailView
 
-  def welcome(recipient) do
+  def welcome(recipient, verify_email_token) do
     base_email()
     |> subject("Welcome to Kritikos!")
     |> to(recipient)
-    |> render(:welcome)
+    |> render(:welcome, verify_email_token: verify_email_token)
   end
 
   defp base_email do

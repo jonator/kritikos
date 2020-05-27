@@ -15,6 +15,7 @@ const initialState = {
         |> Enum.map(&format_session/1)
         |> to_js_object()
     %>
-}
+};
+const initialMessage = <%= to_js_object(@initial_message) %>;
 const voteLevels = <%= vote_data_js_object() %>
 </script>
