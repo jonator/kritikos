@@ -8,7 +8,13 @@
           <td>{{ $store.state.userRecord.firstLastName }}</td>
         </tr>
         <tr>
-          <td>Email</td>
+          <td id="email-label">
+            Email
+            <HelperTooltip v-if="$store.state.userRecord.isEmailActive">✅Email verified</HelperTooltip>
+            <HelperTooltip
+              v-else
+            >❌Email not verified. Look for welcome email in spam folder, click "verify email."</HelperTooltip>
+          </td>
           <td>{{ $store.state.userRecord.email }}</td>
         </tr>
         <tr>
@@ -60,13 +66,24 @@
   </div>
 </template>
 
+<script>
+import HelperTooltip from "../HelperTooltip.vue";
+
+export default {
+  components: { HelperTooltip }
+};
+</script>
+
 <style scoped>
 #change-password-button {
   margin: 0;
 }
-#support #desc {
+#desc {
   display: flex;
   justify-content: space-evenly;
+}
+#email-label {
+  display: flex;
 }
 
 /* external icon */

@@ -4,18 +4,8 @@
       Vote count by category
       <helper-tooltip>This chart illustrates the number of recorded votes for a given vote level category: frown, neutral, and happy.</helper-tooltip>
     </h3>
-    <svg
-      v-if="votes != null || votes.length > 0 && !isMobile"
-      width="400"
-      height="400"
-      id="bar-chart"
-    />
-    <svg
-      v-else-if="votes != null || votes.length > 0 && isMobile"
-      width="325"
-      height="325"
-      id="bar-chart"
-    />
+    <svg v-if="votes.length > 0 && !isMobile" width="400" height="400" id="bar-chart" />
+    <svg v-else-if="votes.length > 0 && isMobile" width="325" height="325" id="bar-chart" />
     <p v-else>No votes to display</p>
   </div>
 </template>
