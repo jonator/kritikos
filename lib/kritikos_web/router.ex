@@ -24,6 +24,10 @@ defmodule KritikosWeb.Router do
     pipe_through [:browser, :admin]
 
     live_dashboard "/dashboard"
+
+    if Mix.env() == :dev do
+      forward "/sent_emails", Bamboo.SentEmailViewerPlug
+    end
   end
 
   scope "/", KritikosWeb do

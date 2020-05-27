@@ -8,6 +8,9 @@ defmodule KritikosWeb.UserController do
   def create(conn, %{"user" => user_params}, nil) do
     case Auth.register_user(user_params) do
       {:ok, user} ->
+        KritikosWeb.Email.welcome(user.email)
+        |> KritikosWeb.Mailer.deliver_now()
+
         conn
         |> put_session(:user, user)
         |> put_status(:ok)
