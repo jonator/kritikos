@@ -18,4 +18,12 @@ defmodule KritikosWeb.UserView do
     |> Map.take([:id, :email])
     |> FormatHelpers.camelize()
   end
+
+  def render("verification_email_sent.json", %{sent: true}) do
+    %{success: true}
+  end
+
+  def render("verification_email_sent.json", %{sent: false}) do
+    %{success: false, errors: ["Could not send verification email. Internal error."]}
+  end
 end

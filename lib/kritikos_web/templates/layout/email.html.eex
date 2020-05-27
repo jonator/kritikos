@@ -99,14 +99,14 @@ footer img {
 <body>
 <div id="content-frame">
 <header>
-<img src="http://localhost:4000/images/kritikos_logo.png" alt="Kritikos" />
+<img src="https://kritikos.app/images/kritikos_logo.png" alt="Kritikos" />
 </header>
 
 <%= @inner_content %>
 <footer>
-<img src="http://localhost:4000/images/kritikos_logo.png" alt="Kritikos" />
+<img src="https://kritikos.app/images/kritikos_logo.png" alt="Kritikos" />
 <br>© Kritikos.app
-<nav>a b c d</nav>
+<a href="https://kritikos.app">Kritikos</a>
 </footer>
 </div>
 </body>

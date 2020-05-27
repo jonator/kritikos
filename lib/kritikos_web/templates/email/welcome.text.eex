@@ -2,7 +2,7 @@ Welcome to Kritikos!
 
 This app was built to make it easier to hear what your audience is really thinking -- more often.
 
-Please confirm your email so you know when you receive new feedback!
+Please confirm your email so you know when you receive new feedback, as well as receive updates about the app.
 To confirm click: https://kritikos.app/dashboard?verifyEmail=<%= @verify_email_token %>
 
 How to use Kritikos:

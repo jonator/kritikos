@@ -8,6 +8,13 @@ defmodule KritikosWeb.Email do
     |> render(:welcome, verify_email_token: verify_email_token)
   end
 
+  def verify_email(recipient, verify_email_token) do
+    base_email()
+    |> subject("Verify email")
+    |> to(recipient)
+    |> render(:verify_email, verify_email_token: verify_email_token)
+  end
+
   defp base_email do
     new_email()
     |> from("Kritikos Staff<support@kritikos.app>")

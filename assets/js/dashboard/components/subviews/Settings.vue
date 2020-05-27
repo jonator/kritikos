@@ -13,15 +13,20 @@
             <HelperTooltip v-if="$store.state.userRecord.isEmailActive">✅Email verified</HelperTooltip>
             <HelperTooltip
               v-else
-            >❌Email not verified. Look for welcome email in spam folder, click "verify email."</HelperTooltip>
+            >❌Email not verified. Look for welcome email in spam folder, click "verify email" or send a new verification email.</HelperTooltip>
           </td>
-          <td>{{ $store.state.userRecord.email }}</td>
+          <td>
+            {{ $store.state.userRecord.email }}
+            <button
+              v-if="!$store.state.userRecord.isEmailActive"
+              v-on:click="sendVerificationEmail"
+            >Send verification email</button>
+          </td>
         </tr>
         <tr>
           <td>Password</td>
           <td>
             <button
-              id="change-password-button"
               v-on:click="$store.dispatch('OPEN_MODAL', { form: 'ChangePassword', 
                                                           initialState: {
                                                             currentPassword: '',
@@ -70,13 +75,21 @@
 import HelperTooltip from "../HelperTooltip.vue";
 
 export default {
-  components: { HelperTooltip }
+  components: { HelperTooltip },
+  methods: {
+    sendVerificationEmail: function() {
+      this.$store.dispatch("SEND_VERIFY_EMAIL").then(() => {
+        this.$toasted.success("📧Verification email sent!");
+      });
+    }
+  }
 };
 </script>
 
 <style scoped>
-#change-password-button {
+button {
   margin: 0;
+  width: 100%;
 }
 #desc {
   display: flex;

@@ -1,0 +1,4 @@
+Click this link to verify your email.
+This will allow you to receive notifications when you receive new feedback, as well as receive updates about the app.
+
+https://kritikos.app/dashboard?verifyEmail=<%= @verify_email_token %>

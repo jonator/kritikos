@@ -96,12 +96,20 @@ export default {
         }
         return new Promise((resolve, reject) => {
             apiRequestWithTokenAndErrors("PATCH", "/api/user/password", body, commit, (resp, didError) => {
-                if (!didError) resolve()
-                else reject()
+                if (didError) reject()
+                else resolve()
             })
         })
     },
     TOGGLE_SESSION_INFO_DRAWER: ({ commit }) => {
         commit("toggleSessionInfoDrawer")
+    },
+    SEND_VERIFY_EMAIL: ({ commit }) => {
+        return new Promise((resolve, reject) => [
+            apiRequestWithTokenAndErrors("POST", "/api/user/verify_email", null, commit, (resp, didError) => {
+                if (didError) reject()
+                else resolve()
+            })
+        ])
     }
 }
