@@ -38,6 +38,7 @@
         </td>
         <td>
           <VueTagsInput
+            id="tag-input"
             v-model="tag"
             :tags="tags"
             :allow-edit-tags="true"
@@ -92,6 +93,9 @@ export default {
 </script>
 
 <style scoped>
+#tag-input {
+  max-width: none;
+}
 tr td input {
   margin: auto;
 }

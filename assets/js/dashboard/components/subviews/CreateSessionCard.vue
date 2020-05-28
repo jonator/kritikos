@@ -7,7 +7,7 @@
       <HelperTooltip
         :vPosition="'top'"
       >A session is a time-centric way to organize your feedback. They are each associated with a URL that your target audience can use to access a feedback form. Once closed the session can no longer be accessed by your audience.</HelperTooltip>
-      <button id="start-session-button" v-on:click="createSession">Start session</button>
+      <button id="start-session-button" v-on:click="createSession">Create session</button>
     </div>
   </div>
 </template>

@@ -65,3 +65,23 @@ button.confirm {
 table td {
     border: transparent;
 }
+
+
+/* vue tags input */
+
+.vue-tags-input .ti-input {
+    border-radius: .4rem;
+}
+.vue-tags-input .ti-input {
+    height: 38px;
+}
+.vue-tags-input .ti-tags {
+    height: 28px;
+}
+.vue-tags-input .ti-new-tag-input-wrapper,.ti-new-tag-input,.ti-tag {
+    height: 28px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
