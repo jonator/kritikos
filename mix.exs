@@ -27,7 +27,7 @@ defmodule Kritikos.MixProject do
   def application do
     [
       mod: {Kritikos.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :bamboo]
     ]
   end
 
@@ -55,7 +55,8 @@ defmodule Kritikos.MixProject do
       {:phoenix_inline_svg, "~> 1.3.1"},
       {:eqrcode, "~> 0.1.6"},
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
-      {:phoenix_live_dashboard, "~> 0.1"}
+      {:phoenix_live_dashboard, "~> 0.1"},
+      {:bamboo, "~> 1.5.0"}
     ]
   end
 

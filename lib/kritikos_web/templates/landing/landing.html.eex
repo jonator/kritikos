@@ -41,8 +41,8 @@
     </section>
     <section>
         <div class="wrap saw reverse">
-            <h1><span>1.</span> Start a session</h1>
-            <ul><li>A simple way to organize your data</li></ul>
+            <h1><span>1.</span> Start a feedback session</h1>
+            <ul><li>A simple way to organize incoming feedback</li></ul>
             <%= svg_image("detailed_analysis", "landing", class: "detailed_analysis insert left bottom") %>
         </div>
     </section>
@@ -50,7 +50,7 @@
         <div class="wrap saw">
             <h1><span>2.</span> Send the link</h1>
             <ul>
-                <li>Generate QR codes, embed iframes</li>
+                <li>Generate QR codes, embed iframes in your website, add link to email signature, and more</li>
                 <li>Users open link on their mobile device and give <b>anonymous</b> feedback</li>
             </ul>
             <%= svg_image("observations", "landing", class: "observations insert right bottom") %>

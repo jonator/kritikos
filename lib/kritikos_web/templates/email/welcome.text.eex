@@ -1,0 +1,11 @@
+Welcome to Kritikos!
+
+This app was built to make it easier to hear what your audience is really thinking -- more often.
+
+Please confirm your email so you know when you receive new feedback, as well as receive updates about the app.
+To confirm click: https://kritikos.app/dashboard?verifyEmail=<%= @verify_email_token %>
+
+How to use Kritikos:
+1. Create a session to generate a new link and to create a space for new feedback.
+2. Distribute the session's link to your audience; directly send the link via messaging or email, generate and download a QR code and place it on a table/wall, or generate and embed an iframe in your website.
+3. View your feedback! See what people are anonymously saying in real time in your dashboard (https://kritikos.app/dashboard).

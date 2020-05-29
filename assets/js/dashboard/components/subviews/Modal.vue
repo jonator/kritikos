@@ -77,9 +77,14 @@ export default {
   max-height: 100vh;
   overflow-y: auto;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1300px) {
   #modal-container {
-    width: 100vw;
+    width: 80vw;
+  }
+}
+@media screen and (max-width: 1000px) {
+  #modal-container {
+    width: 98vw;
   }
 }
 

@@ -10,6 +10,7 @@ defmodule Kritikos.Auth.User do
     field :email, :string, unique: true
     field :first_last_name, :string
     field :is_active, :boolean, default: true
+    field :is_email_active, :boolean, default: false
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
@@ -35,7 +36,7 @@ defmodule Kritikos.Auth.User do
   def changeset(user, attrs),
     do:
       user
-      |> cast(attrs, [:password, :password_confirmation])
+      |> cast(attrs, [:password, :password_confirmation, :is_email_active])
       |> validate_password_confirmation
       |> put_password_hash
 
