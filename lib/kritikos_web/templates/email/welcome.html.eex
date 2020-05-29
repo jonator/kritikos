@@ -1,0 +1,18 @@
+<h2>Welcome to Kritikos.app!</h2>
+
+This app was built to make it easier to hear what your audience is really thinking -- more often.<br><br>
+
+Please verify your email so you know when you receive new feedback, as well as receive updates about the app.<br>
+<a class="button" href="https://kritikos.app/dashboard?verifyEmail=<%= @verify_email_token %>">verify email</a>
+
+<br><br>
+
+<div style="text-align: left">
+    <h3>How to use <a href="https://kritikos.app">Kritikos</a>:</h3>
+
+    <ol style="list-style-type:numeric">
+    <li>Create a session to generate a new link and to create a space for new feedback.</li>
+    <li>Distribute the session's link to your audience; directly send the link via messaging or email, generate and download a QR code and place it on a table/wall, or generate and embed an iframe in your website.</li>
+    <li>View your feedback! See what people are anonymously saying in real time in your <a href="https://kritikos.app/dashboard">dashboard</a>.</li>
+    </ol>
+</div>

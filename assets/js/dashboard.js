@@ -28,6 +28,14 @@ Vue.toasted.register('api_error',
     }
 )
 
+if (initialMessage) {
+    if (initialMessage.error == false) {
+        Vue.toasted.success(initialMessage.message, { duration: 5000 })
+    } else {
+        Vue.toasted.global.api_error(initialMessage)
+    }
+}
+
 const routes = [
     { id: 0, path: "/settings", component: Settings },
     { id: 1, path: "/sessions", component: Sessions },

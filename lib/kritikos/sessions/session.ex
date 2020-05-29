@@ -34,6 +34,7 @@ defmodule Kritikos.Sessions.Session do
     |> validate_length(:name, min: 3, max: 30)
     |> put_change(:start_datetime, now)
     |> validate_length(:prompt_question, max: 50)
+    |> validate_prompt_is_question?()
   end
 
   def changeset(session, attrs \\ %{}) do
@@ -72,5 +73,17 @@ defmodule Kritikos.Sessions.Session do
         []
       end
     end)
+  end
+
+  defp validate_prompt_is_question?(
+         %Ecto.Changeset{
+           valid?: true,
+           changes: %{prompt_question: question}
+         } = changeset
+       ) do
+    case String.last(question) do
+      "?" -> changeset
+      _ -> add_error(changeset, :prompt_question, "must be in the form of a question")
+    end
   end
 end

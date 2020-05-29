@@ -6,6 +6,7 @@ alias Kritikos.Sessions
 alias Kritikos.Sessions.{Session, Tag}
 alias Kritikos.Votes
 alias Kritikos.Votes.{Vote, Feedback}
+alias KritikosWeb.{Email, Mailer}
 
 Module.create(
   H,

@@ -7,10 +7,9 @@
     </button>
     <div v-if="showFilters" id="filters-wrapper">
       <div id="filter-tags">
-        <div id="filter-label">
-          <span>Include tags on session</span>
-        </div>
+        <div id="filter-label">Include tags on session</div>
         <VueTagsInput
+          id="tag-input"
           v-model="filterTag"
           :tags="$store.state.sessionsFilters.filterTags"
           :allow-edit-tags="true"
@@ -81,13 +80,15 @@ export default {
   padding: 5px;
 }
 #filter-label {
+  font-size: 0.9em;
   margin: auto;
 }
 #filter-tags {
   display: grid;
   grid-template-columns: 1fr 3fr;
 }
-#filter-tags span {
+#tag-input {
   margin: auto;
+  width: 100%;
 }
 </style>

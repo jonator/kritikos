@@ -6,12 +6,16 @@ defmodule Kritikos.Auth do
   alias Kritikos.Helpers
   alias __MODULE__.{User, Queries}
 
-  def sign_user_token(user_id) do
-    Phoenix.Token.sign(KritikosWeb.Endpoint, token_salt(), user_id)
+  def sign_user_token(user_id, extra_salt \\ "") do
+    Phoenix.Token.sign(KritikosWeb.Endpoint, token_salt() <> extra_salt, user_id)
+  end
+
+  def verify_token(token, extra_salt \\ "") do
+    Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt() <> extra_salt, token, max_age: 86_400)
   end
 
   def user_from_token(token) do
-    case Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt(), token, max_age: 86_400) do
+    case verify_token(token) do
       {:ok, user_id} ->
         {:ok, get_user(user_id)}
 
