@@ -86,4 +86,6 @@ defmodule Kritikos.Sessions.Session do
       _ -> add_error(changeset, :prompt_question, "must be in the form of a question")
     end
   end
+
+  defp validate_prompt_is_question?(changeset), do: changeset
 end
