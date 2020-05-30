@@ -11,6 +11,8 @@ help:
 
 build:
 	docker build --rm --build-arg secret=$(SECRET) \
+		--build-arg db_pass=$(DB_PASS) \
+		--build-arg mailgun_api_key=$(MAILGUN_API_KEY) \
 		-t jator/$(APP_NAME):release-$(APP_VSN) \
 		-t jator/$(APP_NAME):latest \
 		-t $(APP_NAME):latest .

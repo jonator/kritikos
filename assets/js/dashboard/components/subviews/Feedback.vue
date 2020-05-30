@@ -46,7 +46,6 @@ function mostCommonVoteLevelId(voteLevels, votes) {
 export default {
   props: ["votes"],
   data: function() {
-    console.log(this.$store.state.voteLevels);
     return {
       currentVoteLevelId: mostCommonVoteLevelId(
         this.$store.state.voteLevels,
@@ -133,6 +132,7 @@ h3 {
 #feedback-text {
   word-wrap: break-word;
   max-width: 350px;
+  user-select: text;
 }
 #feedback-time {
   vertical-align: top;

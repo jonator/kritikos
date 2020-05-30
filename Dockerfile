@@ -19,6 +19,8 @@ RUN mix release ${app_name} \
 
 FROM alpine:3.9
 ARG secret
+ARG db_pass
+ARG mailgun_api_key
 RUN apk update \
     && apk --no-cache --update add bash ca-certificates openssl-dev \
     && mkdir -p /usr/local/bin \
@@ -26,7 +28,7 @@ RUN apk update \
     -O /usr/local/bin/cloud_sql_proxy \
     && chmod +x /usr/local/bin/cloud_sql_proxy \
     && mkdir -p /tmp/cloudsql
-ENV PORT=8080 REPLACE_OS_VARS=true SECRET=${secret}
+ENV PORT=8080 REPLACE_OS_VARS=true SECRET=${secret} DB_PASS=${db_pass} MAILGUN_API_KEY=${mailgun_api_key}
 EXPOSE ${PORT}
 WORKDIR /opt/app
 COPY rel/kritikos-257816-0a56ad203b89.json .
