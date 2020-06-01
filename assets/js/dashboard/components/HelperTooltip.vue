@@ -70,6 +70,10 @@ export default {
   mounted: function() {
     if (this.isMobile) {
       window.addEventListener("click", event => {
+        console.log(
+          this.visible == true,
+          event.srcElement.className != "gg-info"
+        );
         if (this.visible == true && event.srcElement.className != "gg-info")
           this.visible = false;
         document.body.firstElementChild.tabIndex = 1;

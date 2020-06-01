@@ -1,3 +1,6 @@
+main {
+    outline: none !important;
+}  
 body {
     margin: 0;
     user-select: none;
