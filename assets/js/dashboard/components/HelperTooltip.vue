@@ -1,7 +1,8 @@
 <template>
   <div id="helper-tooltip-container">
     <div id="tooltip-wrapper">
-      <i class="gg-info" @mouseover="visible = true" @mouseleave="visible = false" />
+      <i v-if="isMobile" class="gg-info" @click="visible = !visible" />
+      <i v-else class="gg-info" @mouseover="visible = true" @mouseleave="visible = false" />
       <transition :name="transition">
         <div id="tooltip" v-if="visible" v-bind:style="hoverPosition">
           <div id="tooltip-content">
@@ -14,6 +15,8 @@
 </template>
 
 <script>
+import { isMobile } from "../../utils";
+
 export default {
   props: {
     transition: {
@@ -38,6 +41,9 @@ export default {
     };
   },
   computed: {
+    isMobile: function() {
+      return isMobile();
+    },
     hoverPosition: function() {
       var style = {};
       switch (this.hPosition) {
@@ -59,6 +65,15 @@ export default {
           break;
       }
       return style;
+    }
+  },
+  mounted: function() {
+    if (this.isMobile) {
+      window.addEventListener("click", event => {
+        if (this.visible == true && event.srcElement.className != "gg-info")
+          this.visible = false;
+        document.body.firstElementChild.tabIndex = 1;
+      });
     }
   }
 };
