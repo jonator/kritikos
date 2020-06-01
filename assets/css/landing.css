@@ -1,5 +1,4 @@
 @import "./templates/global.css";
-@import "./portal.css";
 @import "./phoenix.css";
 
 /* HEADER */
@@ -44,10 +43,6 @@ header#header:after {
 
 button #dashboard {
     width: 150px;
-}
-
-button #portal {
-    width: 100px;
 }
 
 

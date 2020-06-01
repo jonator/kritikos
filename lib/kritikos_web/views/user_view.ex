@@ -7,7 +7,7 @@ defmodule KritikosWeb.UserView do
   end
 
   def render("login.json", %{user: user}) do
-    %{user: render_one(user, __MODULE__, "user.json"), redirect: "/dashboard"}
+    %{user: render_one(user, __MODULE__, "user.json")}
   end
 
   def render("user.json", %{user: user}) do

@@ -85,7 +85,7 @@ export default {
 
 <style scoped>
 #dashboard-content {
-  height: calc(100vh - 120px - 1px);
+  height: calc(100vh - 120px);
   display: grid;
   grid-template-columns: 250px 1fr;
   grid-column-gap: 30px;

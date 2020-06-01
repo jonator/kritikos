@@ -46,8 +46,7 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
 
   defp redirect_to_portal(conn) do
     conn
-    |> put_status(:unauthorized)
-    |> Phoenix.Controller.redirect(to: "/portal")
+    |> Phoenix.Controller.redirect(to: "/portal?ref=#{conn.request_path}")
     |> halt
   end
 
@@ -57,7 +56,7 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
     conn
     |> put_status(:unauthorized)
     |> Phoenix.Controller.put_view(KritikosWeb.ErrorView)
-    |> Phoenix.Controller.render("redirect.json", %{message: msg, redirect: "/portal"})
+    |> Phoenix.Controller.render("error.json", %{message: msg})
     |> halt
   end
 

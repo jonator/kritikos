@@ -1,3 +1,7 @@
+<script>
+const ref = <%= to_js_object(@ref) %>;
+</script>
+
 <form id="portal" @submit.prevent="handleSubmit" v-cloak>
     <h1 class="clickable" onclick="window.location.href='/'">Kritikos</h1>
     <input placeholder="email" type="email" name="email" v-model="email">

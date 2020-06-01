@@ -34,7 +34,7 @@ defmodule KritikosWeb.Router do
     pipe_through [:browser]
 
     get "/", LandingController, :landing
-    get "/portal", LandingController, :portal
+    get "/portal", PortalController, :portal
     get "/dashboard", DashboardController, :dashboard
     get "/:keyword", PromptController, :live_session
     get "/:keyword/form", PromptController, :live_session_form
