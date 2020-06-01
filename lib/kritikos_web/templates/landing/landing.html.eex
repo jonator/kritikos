@@ -42,7 +42,7 @@
         <div class="wrap saw reverse">
             <h1><span>1.</span> Start a feedback session</h1>
             <ul><li>A simple way to organize incoming feedback</li></ul>
-            <%= svg_image("detailed_analysis", "landing", class: "detailed_analysis insert left bottom") %>
+            <%= svg_image("mobile_browsing", "landing", class: "detailed_analysis insert left bottom") %>
         </div>
     </section>
     <section id="hero">
@@ -50,7 +50,7 @@
             <h1><span>2.</span> Send the link</h1>
             <ul>
                 <li>Generate QR codes, embed iframes in your website, add link to email signature, and more</li>
-                <li>Users open link on their mobile device and give <b>anonymous</b> feedback</li>
+                <li>Users open link on any device and give <b>anonymous</b> feedback</li>
             </ul>
             <%= svg_image("observations", "landing", class: "observations insert right bottom") %>
         </div>
@@ -59,7 +59,7 @@
         <div class="wrap saw reverse">
             <h1><span>3.</span> View your feedback</h1>
             <ul><li>See visualized data in a simple web dashboard</li></ul>
-            <%= svg_image("mobile_browsing", "landing", class: "mobile_browsing insert left bottom") %>
+            <%= svg_image("detailed_analysis", "landing", class: "mobile_browsing insert left bottom") %>
             <button id=" <%= button.id %>" class="start-button" onclick="buttonOnClick('<%= button.href %>')">get feedback!</button>
         <div>
     </section>

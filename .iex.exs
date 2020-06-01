@@ -50,8 +50,6 @@ Module.create(
           Session.create_changeset(user_session, attrs) |> Repo.insert() |> elem(1)
         end)
 
-      IO.inspect(session_inserts)
-
       vote_inserts =
         Enum.map(session_inserts, fn s ->
           Enum.map(1..Enum.random(10..30), fn _ ->

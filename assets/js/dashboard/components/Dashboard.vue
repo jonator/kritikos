@@ -20,7 +20,7 @@
       >
         <div id="sidebar-wrapper">
           <div v-if="isMobile" id="mobile-logo-wrapper">
-            <span id="logo">Kritikos</span>
+            <span id="logo" v-on:click="toLanding">Kritikos</span>
           </div>
           <div v-if="isMobile" class="clickable" id="menu-back-button">
             <i class="gg-undo"></i>
@@ -90,6 +90,15 @@ export default {
   grid-template-columns: 250px 1fr;
   grid-column-gap: 30px;
 }
+.mobile #dashboard-content {
+  grid-template-columns: 1fr;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#subview-container {
+  overflow-y: auto;
+}
 
 .mobile #sidebar-content {
   position: fixed;
@@ -102,17 +111,11 @@ export default {
 .mobile #sidebar-wrapper {
   background-color: white;
 }
-.mobile #dashboard-content {
-  grid-template-columns: 1fr;
-  margin-left: 10px;
-  margin-right: 10px;
-}
 
 header {
   height: 100px;
   width: 100vw;
 }
-
 .mobile header {
   margin: 0;
 }

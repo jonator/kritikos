@@ -21,7 +21,7 @@
             colspan="2"
           >{{ f.dateBucketMonthDay }}</td>
           <td v-if="f.type == 'feedback'" id="feedback-text">{{ f.text }}</td>
-          <td v-if="f.type == 'feedback'" id="feedback-time">{{ f.voteDatetime }}</td>
+          <td v-if="f.type == 'feedback'" id="feedback-time">{{ f.voteDatetime.format("hh:mm a") }}</td>
         </tr>
       </table>
       <p v-else id="no-feedback">No feedback given for this category</p>
@@ -72,29 +72,51 @@ export default {
     feedbacks: function() {
       const dateBucketsDict = this.votes
         .filter(v => v.voteLevelId == this.currentVoteLevelId)
-        .sort((a, b) => b.voteDatetime - a.voteDatetime)
         .reduce((acc, v) => {
           if (v.feedback != undefined) {
             const feedbackMoment = moment(v.voteDatetime);
-            const monthAndDay = feedbackMoment.format("MMM Do");
+            const feedbackMomentYear = feedbackMoment.year();
+            const doesCrossYearBorder =
+              feedbackMomentYear == moment().year()
+                ? feedbackMoment.isBetween(
+                    "" + feedbackMomentYear - 1 + "-12-01",
+                    "" + feedbackMomentYear + "-01-31"
+                  )
+                : feedbackMoment.isBetween(
+                    "" + feedbackMomentYear + "-12-01",
+                    "" + feedbackMomentYear + 1 + "-01-31"
+                  );
+            var monthAndDay = null;
+            if (doesCrossYearBorder) {
+              monthAndDay = feedbackMoment.format("MMM Do, YYYY");
+            } else {
+              monthAndDay = feedbackMoment.format("MMM Do");
+            }
             if (!acc[monthAndDay]) {
               acc[monthAndDay] = [];
             }
-            acc[monthAndDay].push({
+            acc[monthAndDay].unshift({
               type: "feedback",
               ...v.feedback,
-              voteDatetime: feedbackMoment.format("hh:mm a")
+              voteDatetime: feedbackMoment
             });
+            acc[monthAndDay].sort((a, b) => b.voteDatetime - a.voteDatetime);
             return acc;
           } else {
             return acc;
           }
         }, {});
 
-      return Object.keys(dateBucketsDict).reduce((acc, dateBucket) => {
-        acc.push({ type: "bucket", dateBucketMonthDay: dateBucket });
-        return acc.concat(dateBucketsDict[dateBucket]);
-      }, []);
+      return Object.keys(dateBucketsDict)
+        .sort(
+          (a, b) =>
+            dateBucketsDict[b][0].voteDatetime -
+            dateBucketsDict[a][0].voteDatetime
+        )
+        .reduce((acc, dateBucket) => {
+          acc.push({ type: "bucket", dateBucketMonthDay: dateBucket });
+          return acc.concat(dateBucketsDict[dateBucket]);
+        }, []);
     }
   },
   methods: {
