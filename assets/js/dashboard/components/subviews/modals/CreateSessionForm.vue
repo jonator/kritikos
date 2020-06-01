@@ -2,7 +2,8 @@
   <div id="create-session-form-container">
     <h3>Create new session</h3>
     <table>
-      <col width="180" />
+      <col v-if="isMobile" width="80" />
+      <col v-else width="180" />
       <col width="10" />
       <tr>
         <td>Session Name</td>
@@ -10,7 +11,7 @@
           <HelperTooltip>Only visible to you.</HelperTooltip>
         </td>
         <td>
-          <input type="text" placeholder="i.e. Dining room" v-model="name" />
+          <input type="text" placeholder="example: Dining room" v-model="name" />
         </td>
       </tr>
       <tr>
@@ -19,7 +20,7 @@
           <HelperTooltip>Will be in the URL that your audience will use to provide feedback. It must be unique and short, with only letters, numbers, and underscores/hyphens.</HelperTooltip>
         </td>
         <td>
-          <input type="text" placeholder="i.e. dining_room2020" v-model="keyword" />
+          <input type="text" placeholder="example: dining_room_south" v-model="keyword" />
         </td>
       </tr>
       <tr>
@@ -34,7 +35,9 @@
       <tr>
         <td>Tags</td>
         <td>
-          <HelperTooltip>Can be used for identifying and categorizing your sessions. Tags are optional. (Max 10)</HelperTooltip>
+          <HelperTooltip
+            :vPosition="'top'"
+          >Can be used for identifying and categorizing your sessions. Tags are optional. (Max 10) Examples include seasons (spring, winter, etc.), months, days, classes, and many more.</HelperTooltip>
         </td>
         <td>
           <VueTagsInput
@@ -65,6 +68,7 @@
 <script>
 import VueTagsInput from "@johmun/vue-tags-input";
 import HelperTooltip from "../../HelperTooltip.vue";
+import utils from "../../../../utils";
 
 export default {
   name: "CreateSessionForm",
@@ -87,7 +91,8 @@ export default {
       } else {
         this.$store.dispatch("CREATE_SESSION", newSession);
       }
-    }
+    },
+    isMobile: utils.isMobile()
   }
 };
 </script>
