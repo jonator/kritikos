@@ -15,10 +15,13 @@
         <col width="70%" />
         <col width="30%" />
         <tr class="feedback" v-for="f in feedbacks" :key="f.id">
-          <td id="feedback-text">{{ f.text }}</td>
           <td
-            id="feedback-time"
-          >{{ $store.getters.isMobile ? f.voteDatetime.format("MMM Do YY") : f.voteDatetime.format("lll") }}</td>
+            v-if="f.type == 'bucket'"
+            id="feedback-time-bucket"
+            colspan="2"
+          >{{ f.dateBucketMonthDay }}</td>
+          <td v-if="f.type == 'feedback'" id="feedback-text">{{ f.text }}</td>
+          <td v-if="f.type == 'feedback'" id="feedback-time">{{ f.voteDatetime }}</td>
         </tr>
       </table>
       <p v-else id="no-feedback">No feedback given for this category</p>
@@ -67,19 +70,31 @@ export default {
   },
   computed: {
     feedbacks: function() {
-      return this.votes
+      const dateBucketsDict = this.votes
         .filter(v => v.voteLevelId == this.currentVoteLevelId)
+        .sort((a, b) => b.voteDatetime - a.voteDatetime)
         .reduce((acc, v) => {
           if (v.feedback != undefined) {
-            return acc.concat({
+            const feedbackMoment = moment(v.voteDatetime);
+            const monthAndDay = feedbackMoment.format("MMM Do");
+            if (!acc[monthAndDay]) {
+              acc[monthAndDay] = [];
+            }
+            acc[monthAndDay].push({
+              type: "feedback",
               ...v.feedback,
-              voteDatetime: moment(v.voteDatetime)
+              voteDatetime: feedbackMoment.format("hh:mm a")
             });
+            return acc;
           } else {
             return acc;
           }
-        }, [])
-        .sort((a, b) => b.voteDatetime - a.voteDatetime);
+        }, {});
+
+      return Object.keys(dateBucketsDict).reduce((acc, dateBucket) => {
+        acc.push({ type: "bucket", dateBucketMonthDay: dateBucket });
+        return acc.concat(dateBucketsDict[dateBucket]);
+      }, []);
     }
   },
   methods: {
@@ -128,6 +143,12 @@ h3 {
 }
 #no-feedback {
   font-style: italic;
+}
+#feedback-time-bucket {
+  font-size: 70%;
+  font-weight: bold;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 0.5rem;
 }
 #feedback-text {
   word-wrap: break-word;
