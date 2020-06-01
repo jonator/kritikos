@@ -100,6 +100,9 @@ button #dashboard {
     #word-carousel {
         font-size: 1.3em;
     }
+    .testimonial img {
+        margin-top: 45%;
+    }
 }
 
 
@@ -227,4 +230,17 @@ section button {
     bottom: 0;
     left: 0;
     transition: all 0.5s;
+}
+
+#testimonials {
+    padding-right: 0;
+    text-align: center;
+}
+.testimonial {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+.testimonial img {
+    border-radius: 50%;
+    border: 2px lightgray solid;
 }

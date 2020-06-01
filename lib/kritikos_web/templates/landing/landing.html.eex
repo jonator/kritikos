@@ -1,7 +1,9 @@
+<% button = if @user do %{id: "dashboard",href: "/dashboard", text: "Dashboard"} else %{id: "portal", href: "/portal", text: "Log in"} end %>
+
 <header id="header">
     <div class="wrap">
         <span id="logo" onclick="buttonOnClick('/')">Kritikos</span>
-        <button id="<%= @button.id %>" class="landing-action" onclick="buttonOnClick('<%= @button.href %>')"><%= @button.text %></button>
+        <button id="<%= button.id %>" class="landing-action" onclick="buttonOnClick('<%= button.href %>')"><%= button.text %></button>
         <script>
             function buttonOnClick(url) {
                 fetch(url, {
@@ -20,9 +22,6 @@
 <article>
     <section id="hero" class="top">
         <div class="wrap">
-            <%# <h1>Kritikos</h1>
-            <h4>The most effective feedback platform for lecturers</h4>
-            <%= svg_image("data", "landing", class: "data insert right bottom") %>
             <h1 id="word-carousel">
             Get feedback from
             <ul class="word-rotate">
@@ -61,7 +60,20 @@
             <h1><span>3.</span> View your feedback</h1>
             <ul><li>See visualized data in a simple web dashboard</li></ul>
             <%= svg_image("mobile_browsing", "landing", class: "mobile_browsing insert left bottom") %>
-            <button id=" <%= @button.id %>" class="start-button" onclick="buttonOnClick('<%= @button.href %>')">get feedback!</button>
+            <button id=" <%= button.id %>" class="start-button" onclick="buttonOnClick('<%= button.href %>')">get feedback!</button>
         <div>
+    </section>
+    <section>
+        <div id="testimonials" class="wrap">
+            <h1>Testimonials</h1>
+
+            <div class="testimonial">
+                <div id="image-wrapper"><img src="images/johnkeller.jpeg" height="80" width="80"/></div>
+                <div id="quote">
+                    <q>I used it for CIS560 on the last day I was with the class. I just shared the URL in the Zoom chat window and it worked great! In a matter of minutes I had several responses of valuable feedback!</q>
+                    <div id="name">- John, university instructor</div>
+                </div>
+            </div>
+        </div>
     </section>
 </article>
