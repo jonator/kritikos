@@ -38,19 +38,19 @@
     }
 }
 
-@media screen and (max-width: 1450px) {
+@media screen and (max-width: 1600px) {
     .cards {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1300px) {
     .cards {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
     .cards {
         grid-template-columns: 1fr;
     }
