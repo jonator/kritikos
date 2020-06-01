@@ -17,10 +17,6 @@ defmodule KritikosWeb.ErrorView do
     %{errors: [m]}
   end
 
-  def render("redirect.json", assigns) do
-    Map.merge(render("error.json", assigns), %{redirect: assigns[:redirect]})
-  end
-
   def template_not_found(template, _assigns) do
     Phoenix.Controller.status_message_from_template(template)
   end

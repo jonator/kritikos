@@ -17,6 +17,7 @@ module.exports = (env, options) => ({
   entry: {
     error: './js/error.js',
     landing: './js/landing.js',
+    portal: './js/portal.js',
     dashboard: './js/dashboard.js',
     livesession: './js/livesession.js',
     livesession_form: './js/livesession_form.js'
@@ -34,9 +35,7 @@ module.exports = (env, options) => ({
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        loader: 'babel-loader'
       }, {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']

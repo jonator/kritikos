@@ -1,3 +1,4 @@
+import portalCss from "../css/portal.css";
 import Vue from "vue";
 import utils from "./utils.js"
 
@@ -14,21 +15,29 @@ new Vue({
     methods: {
         handleSubmit() {
             this.errors = []
+            var result = null
             if (this.isRegistering) {
-                register(this.email, this.firstLastName, this.password, this.passwordConfirmation).then(this.processResponse)
+                result = register(this.email, this.firstLastName, this.password, this.passwordConfirmation)
             } else {
-                signin(this.email, this.password).then(this.processResponse)
+                result = signin(this.email, this.password)
             }
+            result.then((response) => {
+                if (response.user) {
+                    if (ref) {
+                        window.location.href = ref
+                    } else {
+                        window.location.href = "/dashboard"
+                    }
+                } else if (response.errors) {
+                    response.errors.forEach(error => {
+                        this.errors.push(error)
+                    });
+                }
+            })
         },
         togglePortalMode() {
             this.errors = []
             this.isRegistering = !this.isRegistering;
-        },
-        processResponse(response) {
-            if (response.redirect) window.location.href = response.redirect
-            response.errors.forEach(error => {
-                this.errors.push(error)
-            });
         }
     }
 })

@@ -62,10 +62,9 @@ export default {
 </script>
 
 <style scoped>
-#sessions-container {
-  overflow-y: auto;
+/* #sessions-container {
   height: calc(100vh - 120px - 1px);
-}
+} */
 .cards {
   padding-bottom: 30px;
 }

@@ -1,5 +1,4 @@
-import landingCss from "../css/landing.css"
-import portal from "./portal.js"
+import landingCss from "../css/landing.css";
 
 const wr = document.querySelector(".word-rotate");
 

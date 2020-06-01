@@ -2,6 +2,11 @@ defmodule KritikosWeb.PromptView do
   use KritikosWeb, :view
   alias Kritikos.Votes.{Vote, Feedback}
 
+  def render("meta.html", _assigns) do
+    {:safe,
+     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,maximum-scale=1.0\">"}
+  end
+
   def render("vote.json", %{vote: %Vote{id: vid, vote_datetime: vdt, vote_level_id: tl_id}}) do
     %{vote: %{id: vid, voteDateTime: vdt, voteLevelId: tl_id}}
   end

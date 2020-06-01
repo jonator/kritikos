@@ -15,6 +15,9 @@ module.exports = {
             body: (method.toUpperCase() == "GET" || method.toUpperCase() == "HEAD") ? null : JSON.stringify(data), // body data type must match "Content-Type" header
         }).then(resp => resp.json())
     },
+    isMobile: function () {
+        return window.innerWidth < 680;
+    },
     download: function (dataurl) {
         var a = document.createElement("a");
         a.href = dataurl;
@@ -36,5 +39,12 @@ module.exports = {
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
             }
         return str.join("&");
+    },
+    average: function (numArray) {
+        var total = 0;
+        for (var i = 0; i < numArray.length; i++) {
+            total += numArray[i];
+        }
+        return total / numArray.length;
     }
 }

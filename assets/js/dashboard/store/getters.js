@@ -1,9 +1,11 @@
+import utils from "../../utils";
+
 export default {
     userName: state => {
         return state.userRecord.email.split('@')[0]
     },
     isMobile: state => {
-        return window.innerWidth < 680;
+        return utils.isMobile();
     },
     filtersAreSet: state => {
         return state.sessionsFilters.filterTags.length > 0

@@ -14,6 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Kritikos</title>
+    <%= if meta = render_existing(@view_module, "meta.html", assigns) do meta end %>
     <link rel="stylesheet" href="<%= render_existing(@view_module, "stylesheets.html", assigns) %>"/>
   </head>
   <body>

@@ -1,9 +1,11 @@
 @import "./templates/global.css";
+@import "./phoenix.css";
 
 form {
     width: 20%;
     min-width: 220px;
     margin: 0 auto;
+    padding-top: 125px;
 }
 
 form h1 {
