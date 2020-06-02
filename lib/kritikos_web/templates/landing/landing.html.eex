@@ -40,14 +40,14 @@
     </section>
     <section>
         <div class="wrap saw reverse">
-            <h1><span>1.</span> Start a feedback session</h1>
+            <h1><span class="step-number">1.</span> Start a feedback session</h1>
             <ul><li>A simple way to organize incoming feedback</li></ul>
             <%= svg_image("mobile_browsing", "landing", class: "detailed_analysis insert left bottom") %>
         </div>
     </section>
     <section id="hero">
         <div class="wrap saw">
-            <h1><span>2.</span> Send the link</h1>
+            <h1><span class="step-number">2.</span> Send the link</h1>
             <ul>
                 <li>Generate QR codes, embed iframes in your website, add link to email signature, and more</li>
                 <li>Users open link on any device and give <b>anonymous</b> feedback</li>
@@ -57,14 +57,14 @@
     </section>
     <section>
         <div class="wrap saw reverse">
-            <h1><span>3.</span> View your feedback</h1>
+            <h1><span class="step-number">3.</span> View your feedback</h1>
             <ul><li>See visualized data in a simple web dashboard</li></ul>
             <%= svg_image("detailed_analysis", "landing", class: "mobile_browsing insert left bottom") %>
             <button id=" <%= button.id %>" class="start-button" onclick="buttonOnClick('<%= button.href %>')">get feedback!</button>
         <div>
     </section>
     <section>
-        <div id="testimonials" class="wrap">
+        <div id="testimonials" class="wrap info">
             <h1>Testimonials</h1>
 
             <div class="testimonial">
@@ -72,6 +72,72 @@
                 <div id="quote">
                     <q>I used it for CIS560 on the last day I was with the class. I just shared the URL in the Zoom chat window and it worked great! In a matter of minutes I had several responses of valuable feedback!</q>
                     <div id="name">- John, university instructor</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div id="pricing" class="wrap info">
+            <h1>Pricing</h1>
+            <div id="pricing-tiers">
+                <div id="price-individual" class="tier">
+                    <img src="images/k_logo.png" />
+
+                    <h5>Personal</h5>
+
+                    <div class="price">
+                        $<span>0</span>/mo
+                    </div>
+
+                    <div class="features">
+                        <ol>
+                            <li>10 feedback sessions</li>
+                            <li>Full-featured dashboard</li>
+                            <li>Base support</li>
+                        </ol>
+                    </div>
+
+                    <a class="button" href="/portal?register=true">Create account</a>
+                </div>
+                <div id="price-professional" class="tier">
+                    <img src="images/k_logo_pro.jpg" />
+
+                    <h5>Small businesses</h5>
+
+                    <div class="price">
+                        $<span>10</span>/mo
+                    </div>
+
+                    <div class="features">
+                        <ol>
+                            <li><i>Unlimited</i> sessions</li>
+                            <li>Full-featured dashboard</li>
+                            <li>External app integrations</li>
+                            <li><i>Full</i> support</li>
+                        </ol>
+                    </div>
+
+                    <a class="button" href="/portal?ref=/stripe">Enter portal</a>
+                </div>
+                <div id="price-enterprise" class="tier">
+                    <img src="images/k_logo_pro.jpg" />
+
+                    <h5>Large companies</h5>
+
+                    <div class="price">
+                        $<span>?</span>/mo
+                    </div>
+
+                    <div class="features" />
+                        <div>
+                        <ol>
+                            <li><i>Professional tier features</i></li>
+                            <li>Tailored feedback solution</li>
+                        </ol>
+                        </div>
+                    </div>
+
+                    <a class="button" href="mailto:sales@kritikos.app">Contact sales</a>
                 </div>
             </div>
         </div>
