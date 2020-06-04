@@ -21,6 +21,6 @@ defmodule KritikosWeb.SessionController do
   def drop(conn, _params) do
     clear_session(conn)
     |> configure_session(drop: true)
-    |> redirect(to: "/")
+    |> render("logged_out.json", success: true)
   end
 end

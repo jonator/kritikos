@@ -2,6 +2,9 @@ defmodule KritikosWeb.FormatHelpers do
   @moduledoc """
   Provides format-related functions.
   """
+  def format_map_with_keys(map),
+    do: format_map_with_keys(map, Map.keys(map))
+
   def format_map_with_keys(%_{} = struct, keys),
     do: Map.from_struct(struct) |> format_map_with_keys(keys)
 

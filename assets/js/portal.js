@@ -2,10 +2,12 @@ import portalCss from "../css/portal.css";
 import Vue from "vue";
 import utils from "./utils.js"
 
+const urlQueryParams = new URLSearchParams(window.location.search);
+
 new Vue({
     el: "#portal",
     data: {
-        isRegistering: false,
+        isRegistering: urlQueryParams.get("register") === "true",
         firstLastName: "",
         email: "",
         password: "",

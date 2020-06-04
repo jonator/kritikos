@@ -17,13 +17,15 @@ defmodule KritikosWeb.DashboardController do
          {:ok, updated_user} <- Auth.update_user(user, %{is_email_active: true}) do
       conn
       |> put_session(:user, updated_user)
-      |> render_dashboard(updated_user, %{error: false, message: "✅Email confirmed"})
+      |> render_dashboard(updated_user,
+        initial_message: %{error: false, message: "✅Email verified successfully!"}
+      )
     else
       {:error, _reason} ->
         render_dashboard(
           conn,
           user,
-          %{
+          initial_message: %{
             error: true,
             message: "Failed to activate email! Contact support (support@kritikos.app)"
           }
@@ -31,23 +33,58 @@ defmodule KritikosWeb.DashboardController do
     end
   end
 
+  def dashboard(conn, %{"subscription" => "pro"}, user) do
+    updated_user = Auth.get_active_user(user.id)
+
+    case Kritikos.Stripe.get_user_subscription_status(updated_user.stripe_customer_id) do
+      "pro" ->
+        render_dashboard(
+          conn,
+          updated_user,
+          initial_message: %{
+            error: false,
+            message: "🎉Congratulations! You are now a pro subscriber"
+          },
+          subscription: "pro"
+        )
+
+      "free" ->
+        render_dashboard(conn, updated_user)
+    end
+  end
+
+  def dashboard(conn, %{"subscription" => "cancelled"}, user) do
+    render_dashboard(conn, user,
+      initial_message: %{error: false, message: "🛑Subscription checkout cancelled"}
+    )
+  end
+
   def dashboard(conn, _params, user) do
     render_dashboard(conn, user)
   end
 
-  defp render_dashboard(conn, user, initial_message \\ nil) do
+  defp render_dashboard(conn, user, opts \\ []) do
     token = Auth.sign_user_token(user.id)
 
     user =
-      Auth.get_user(user.id) |> Map.from_struct() |> Map.put(:is_admin, conn.assigns.is_admin?)
+      Auth.get_user(user.id)
+      |> Map.from_struct()
+      |> Map.put(:is_admin, conn.assigns.is_admin?)
+      |> Map.put(
+        :subscription_status,
+        Keyword.get(opts, :subscription) ||
+          Kritikos.Stripe.get_user_subscription_status(user.stripe_customer_id)
+      )
 
     user_sessions = Sessions.get_for_user(user.id, preload: [{:votes, :feedback}, :tags])
 
-    render(conn, "dashboard.html",
+    conn
+    |> put_session(:user, user)
+    |> render("dashboard.html",
       socket_token: token,
       user_record: user,
       sessions: user_sessions,
-      initial_message: initial_message
+      initial_message: Keyword.get(opts, :message)
     )
   end
 end

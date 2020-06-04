@@ -201,12 +201,17 @@ section button {
 }
 #pricing .tier .price span {
     font-size: 3em;
+    margin: 3px;
 }
 #pricing .tier a {
     margin: auto;
 }
 #pricing .tier .features {
     margin-top: 20px;
+}
+#pricing .features ol {
+    padding-left: 18px;
+    text-align: left;
 }
 #pricing .features li {
     list-style: "✅";

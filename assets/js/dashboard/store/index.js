@@ -17,6 +17,9 @@ export default new Vuex.Store({
         sessionsFilters: {
             filterTags: []
         },
+        stripe: {
+            client: initialState.stripeClient
+        },
         currentModalName: null,
         modalState: null,
         errors: []

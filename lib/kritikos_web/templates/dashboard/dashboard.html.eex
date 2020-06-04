@@ -1,5 +1,5 @@
 <div id="dashboard-mount" v-cloak></div>
-
+<script src="https://js.stripe.com/v3/"></script>
 <script>
 /* initial state */
 const userToken = <%= to_js_object(@socket_token) %>;
@@ -14,7 +14,8 @@ const initialState = {
         @sessions
         |> Enum.map(&format_session/1)
         |> to_js_object()
-    %>
+    %>,
+    stripeClient: Stripe(<%= Application.fetch_env!(:stripity_stripe, :public_key) |> to_js_object() %>)
 };
 const initialMessage = <%= to_js_object(@initial_message) %>;
 const voteLevels = <%= vote_data_js_object() %>

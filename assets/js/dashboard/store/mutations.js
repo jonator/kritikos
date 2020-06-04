@@ -44,10 +44,12 @@ export default {
     },
     openModal: (state, { form, initialState }) => {
         state.currentModalName = form
-        state.modalState = initialState
+        if (initialState) state.modalState = initialState
+        else state.modalState = {}
     },
     dismissModal: state => {
         state.currentModalName = null
+        state.modalState = null
     },
     updateSessionsFilter: (state, filterState) => {
         Object.assign(state.sessionsFilters, filterState)

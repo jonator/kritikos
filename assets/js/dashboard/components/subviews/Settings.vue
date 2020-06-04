@@ -37,6 +37,19 @@
             >change password</button>
           </td>
         </tr>
+        <tr>
+          <td>Tier</td>
+          <td id="tier-content">
+            <div id="tier-badges">
+              <span v-if="tier == 'free'" id="free-tier-badge" class="tier-badge">free</span>
+              <span v-else-if="tier == 'pro'" id="pro-tier-badge" class="tier-badge">pro</span>
+            </div>
+            <button
+              id="tier-action"
+              v-on:click="manageBillingClicked"
+            >{{ tier == 'free' ? 'Upgrade' : tier == 'pro' ? 'Manage' : 'Manage' }}</button>
+          </td>
+        </tr>
       </table>
     </div>
     <div id="support">
@@ -76,11 +89,23 @@ import HelperTooltip from "../HelperTooltip.vue";
 
 export default {
   components: { HelperTooltip },
+  computed: {
+    tier: function() {
+      return this.$store.state.userRecord.subscriptionStatus;
+    }
+  },
   methods: {
     sendVerificationEmail: function() {
       this.$store.dispatch("SEND_VERIFY_EMAIL").then(() => {
         this.$toasted.success("📧Verification email sent!");
       });
+    },
+    manageBillingClicked: function() {
+      if (this.tier == "free") {
+        this.$store.dispatch("OPEN_MODAL", { form: "StripeUpgradeToPro" });
+      } else {
+        this.$store.dispatch("OPEN_BILLING_SESSION");
+      }
     }
   }
 };
@@ -97,6 +122,13 @@ button {
 }
 #email-label {
   display: flex;
+}
+#tier-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#tier-badges {
+  margin: auto;
 }
 
 /* external icon */
@@ -132,5 +164,22 @@ button {
   border-right: 2px solid;
   border-top: 2px solid;
   top: -4px;
+}
+
+/* badges */
+.tier-badge {
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px;
+  border-radius: 0.1em;
+}
+
+#free-tier-badge {
+  background-color: green;
+}
+#pro-tier-badge {
+  background-color: #6848ba;
 }
 </style>

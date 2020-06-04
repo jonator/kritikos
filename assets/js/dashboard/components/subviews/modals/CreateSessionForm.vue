@@ -76,6 +76,11 @@ export default {
   data: function() {
     return this.$store.state.modalState;
   },
+  computed: {
+    isMobile: function() {
+      return utils.isMobile();
+    }
+  },
   methods: {
     confirmCreateSession: function() {
       const newSession = {
@@ -91,8 +96,7 @@ export default {
       } else {
         this.$store.dispatch("CREATE_SESSION", newSession);
       }
-    },
-    isMobile: utils.isMobile()
+    }
   }
 };
 </script>

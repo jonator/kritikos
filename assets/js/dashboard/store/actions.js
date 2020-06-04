@@ -1,7 +1,7 @@
 import baseUtils from "../../utils";
 
 function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
-    baseUtils.apiRequest(method, url + "?token=" + userToken, { ...body }).then(jsonResp => {
+    baseUtils.apiRequest(method, "/api" + url + "?token=" + userToken, { ...body }).then(jsonResp => {
         var errorsEncountered = false
         if (jsonResp.errors) {
             commit("addErrors", jsonResp.errors)
@@ -14,19 +14,17 @@ function apiRequestWithTokenAndErrors(method, url, body, commit, callback) {
 
 export default {
     LOG_OUT: ({ commit }) => {
-        fetch("/api/users/logout", {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "text/html"
+        apiRequestWithTokenAndErrors("POST", "/users/logout", null, commit, (resp, didError) => {
+            if (!didError) {
+                window.location = "/"
             }
-        }).then(resp => window.location.href = resp.url)
+        })
     },
     SELECT_SUBVIEW_INDEX: ({ commit }, index) => {
         commit("selectSubViewIndex", index)
     },
     CREATE_SESSION: ({ commit }, session) => {
-        apiRequestWithTokenAndErrors("POST", "/api/sessions/start", session, commit, (resp, didError) => {
+        apiRequestWithTokenAndErrors("POST", "/sessions/start", session, commit, (resp, didError) => {
             if (!didError) {
                 commit("incorporateModel", { session: resp.session })
                 commit("dismissModal")
@@ -42,7 +40,7 @@ export default {
             } else {
                 keyword = params.keyword
             }
-            apiRequestWithTokenAndErrors("GET", "/api/sessions/" + keyword, null, commit, (resp, didError) => {
+            apiRequestWithTokenAndErrors("GET", "/sessions/" + keyword, null, commit, (resp, didError) => {
                 if (!didError) {
                     commit("incorporateModel", { session: resp.session })
                     resolve()
@@ -52,15 +50,31 @@ export default {
             })
         });
     },
+    OPEN_CHECKOUT_SESSION: ({ commit, state }) => {
+        return new Promise((resolve, reject) => {
+            apiRequestWithTokenAndErrors("GET", "/billing/create_checkout_session", null, commit, (resp, didError) => {
+                if (!didError) {
+                    resolve(resp.stripe_object)
+                } else reject()
+            });
+        });
+    },
+    OPEN_BILLING_SESSION: ({ commit }) => {
+        apiRequestWithTokenAndErrors("GET", "/billing/create_billing_session", null, commit, (resp, didError) => {
+            if (!didError) {
+                window.location = resp.stripe_object.url
+            }
+        })
+    },
     END_SESSION: ({ commit }, keyword) => {
-        apiRequestWithTokenAndErrors("POST", "/api/sessions/" + keyword + "/end", null, commit, (resp, didError) => {
+        apiRequestWithTokenAndErrors("POST", "/sessions/" + keyword + "/end", null, commit, (resp, didError) => {
             if (!didError) commit("incorporateModel", { session: resp.session })
         })
     },
     DELETE_SESSION: ({ commit }, session_id) => {
         return new Promise((resolve, reject) => {
             if (confirm("Are you sure? Session data will also be deleted permanently")) {
-                apiRequestWithTokenAndErrors("POST", "/api/sessions/" + session_id + "/delete", null, commit, (resp, didError) => {
+                apiRequestWithTokenAndErrors("POST", "/sessions/" + session_id + "/delete", null, commit, (resp, didError) => {
                     if (!didError) {
                         commit("removeModel", { session: resp.session });
                         resolve();
@@ -73,7 +87,7 @@ export default {
         })
     },
     EXPORT_SESSION: ({ }, keyword) => {
-        baseUtils.download("/api/sessions/" + keyword + "/export/qr?token=" + userToken)
+        baseUtils.download("/sessions/" + keyword + "/export/qr?token=" + userToken)
     },
     OPEN_MODAL: ({ commit }, modalState) => {
         commit("openModal", modalState)
@@ -95,7 +109,7 @@ export default {
             attrs: attrs
         }
         return new Promise((resolve, reject) => {
-            apiRequestWithTokenAndErrors("PATCH", "/api/user/password", body, commit, (resp, didError) => {
+            apiRequestWithTokenAndErrors("PATCH", "/user/password", body, commit, (resp, didError) => {
                 if (didError) reject()
                 else resolve()
             })
@@ -106,7 +120,7 @@ export default {
     },
     SEND_VERIFY_EMAIL: ({ commit }) => {
         return new Promise((resolve, reject) => [
-            apiRequestWithTokenAndErrors("POST", "/api/user/verify_email", null, commit, (resp, didError) => {
+            apiRequestWithTokenAndErrors("POST", "/user/verify_email", null, commit, (resp, didError) => {
                 if (didError) reject()
                 else resolve()
             })

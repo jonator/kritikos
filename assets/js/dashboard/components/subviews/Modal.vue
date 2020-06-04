@@ -14,6 +14,7 @@
 import ChangePassword from "./modals/ChangePassword.vue";
 import CreateSessionForm from "./modals/CreateSessionForm.vue";
 import ExportSession from "./modals/ExportSession.vue";
+import StripeUpgradeToPro from "./modals/StripeUpgradeToPro.vue";
 
 const withinModalBox = event => {
   try {
@@ -26,7 +27,12 @@ const withinModalBox = event => {
 };
 
 export default {
-  components: { ChangePassword, CreateSessionForm, ExportSession },
+  components: {
+    ChangePassword,
+    CreateSessionForm,
+    ExportSession,
+    StripeUpgradeToPro
+  },
   data: function() {
     return { initialModalState: { ...this.$store.state.modalState } };
   },

@@ -58,5 +58,7 @@ defmodule KritikosWeb.Router do
     post "/sessions/:session_id/delete", SessionsController, :delete_session
     get "/sessions/:keyword", SessionsController, :get_session
     get "/sessions/:keyword/export/qr", SessionsController, :export_session_qr
+    get "/billing/create_checkout_session", StripeController, :create_checkout_session
+    get "/billing/create_billing_session", StripeController, :create_billing_session
   end
 end
