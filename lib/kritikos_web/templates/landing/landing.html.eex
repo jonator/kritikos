@@ -31,7 +31,7 @@
                 <li>users</li>
                 <li>clients</li>
                 <li>attendees</li>
-                <li>audience members</li>
+                <li>customers</li>
                 <li>friends</li>
             </ul>
             </h1>
@@ -91,18 +91,19 @@
 
                     <div class="features">
                         <ol>
-                            <li>10 feedback sessions</li>
+                            <li>10 auto closing sessions</li>
                             <li>Full-featured dashboard</li>
                             <li>Base support</li>
                         </ol>
                     </div>
 
                     <a class="button" href="/portal?register=true">Create account</a>
+                    <small>Upgrade anytime</small>
                 </div>
                 <div id="price-professional" class="tier">
                     <img src="images/k_logo_pro.jpg" />
 
-                    <h5>Small businesses</h5>
+                    <h5>Businesses</h5>
 
                     <div class="price">
                         $<span>10</span>/mo
@@ -112,32 +113,13 @@
                         <ol>
                             <li><i>Unlimited</i> sessions</li>
                             <li>Full-featured dashboard</li>
-                            <li>External app integrations</li>
+                            <li>External app integrations (coming soon, potential)</li>
                             <li><i>Full</i> support</li>
                         </ol>
                     </div>
 
-                    <a class="button" href="/portal?ref=/stripe">Enter portal</a>
-                </div>
-                <div id="price-enterprise" class="tier">
-                    <img src="images/k_logo_pro.jpg" />
-
-                    <h5>Large companies</h5>
-
-                    <div class="price">
-                        $<span>?</span>/mo
-                    </div>
-
-                    <div class="features" />
-                        <div>
-                        <ol>
-                            <li><i>Professional tier features</i></li>
-                            <li>Tailored feedback solution</li>
-                        </ol>
-                        </div>
-                    </div>
-
-                    <a class="button" href="mailto:sales@kritikos.app">Contact sales</a>
+                    <a class="button" href="/portal?ref=/dashboard#/settings">Enter portal</a>
+                    <small>Cancel anytime</small>
                 </div>
             </div>
         </div>

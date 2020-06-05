@@ -175,7 +175,7 @@ section button {
 
 #pricing #pricing-tiers {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     padding: 15px;
     gap: 10px;
     height: 500px;
@@ -207,10 +207,9 @@ section button {
     margin: auto;
 }
 #pricing .tier .features {
-    margin-top: 20px;
+    margin: auto;
 }
 #pricing .features ol {
-    padding-left: 18px;
     text-align: left;
 }
 #pricing .features li {

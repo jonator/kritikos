@@ -14,7 +14,7 @@ defmodule Kritikos.Stripe do
         end
 
       error ->
-        stripe_error(error, "create customer")
+        stripe_error(error)
     end
   end
 
@@ -38,7 +38,7 @@ defmodule Kritikos.Stripe do
            }
          }) do
       {:error, _reason} = e ->
-        stripe_error(e, "create checkout session")
+        stripe_error(e)
 
       ok ->
         ok
@@ -53,7 +53,7 @@ defmodule Kritikos.Stripe do
            return_url: host <> "/dashboard#/settings"
          }) do
       {:error, _reason} = e ->
-        stripe_error(e, "create billing session")
+        stripe_error(e)
 
       ok ->
         ok
@@ -81,7 +81,7 @@ defmodule Kritikos.Stripe do
         end
 
       {:error, _reason} = e ->
-        _ = stripe_error(e, "get suscription status")
+        _ = stripe_error(e)
         "free"
     end
   end
@@ -99,13 +99,13 @@ defmodule Kritikos.Stripe do
     Enum.find(products, fn %Stripe.Product{name: name} -> name == "Professional" end)
   end
 
-  defp stripe_error({:error, %Stripe.Error{user_message: nil} = e}, message) do
+  defp stripe_error({:error, %Stripe.Error{user_message: nil} = e}) do
     inspect(e) |> Logger.error()
 
-    {:error, "Stripe was unable to " <> message}
+    {:error, e.message}
   end
 
-  defp stripe_error({:error, %Stripe.Error{user_message: msg} = e}, _message) do
+  defp stripe_error({:error, %Stripe.Error{user_message: msg} = e}) do
     inspect(e) |> Logger.error()
 
     {:error, msg}

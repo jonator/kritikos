@@ -16,7 +16,6 @@ defmodule KritikosWeb.DashboardController do
            Auth.verify_token(token, "email_verify"),
          {:ok, updated_user} <- Auth.update_user(user, %{is_email_active: true}) do
       conn
-      |> put_session(:user, updated_user)
       |> render_dashboard(updated_user,
         initial_message: %{error: false, message: "✅Email verified successfully!"}
       )
@@ -60,13 +59,14 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def dashboard(conn, _params, user) do
+    IO.inspect(user)
     render_dashboard(conn, user)
   end
 
-  defp render_dashboard(conn, user, opts \\ []) do
+  defp render_dashboard(conn, %User{} = user, opts \\ []) do
     token = Auth.sign_user_token(user.id)
 
-    user =
+    user_record =
       Auth.get_user(user.id)
       |> Map.from_struct()
       |> Map.put(:is_admin, conn.assigns.is_admin?)
@@ -82,9 +82,17 @@ defmodule KritikosWeb.DashboardController do
     |> put_session(:user, user)
     |> render("dashboard.html",
       socket_token: token,
-      user_record: user,
+      user_record: user_record,
       sessions: user_sessions,
       initial_message: Keyword.get(opts, :message)
     )
+  end
+
+  def terms_of_service(conn, _params, _user) do
+    render(conn, "terms_of_service.html")
+  end
+
+  def privacy_policy(conn, _params, _user) do
+    render(conn, "privacy_policy.html")
   end
 end

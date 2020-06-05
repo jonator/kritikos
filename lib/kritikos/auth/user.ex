@@ -26,7 +26,7 @@ defmodule Kritikos.Auth.User do
       |> cast(attrs, [:email, :password, :password_confirmation, :first_last_name])
       |> validate_required([:email, :password, :password_confirmation, :first_last_name])
       |> unique_constraint(:email)
-      |> validate_format(:email, ~r/@/)
+      |> validate_format(:email, ~r/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)
       |> validate_required([:first_last_name])
       |> validate_format(:first_last_name, ~r/\ /, message: "must contain a space between names")
       |> validate_length(:first_last_name, max: 35)

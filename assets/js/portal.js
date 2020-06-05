@@ -26,9 +26,9 @@ new Vue({
             result.then((response) => {
                 if (response.user) {
                     if (ref) {
-                        window.location.href = ref
+                        window.location = ref
                     } else {
-                        window.location.href = "/dashboard"
+                        window.location = "/dashboard"
                     }
                 } else if (response.errors) {
                     response.errors.forEach(error => {

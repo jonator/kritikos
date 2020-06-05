@@ -4,7 +4,7 @@
       <div id="tier-branding">
         <img src="images/k_logo_pro.jpg" />
 
-        <h5>Small businesses</h5>
+        <h5>Businesses</h5>
       </div>
 
       <div id="tier-price">

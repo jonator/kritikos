@@ -14,7 +14,7 @@ defmodule KritikosWeb.Plug.AdminOnly do
     else
       conn
       |> put_status(:unauthorized)
-      |> Phoenix.Controller.redirect(to: "/portal")
+      |> Phoenix.Controller.redirect(to: "/portal?ref=#{conn.request_path}")
       |> halt
     end
   end
