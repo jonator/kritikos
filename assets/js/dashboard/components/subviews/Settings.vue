@@ -57,7 +57,7 @@
       <table>
         <col width="40%" />
         <tr>
-          <td id="desc">
+          <td class="link-external">
             New email
             <i class="gg-external"></i>
           </td>
@@ -66,9 +66,20 @@
           </td>
         </tr>
         <tr>
-          <td id="desc">Feedback</td>
+          <td class="link-external">Feedback</td>
           <td>
             <a href="https://kritikos.app/kritikos" target="_blank">kritikos.app/kritikos</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="link-external">
+            Legal
+            <i class="gg-external"></i>
+          </td>
+          <td>
+            <a href="/terms_of_service" target="_blank">Terms of service</a>
+            <br />
+            <a href="/privacy_policy" target="_blank">Privacy policy</a>
           </td>
         </tr>
       </table>
@@ -116,7 +127,7 @@ button {
   margin: 0;
   width: 100%;
 }
-#desc {
+.link-external {
   display: flex;
   justify-content: space-evenly;
 }
