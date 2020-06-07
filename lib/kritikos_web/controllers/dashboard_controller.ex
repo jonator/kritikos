@@ -59,7 +59,6 @@ defmodule KritikosWeb.DashboardController do
   end
 
   def dashboard(conn, _params, user) do
-    IO.inspect(user)
     render_dashboard(conn, user)
   end
 

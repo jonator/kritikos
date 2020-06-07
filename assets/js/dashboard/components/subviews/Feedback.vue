@@ -20,7 +20,18 @@
             id="feedback-time-bucket"
             colspan="2"
           >{{ f.dateBucketMonthDay }}</td>
-          <td v-if="f.type == 'feedback'" id="feedback-text">{{ f.text }}</td>
+          <td
+            v-if="f.type == 'feedback'"
+            id="feedback-text"
+            v-bind:class="{ 'free-tier-hidden' : f.freeTierHidden == true }"
+          >
+            {{ f.text }}
+            <div v-if="f.freeTierHidden" id="pro-tier-prompt">
+              Upgrade to
+              <span id="pro-tier-badge" class="tier-badge">PRO</span> to view
+            </div>
+          </td>
+
           <td v-if="f.type == 'feedback'" id="feedback-time">{{ f.voteDatetime.format("hh:mm a") }}</td>
         </tr>
       </table>
@@ -151,6 +162,18 @@ h3 {
   height: 450px;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+.free-tier-hidden {
+  position: relative;
+  color: transparent;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+#pro-tier-prompt {
+  position: absolute;
+  color: black;
+  font-weight: bold;
+  text-shadow: none;
+  top: 30%;
 }
 #vote-level-tabs {
   width: 100%;

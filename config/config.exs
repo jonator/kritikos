@@ -8,7 +8,8 @@
 import Config
 
 config :kritikos,
-  ecto_repos: [Kritikos.Repo]
+  ecto_repos: [Kritikos.Repo],
+  admin_email: "jonathanator0@gmail.com"
 
 # Configures the endpoint
 config :kritikos, KritikosWeb.Endpoint,

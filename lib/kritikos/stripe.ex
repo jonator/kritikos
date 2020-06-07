@@ -23,7 +23,7 @@ defmodule Kritikos.Stripe do
   end
 
   def create_checkout_session(customer_id) do
-    host = config_host()
+    host = Kritikos.Application.fetch_host()
     success_url = host <> "/dashboard?subscription=pro"
     cancel_url = host <> "/dashboard?subscription=cancelled"
     %Stripe.Plan{id: plan_id} = get_pro_plan()
@@ -46,7 +46,7 @@ defmodule Kritikos.Stripe do
   end
 
   def create_billing_session(customer_id) do
-    host = config_host()
+    host = Kritikos.Application.fetch_host()
 
     case Stripe.BillingPortal.Session.create(%{
            customer: customer_id,
@@ -110,6 +110,4 @@ defmodule Kritikos.Stripe do
 
     {:error, msg}
   end
-
-  defp config_host, do: Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:host]
 end

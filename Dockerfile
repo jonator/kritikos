@@ -3,7 +3,7 @@ ARG app_name=kritikos
 ENV MIX_ENV=prod TERM=xterm PORT=8080
 WORKDIR /opt/app
 RUN apk update \
-    && apk --no-cache --update add nodejs nodejs-npm build-base \
+    && apk --no-cache --update add nodejs nodejs-npm build-base git \
     && mix local.rebar --force \
     && mix local.hex --force
 COPY . .
@@ -23,7 +23,7 @@ ARG db_pass
 ARG mailgun_api_key
 ARG stripe_api_key
 RUN apk update \
-    && apk --no-cache --update add bash ca-certificates openssl-dev \
+    && apk --no-cache --update add bash ca-certificates openssl-dev wkhtmltopdf ttf-opensans \
     && mkdir -p /usr/local/bin \
     && wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 \
     -O /usr/local/bin/cloud_sql_proxy \
