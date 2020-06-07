@@ -82,8 +82,15 @@ defmodule Kritikos.Sessions.Session do
          } = changeset
        ) do
     case String.last(question) do
-      "?" -> changeset
-      _ -> add_error(changeset, :prompt_question, "must be in the form of a question")
+      "?" ->
+        changeset
+
+      _ ->
+        add_error(
+          changeset,
+          :prompt_question,
+          "must be in the form of a question (must end in '?')"
+        )
     end
   end
 

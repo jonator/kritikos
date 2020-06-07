@@ -1,7 +1,7 @@
 <template>
   <div id="export-session-form-container">
     <h3>Get "{{ $store.state.modalState.keyword }}" to your audience</h3>
-    <p>Useful methods for getting this session to your audience (more export methods coming soon)</p>
+    <p>Useful methods for getting this session to your audience:</p>
     <table>
       <col width="180" />
       <col width="10" />
@@ -17,8 +17,8 @@
         </td>
         <td id="download-button-container">
           <button
-            v-on:click="$store.dispatch('EXPORT_SESSION', $store.state.modalState.keyword)"
-          >download</button>
+            v-on:click="$store.dispatch('EXPORT_SESSION_QR_CODE', $store.state.modalState.keyword)"
+          >Download</button>
         </td>
       </tr>
       <tr>
@@ -40,6 +40,28 @@
           </div>
         </td>
       </tr>
+      <tr>
+        <td>
+          <div class="has-tooltip">
+            3x4 QR Codes (PDF)
+            <HelperTooltip
+              :vPosition="'top'"
+              style="padding-left: 20px"
+            >Generate a 3x4 grid of QRCodes with the prompt question above each code. Useful for cutting out and placing in strategic areas.</HelperTooltip>
+          </div>
+          <br />
+          <a
+            v-on:click="showQRGridExamplePhoto = !showQRGridExamplePhoto"
+          >{{ showQRGridExamplePhoto ? 'Hide' : 'Show' }} example</a>
+          <br />
+          <img v-if="showQRGridExamplePhoto" src="images/qrpdf_grid_example.jpeg" width="300" />
+        </td>
+        <td id="download-button-container">
+          <button
+            v-on:click="$store.dispatch('EXPORT_SESSION_PDF', $store.state.modalState.keyword)"
+          >Download</button>
+        </td>
+      </tr>
     </table>
     <button @click="$emit('dismiss')">cancel</button>
   </div>
@@ -54,9 +76,15 @@ export default {
   components: { HelperTooltip },
   data: function() {
     return {
-      iframeURL:
-        window.location.origin + "/" + this.$store.state.modalState.keyword
+      showQRGridExamplePhoto: false
     };
+  },
+  computed: {
+    iframeURL: function() {
+      return (
+        window.location.origin + "/" + this.$store.state.modalState.keyword
+      );
+    }
   },
   methods: {
     copyIFrameHtmlToClipboard: function(url) {

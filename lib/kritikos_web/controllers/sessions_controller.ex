@@ -75,7 +75,24 @@ defmodule KritikosWeb.SessionsController do
   end
 
   def export_session_qr(conn, %{"keyword" => keyword}, _user) do
-    binary_img = Sessions.export_qr_code(keyword)
+    binary_img = Sessions.Export.export_qr_code(keyword)
     send_download(conn, {:binary, binary_img}, filename: keyword <> ".png")
+  end
+
+  def export_session_qr_pdf_grid(conn, %{"keyword" => keyword}, _user) do
+    {:ok, pdf_grid_filename} = Sessions.Export.generate_session_qr_code_grid_pdf(keyword)
+
+    case File.read(pdf_grid_filename) do
+      {:ok, pdf_grid_binary} ->
+        conn
+        |> send_download({:binary, pdf_grid_binary}, filename: keyword <> ".pdf")
+
+      {:error, reason} ->
+        File.rm!(pdf_grid_filename)
+
+        conn
+        |> put_view(KritikosWeb.ErrorView)
+        |> render("error.json", %{message: reason})
+    end
   end
 end

@@ -15,11 +15,13 @@ config :kritikos,
 config :kritikos, KritikosWeb.Endpoint,
   load_from_system_env: true,
   http: [:inet6, port: System.fetch_env!("PORT")],
-  url: [host: "https://kritikos.app", port: 80],
+  url: [scheme: "https://", host: "kritikos.app", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   check_origin: ["//kritikos.app", "http://localhost:8080"],
   live_view: [signing_salt: "live view"]
+
+config :stripity_stripe, public_key: "pk_live_pACFhKCetdquYeu9VjZygWIe00tKCzLOTm"
 
 # Do not print debug messages in production
 config :logger, level: :info

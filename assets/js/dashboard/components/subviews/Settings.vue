@@ -3,12 +3,13 @@
     <div id="user-info">
       About me
       <table>
+        <col width="40%" />
         <tr v-if="$store.state.userRecord.firstLastName">
           <td>Name</td>
           <td>{{ $store.state.userRecord.firstLastName }}</td>
         </tr>
         <tr>
-          <td id="email-label">
+          <td>
             Email
             <HelperTooltip v-if="$store.state.userRecord.isEmailActive">✅Email verified</HelperTooltip>
             <HelperTooltip
@@ -38,7 +39,39 @@
           </td>
         </tr>
         <tr>
-          <td>Tier</td>
+          <td>
+            Tier
+            <HelperTooltip v-if="tier == 'free'" :vPosition="'top'">
+              Your {{ tier }} features:
+              <div class="features">
+                <ol>
+                  <li>
+                    View up to
+                    <b>400</b> vote/feedback responses.
+                  </li>
+                  <li>Full-featured dashboard</li>
+                  <li>External app integrations (coming soon)</li>
+                  <li>Base support</li>
+                </ol>
+              </div>
+            </HelperTooltip>
+            <HelperTooltip v-else-if="tier == 'pro'" :vPosition="'top'">
+              Your {{ tier }} features:
+              <div class="features">
+                <ol>
+                  <li>
+                    View
+                    <b>unlimited</b> vote/feedback responses
+                  </li>
+                  <li>Full-featured dashboard</li>
+                  <li>External app integrations (coming soon)</li>
+                  <li>
+                    <i>Full</i> customer support
+                  </li>
+                </ol>
+              </div>
+            </HelperTooltip>
+          </td>
           <td id="tier-content">
             <div id="tier-badges">
               <span v-if="tier == 'free'" id="free-tier-badge" class="tier-badge">free</span>
@@ -131,15 +164,20 @@ button {
   display: flex;
   justify-content: space-evenly;
 }
-#email-label {
-  display: flex;
-}
 #tier-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 #tier-badges {
   margin: auto;
+}
+.features ol {
+  margin: 0;
+  padding: 0;
+}
+.features li {
+  list-style: "✅";
+  list-style-position: inside;
 }
 
 /* external icon */
@@ -175,22 +213,5 @@ button {
   border-right: 2px solid;
   border-top: 2px solid;
   top: -4px;
-}
-
-/* badges */
-.tier-badge {
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 3px;
-  border-radius: 0.1em;
-}
-
-#free-tier-badge {
-  background-color: green;
-}
-#pro-tier-badge {
-  background-color: #6848ba;
 }
 </style>

@@ -86,8 +86,11 @@ export default {
             }
         })
     },
-    EXPORT_SESSION: ({ }, keyword) => {
-        baseUtils.download("/sessions/" + keyword + "/export/qr?token=" + userToken)
+    EXPORT_SESSION_QR_CODE: ({ }, keyword) => {
+        baseUtils.download("/api/sessions/" + keyword + "/export/qr?token=" + userToken)
+    },
+    EXPORT_SESSION_PDF: ({ }, keyword) => {
+        baseUtils.download("/api/sessions/" + keyword + "/export/qr_pdf_grid?token=" + userToken)
     },
     OPEN_MODAL: ({ commit }, modalState) => {
         commit("openModal", modalState)

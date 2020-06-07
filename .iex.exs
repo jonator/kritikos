@@ -23,7 +23,7 @@ Module.create(
       end)
     end
 
-    def create_scenario_for_user_id(user_id) do
+    def create_scenario_for_user_id(user_id, vote_counts \\ 30) do
       delete_all_models()
       user = Auth.get_active_user(user_id)
       user_session = %Session{user_id: user.id}
@@ -52,7 +52,7 @@ Module.create(
 
       vote_inserts =
         Enum.map(session_inserts, fn s ->
-          Enum.map(1..Enum.random(10..30), fn _ ->
+          Enum.map(1..Enum.random(10..vote_counts), fn _ ->
             vote = Ecto.build_assoc(s, :votes, vote_level_id: Enum.random(1..3))
             Vote.create_changeset(vote, %{}) |> Repo.insert() |> elem(1)
           end)
