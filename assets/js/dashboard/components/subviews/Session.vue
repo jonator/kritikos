@@ -58,7 +58,7 @@
         <tr v-if="infoDrawerOpen">
           <td>Tags</td>
           <td v-if="session.tags.length > 0" id="tags-list">
-            <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
+            <span v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</span>
           </td>
           <td v-else>(no tags)</td>
         </tr>
@@ -190,8 +190,13 @@ export default {
 #tags-list {
   display: flex;
 }
-#tags-list div {
-  padding-right: 5px;
+#tags-list span {
+  background-color: #5c6bc0;
+  color: #fff;
+  border-radius: 2px;
+  margin-right: 5px;
+  padding: 0 8px;
+  height: 28px;
 }
 
 /* info transition */
