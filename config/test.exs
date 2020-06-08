@@ -19,3 +19,7 @@ config :kritikos, Kritikos.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :bcrypt_elixir, log_rounds: 4
+
+config :stripity_stripe,
+  public_key: "pk_test_fLfgIeP1l56Kg3lS3A82wKns00XdANMFHO",
+  api_key: "sk_test_BJrOyM75cSB4JdeKdDV3bnbt00gWQB9idX"

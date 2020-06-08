@@ -6,7 +6,7 @@ defmodule Kritikos.AuthTest do
   setup do
     {:ok, user} =
       Auth.register_user(%{
-        email: "test@email",
+        email: "test@email.com",
         password: "some password",
         password_confirmation: "some password",
         first_last_name: "John Doe"
@@ -19,7 +19,7 @@ defmodule Kritikos.AuthTest do
     alias Kritikos.Auth.User
 
     @valid_attrs %{
-      email: "some@email",
+      email: "some@email.com",
       password: "some password",
       password_confirmation: "some password",
       first_last_name: "John Doe"
@@ -37,7 +37,7 @@ defmodule Kritikos.AuthTest do
 
     test "register_user/1 with valid data creates a user" do
       {:ok, %User{} = user} = Auth.register_user(@valid_attrs)
-      assert user.email == "some@email"
+      assert user.email == "some@email.com"
       assert user.is_active == true
     end
 

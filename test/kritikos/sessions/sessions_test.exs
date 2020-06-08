@@ -6,7 +6,7 @@ defmodule Kritikos.SessionsTest do
   setup do
     {:ok, user} =
       Kritikos.Auth.register_user(%{
-        email: "john@doe",
+        email: "john@doe.com",
         password: "test",
         password_confirmation: "test",
         first_last_name: "John Doe"
