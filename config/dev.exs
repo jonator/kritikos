@@ -7,7 +7,7 @@ import Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :kritikos, KritikosWeb.Endpoint,
-  url: [host: "localhost", port: 4000],
+  url: [scheme: "http://", host: "localhost:4000", port: 4000],
   secret_key_base: "ZqlOOOs/G6dbTot3SpxziwEtIkex8K+Yx+VVXM6vVSod/45HPkRj4wVHeeNGdds/",
   http: [port: 4000],
   debug_errors: true,
@@ -34,6 +34,10 @@ config :kritikos, KritikosWeb.Endpoint,
   live_view: [signing_salt: "SECRET_SALT"]
 
 config :kritikos, KritikosWeb.Mailer, adapter: Bamboo.LocalAdapter
+
+config :stripity_stripe,
+  public_key: "pk_test_fLfgIeP1l56Kg3lS3A82wKns00XdANMFHO",
+  api_key: "sk_test_BJrOyM75cSB4JdeKdDV3bnbt00gWQB9idX"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

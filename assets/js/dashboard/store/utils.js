@@ -1,25 +1,46 @@
 import utils from "../../utils";
 import moment from "moment";
 
+const FREE_FEEDBACKS_COUNT = 400;
+var FREE_FEEDBACKS_IDS = [];
+const lorem_ipsum = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis."
+
 const dashboardUtils = {
     calcSessionVoteActivity: (votes) => {
-        var timeDurations = [];
-        for (var i = 1; i < votes.length; i++) {
-            const prevVoteDatetime = moment(votes[i - 1].voteDatetime);
-            const curVoteDatetime = moment(votes[i].voteDatetime);
-            const timeDuration = moment
-                .duration(prevVoteDatetime.diff(curVoteDatetime))
-                .as("ms");
-            timeDurations.push(timeDuration);
+        if (votes && votes.length > 4) {
+            var timeDurations = [];
+            for (var i = 1; i < votes.length; i++) {
+                const prevVoteDatetime = moment(votes[i - 1].voteDatetime);
+                const curVoteDatetime = moment(votes[i].voteDatetime);
+                const timeDuration = moment
+                    .duration(prevVoteDatetime.diff(curVoteDatetime))
+                    .as("ms");
+                timeDurations.push(timeDuration);
+            }
+            const averageDuration = utils.average(timeDurations);
+            return moment.duration(averageDuration).humanize() + " between votes";
+        } else {
+            return "little to none"
         }
-        const averageDuration = utils.average(timeDurations);
-        return moment.duration(averageDuration).humanize() + " between votes";
+
+    },
+    presentVote: vote => {
+        if (vote.feedback && initialState.userRecord.subscriptionStatus == "free") {
+            if (FREE_FEEDBACKS_IDS.length < FREE_FEEDBACKS_COUNT) {
+                FREE_FEEDBACKS_IDS.push(vote.feedback.id);
+            } else if (!FREE_FEEDBACKS_IDS.includes(vote.feedback.id)) {
+                vote.feedback.freeTierHidden = true;
+                vote.feedback.text = lorem_ipsum;
+            }
+        }
+        return vote;
     },
     presentSession: (session) => {
         session.link = window.location.origin + '/' + session.keyword;
         session.isEnded = session.endDatetime != null;
-        session.activity = session.votes && session.votes.length > 4 ? dashboardUtils.calcSessionVoteActivity(session.votes) : "little to none"
+        session.activity = dashboardUtils.calcSessionVoteActivity(session.votes);
         if (!session.votes) session.votes = [];
+        session.votes.sort((a, b) => a.id - b.id).map(dashboardUtils.presentVote);
         return session;
     }
 }

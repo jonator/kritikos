@@ -5,7 +5,9 @@ defmodule KritikosWeb.Plug.AdminOnly do
 
   def init(opts), do: opts
 
-  def call(conn, email: admin_email) do
+  def call(conn, _) do
+    admin_email = Application.fetch_env!(:kritikos, :admin_email)
+
     %User{email: email} =
       KritikosWeb.Plug.EnsureAuthenticated.call(conn, store: :cookie).assigns.user
 
@@ -14,7 +16,7 @@ defmodule KritikosWeb.Plug.AdminOnly do
     else
       conn
       |> put_status(:unauthorized)
-      |> Phoenix.Controller.redirect(to: "/portal")
+      |> Phoenix.Controller.redirect(to: "/portal?ref=#{conn.request_path}")
       |> halt
     end
   end

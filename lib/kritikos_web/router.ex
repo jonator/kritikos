@@ -17,7 +17,7 @@ defmodule KritikosWeb.Router do
   end
 
   pipeline :admin do
-    plug KritikosWeb.Plug.AdminOnly, email: "jonathanator0@gmail.com"
+    plug KritikosWeb.Plug.AdminOnly
   end
 
   scope "/admin" do
@@ -36,6 +36,8 @@ defmodule KritikosWeb.Router do
     get "/", LandingController, :landing
     get "/portal", PortalController, :portal
     get "/dashboard", DashboardController, :dashboard
+    get "/terms_of_service", DashboardController, :terms_of_service
+    get "/privacy_policy", DashboardController, :privacy_policy
     get "/:keyword", PromptController, :live_session
     get "/:keyword/form", PromptController, :live_session_form
     get "/:keyword/thanks", PromptController, :thanks
@@ -58,5 +60,8 @@ defmodule KritikosWeb.Router do
     post "/sessions/:session_id/delete", SessionsController, :delete_session
     get "/sessions/:keyword", SessionsController, :get_session
     get "/sessions/:keyword/export/qr", SessionsController, :export_session_qr
+    get "/sessions/:keyword/export/qr_pdf_grid", SessionsController, :export_session_qr_pdf_grid
+    get "/billing/create_checkout_session", StripeController, :create_checkout_session
+    get "/billing/create_billing_session", StripeController, :create_billing_session
   end
 end

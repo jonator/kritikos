@@ -47,80 +47,6 @@ button #dashboard {
 
 
 /* CONTENT */
-
-@media only screen and (max-width: 1320px) {
-    #hero.top div #word-carousel {
-        font-size: 2em;
-    }
-}
-
-@media only screen and (max-width: 1060px) {
-    #hero.top div #word-carousel {
-        font-size: 1.7em;
-        line-height: 2;
-    }
-}
-
-@media only screen and (max-width: 900px) {
-    #hero.top div #word-carousel {
-        font-size: 1.5em;
-        line-height: 2.2;
-    }
-}
-
-@media only screen and (max-width: 800px) {
-    #hero.top div #word-carousel {
-        font-size: 1.2em;
-        line-height: 2.3;
-    }
-}
-
-@media only screen and (max-width: 650px) {
-    header .wrap {
-        width: 80%;
-        line-height: normal;
-    }
-    article section .wrap {
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        padding-right: 0%;
-        padding-bottom: 10%;
-    }
-    .wrap svg {
-        height: 150px;
-        width: 80%;
-    }
-    article section .wrap .insert {
-        position: relative;
-    }
-
-    article section .wrap.reverse {
-        padding-left: 0%;
-    }
-    #word-carousel {
-        font-size: 1.3em;
-    }
-    .testimonial img {
-        margin-top: 45%;
-    }
-}
-
-
-@media only screen and (max-width: 480px) {
-    #hero.top div #word-carousel {
-        font-size: 1em;
-        line-height: 2.4;
-    }
-}
-
-@media only screen and (max-width: 380px) {
-    #hero.top div #word-carousel {
-        font-size: 0.9em;
-        line-height: 2.8;
-    }
-}
-
 .saw:after {
     bottom: -60px;
     content: '';
@@ -184,7 +110,7 @@ section {
     padding: 20px;
 }
 
-section span {
+section .step-number {
     font-family: "grec";
     font-size: 1.3em;
 }
@@ -233,10 +159,11 @@ section button {
     transition: all 0.5s;
 }
 
-#testimonials {
-    padding-right: 0;
+.info {
     text-align: center;
+    padding-right: 0;
 }
+
 .testimonial {
     display: grid;
     grid-template-columns: 100px 1fr;
@@ -244,4 +171,127 @@ section button {
 .testimonial img {
     border-radius: 50%;
     border: 2px lightgray solid;
+}
+
+#pricing #pricing-tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 15px;
+    gap: 10px;
+    height: 500px;
+}
+
+#pricing .tier h5 {
+    font-weight: bold;
+    color: gray;
+}
+
+#pricing .tier {
+    display: grid;
+    grid-template-rows: 2fr 30px 60px 4fr 40px;
+    padding: 10px;
+    border: 1px solid #eaeaea;
+}
+#pricing .tier img {
+    margin: auto;
+    width: 60px;
+}
+#pricing .tier .price {
+    font-weight: bold;
+}
+#pricing .tier .price span {
+    font-size: 3em;
+    margin: 3px;
+}
+#pricing .tier a {
+    margin: auto;
+}
+#pricing .tier .features {
+    margin: auto;
+}
+#pricing .features ol {
+    text-align: left;
+}
+#pricing .features li {
+    list-style: "✅";
+    list-style-position: inside;
+}
+
+/* Mobile */
+
+@media only screen and (max-width: 1320px) {
+    #hero.top div #word-carousel {
+        font-size: 2em;
+    }
+}
+
+@media only screen and (max-width: 1060px) {
+    #hero.top div #word-carousel {
+        font-size: 1.7em;
+        line-height: 2;
+    }
+    #pricing #pricing-tiers {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    #hero.top div #word-carousel {
+        font-size: 1.5em;
+        line-height: 2.2;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    #hero.top div #word-carousel {
+        font-size: 1.2em;
+        line-height: 2.3;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    header .wrap {
+        width: 80%;
+        line-height: normal;
+    }
+    article section .wrap {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        padding-right: 0%;
+        padding-bottom: 10%;
+    }
+    .wrap svg {
+        height: 150px;
+        width: 80%;
+    }
+    article section .wrap .insert {
+        position: relative;
+    }
+
+    article section .wrap.reverse {
+        padding-left: 0%;
+    }
+    #word-carousel {
+        font-size: 1.3em;
+    }
+    .testimonial img {
+        margin-top: 45%;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    #hero.top div #word-carousel {
+        font-size: 1em;
+        line-height: 2.4;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    #hero.top div #word-carousel {
+        font-size: 0.9em;
+        line-height: 2.8;
+    }
 }

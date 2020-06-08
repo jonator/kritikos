@@ -4,7 +4,7 @@ defmodule Kritikos.MixProject do
   def project do
     [
       app: :kritikos,
-      version: "0.1.12",
+      version: "0.1.13",
       elixir: "~> 1.10.0",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -27,7 +27,7 @@ defmodule Kritikos.MixProject do
   def application do
     [
       mod: {Kritikos.Application, []},
-      extra_applications: [:logger, :runtime_tools, :bamboo]
+      extra_applications: [:logger, :runtime_tools, :bamboo, :stripity_stripe]
     ]
   end
 
@@ -56,7 +56,13 @@ defmodule Kritikos.MixProject do
       {:eqrcode, "~> 0.1.6"},
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:phoenix_live_dashboard, "~> 0.1"},
-      {:bamboo, "~> 1.5.0"}
+      {:bamboo, "~> 1.5.0"},
+      # to get billing portal
+      {:stripity_stripe,
+       git: "https://github.com/code-corps/stripity_stripe",
+       ref: "337807d3f3ee8ac419ce97a684620cd8df0195d8"},
+      {:pdf_generator, "~> 0.6.2"},
+      {:sneeze, "~> 1.2"}
     ]
   end
 

@@ -10,7 +10,9 @@ config :kritikos, Kritikos.Repo,
   socket_dir: "/tmp/cloudsql/kritikos-257816:us-central1:kritikos-db",
   pool_size: 15
 
-config :kritikos, Kritikos.Mailer,
+config :kritikos, KritikosWeb.Mailer,
   adapter: Bamboo.MailgunAdapter,
   api_key: System.fetch_env!("MAILGUN_API_KEY"),
   domain: "kritikos.app"
+
+config :stripity_stripe, api_key: System.get_env("STRIPE_API_KEY")

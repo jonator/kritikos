@@ -59,3 +59,20 @@
 h3 div {
     display: inline-flex;
 }
+
+/* badges */
+.tier-badge {
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px;
+    border-radius: 0.1em;
+  }
+  
+  #free-tier-badge {
+    background-color: green;
+  }
+  #pro-tier-badge {
+    background-color: #6848ba;
+  }

@@ -50,6 +50,11 @@ defmodule Kritikos.Auth do
   def register_user(attrs \\ %{}),
     do: User.create_changeset(%User{}, attrs) |> Repo.insert()
 
+  def create_customer(%User{} = user, stripe_customer_id) do
+    User.changeset(user, %{stripe_customer_id: stripe_customer_id})
+    |> Repo.update()
+  end
+
   def update_user(user, attrs \\ %{}),
     do: User.changeset(user, attrs) |> Repo.update()
 

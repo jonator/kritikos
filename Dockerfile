@@ -3,7 +3,7 @@ ARG app_name=kritikos
 ENV MIX_ENV=prod TERM=xterm PORT=8080
 WORKDIR /opt/app
 RUN apk update \
-    && apk --no-cache --update add nodejs nodejs-npm build-base \
+    && apk --no-cache --update add nodejs nodejs-npm build-base git \
     && mix local.rebar --force \
     && mix local.hex --force
 COPY . .
@@ -21,14 +21,15 @@ FROM alpine:3.9
 ARG secret
 ARG db_pass
 ARG mailgun_api_key
+ARG stripe_api_key
 RUN apk update \
-    && apk --no-cache --update add bash ca-certificates openssl-dev \
+    && apk --no-cache --update add bash ca-certificates openssl-dev wkhtmltopdf ttf-opensans \
     && mkdir -p /usr/local/bin \
     && wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 \
     -O /usr/local/bin/cloud_sql_proxy \
     && chmod +x /usr/local/bin/cloud_sql_proxy \
     && mkdir -p /tmp/cloudsql
-ENV PORT=8080 REPLACE_OS_VARS=true SECRET=${secret} DB_PASS=${db_pass} MAILGUN_API_KEY=${mailgun_api_key}
+ENV PORT=8080 REPLACE_OS_VARS=true SECRET=${secret} DB_PASS=${db_pass} MAILGUN_API_KEY=${mailgun_api_key} STRIPE_API_KEY=${stripe_api_key}
 EXPOSE ${PORT}
 WORKDIR /opt/app
 COPY rel/kritikos-257816-0a56ad203b89.json .

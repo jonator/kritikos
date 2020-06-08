@@ -3,12 +3,13 @@
     <div id="user-info">
       About me
       <table>
+        <col width="40%" />
         <tr v-if="$store.state.userRecord.firstLastName">
           <td>Name</td>
           <td>{{ $store.state.userRecord.firstLastName }}</td>
         </tr>
         <tr>
-          <td id="email-label">
+          <td>
             Email
             <HelperTooltip v-if="$store.state.userRecord.isEmailActive">✅Email verified</HelperTooltip>
             <HelperTooltip
@@ -37,6 +38,51 @@
             >change password</button>
           </td>
         </tr>
+        <tr>
+          <td>
+            Tier
+            <HelperTooltip v-if="tier == 'free'" :vPosition="'top'">
+              Your {{ tier }} features:
+              <div class="features">
+                <ol>
+                  <li>
+                    View up to
+                    <b>400</b> vote/feedback responses.
+                  </li>
+                  <li>Full-featured dashboard</li>
+                  <li>External app integrations (coming soon)</li>
+                  <li>Base support</li>
+                </ol>
+              </div>
+            </HelperTooltip>
+            <HelperTooltip v-else-if="tier == 'pro'" :vPosition="'top'">
+              Your {{ tier }} features:
+              <div class="features">
+                <ol>
+                  <li>
+                    View
+                    <b>unlimited</b> vote/feedback responses
+                  </li>
+                  <li>Full-featured dashboard</li>
+                  <li>External app integrations (coming soon)</li>
+                  <li>
+                    <i>Full</i> customer support
+                  </li>
+                </ol>
+              </div>
+            </HelperTooltip>
+          </td>
+          <td id="tier-content">
+            <div id="tier-badges">
+              <span v-if="tier == 'free'" id="free-tier-badge" class="tier-badge">free</span>
+              <span v-else-if="tier == 'pro'" id="pro-tier-badge" class="tier-badge">pro</span>
+            </div>
+            <button
+              id="tier-action"
+              v-on:click="manageBillingClicked"
+            >{{ tier == 'free' ? 'Upgrade' : tier == 'pro' ? 'Manage' : 'Manage' }}</button>
+          </td>
+        </tr>
       </table>
     </div>
     <div id="support">
@@ -44,7 +90,7 @@
       <table>
         <col width="40%" />
         <tr>
-          <td id="desc">
+          <td class="link-external">
             New email
             <i class="gg-external"></i>
           </td>
@@ -53,9 +99,20 @@
           </td>
         </tr>
         <tr>
-          <td id="desc">Feedback</td>
+          <td class="link-external">Feedback</td>
           <td>
             <a href="https://kritikos.app/kritikos" target="_blank">kritikos.app/kritikos</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="link-external">
+            Legal
+            <i class="gg-external"></i>
+          </td>
+          <td>
+            <a href="/terms_of_service" target="_blank">Terms of service</a>
+            <br />
+            <a href="/privacy_policy" target="_blank">Privacy policy</a>
           </td>
         </tr>
       </table>
@@ -76,11 +133,23 @@ import HelperTooltip from "../HelperTooltip.vue";
 
 export default {
   components: { HelperTooltip },
+  computed: {
+    tier: function() {
+      return this.$store.state.userRecord.subscriptionStatus;
+    }
+  },
   methods: {
     sendVerificationEmail: function() {
       this.$store.dispatch("SEND_VERIFY_EMAIL").then(() => {
         this.$toasted.success("📧Verification email sent!");
       });
+    },
+    manageBillingClicked: function() {
+      if (this.tier == "free") {
+        this.$store.dispatch("OPEN_MODAL", { form: "StripeUpgradeToPro" });
+      } else {
+        this.$store.dispatch("OPEN_BILLING_SESSION");
+      }
     }
   }
 };
@@ -91,12 +160,24 @@ button {
   margin: 0;
   width: 100%;
 }
-#desc {
+.link-external {
   display: flex;
   justify-content: space-evenly;
 }
-#email-label {
-  display: flex;
+#tier-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#tier-badges {
+  margin: auto;
+}
+.features ol {
+  margin: 0;
+  padding: 0;
+}
+.features li {
+  list-style: "✅";
+  list-style-position: inside;
 }
 
 /* external icon */

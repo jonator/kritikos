@@ -11,6 +11,7 @@ defmodule Kritikos.Auth.User do
     field :first_last_name, :string
     field :is_active, :boolean, default: true
     field :is_email_active, :boolean, default: false
+    field :stripe_customer_id, :string, default: nil
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
@@ -25,7 +26,7 @@ defmodule Kritikos.Auth.User do
       |> cast(attrs, [:email, :password, :password_confirmation, :first_last_name])
       |> validate_required([:email, :password, :password_confirmation, :first_last_name])
       |> unique_constraint(:email)
-      |> validate_format(:email, ~r/@/)
+      |> validate_format(:email, ~r/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)
       |> validate_required([:first_last_name])
       |> validate_format(:first_last_name, ~r/\ /, message: "must contain a space between names")
       |> validate_length(:first_last_name, max: 35)
@@ -36,7 +37,7 @@ defmodule Kritikos.Auth.User do
   def changeset(user, attrs),
     do:
       user
-      |> cast(attrs, [:password, :password_confirmation, :is_email_active])
+      |> cast(attrs, [:password, :password_confirmation, :is_email_active, :stripe_customer_id])
       |> validate_password_confirmation
       |> put_password_hash
 

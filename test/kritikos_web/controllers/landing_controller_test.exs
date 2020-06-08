@@ -7,6 +7,6 @@ defmodule KritikosWeb.LandingControllerTest do
     assert html_response(conn, 200) =~ "<title>Kritikos</title>"
 
     assert html_response(conn, 200) =~
-             "<li>patients</li>\n                <li>users</li>\n                <li>clients</li>\n                <li>attendees</li>\n                <li>audience members</li>"
+             "<div id=\"name\">- John, university instructor</div>\n                </div>\n            </div>\n        </div>\n    </section>\n    <section>\n        <div id=\"pricing\" class=\"wrap info\">\n            <h1>Pricing</h1>\n            <div id=\"pricing-tiers\">\n                <div id=\"price-individual\" class=\"tier\">"
   end
 end

@@ -16,4 +16,9 @@ defmodule Kritikos.Application do
     KritikosWeb.Endpoint.config_change(changed, removed)
     :ok
   end
+
+  def fetch_host do
+    Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:scheme] <>
+      Application.fetch_env!(:kritikos, KritikosWeb.Endpoint)[:url][:host]
+  end
 end

@@ -1,31 +1,48 @@
 <template>
   <div id="feedback-container">
     <h3>Feedback by category</h3>
-    <div id="vote-level-tabs">
-      <div
-        class="vote-level-tab"
-        v-for="(v, index) in $store.state.voteLevels"
-        :key="index"
-        :class="{ active: v.id == currentVoteLevelId, clickable: v.id != currentVoteLevelId }"
-        @click="selectVoteLevelTab(v.id)"
-      >{{v.voteLevelId}}</div>
+    <div v-if="allFeedbacksLength > 0" id="feedback-content-wrapper">
+      <div id="vote-level-tabs">
+        <div
+          class="vote-level-tab"
+          v-for="(v, index) in $store.state.voteLevels"
+          :key="index"
+          :class="{ active: v.id == currentVoteLevelId, clickable: v.id != currentVoteLevelId }"
+          v-on:click="selectVoteLevelTab(v.id)"
+        >{{v.voteLevelId}}</div>
+      </div>
+      <div v-if="categoryFeedbacks.length > 0" id="feedbacks-container">
+        <table>
+          <col width="70%" />
+          <col width="30%" />
+          <tr class="feedback" v-for="f in categoryFeedbacks" :key="f.id">
+            <td
+              v-if="f.type == 'bucket'"
+              id="feedback-time-bucket"
+              colspan="2"
+            >{{ f.dateBucketMonthDay }}</td>
+            <td
+              v-if="f.type == 'feedback'"
+              id="feedback-text"
+              v-bind:class="{ 'free-tier-hidden' : f.freeTierHidden == true }"
+            >
+              {{ f.text }}
+              <div v-if="f.freeTierHidden" id="pro-tier-prompt">
+                Upgrade to
+                <span id="pro-tier-badge" class="tier-badge">PRO</span> to view
+              </div>
+            </td>
+
+            <td
+              v-if="f.type == 'feedback'"
+              id="feedback-time"
+            >{{ f.voteDatetime.format("hh:mm a") }}</td>
+          </tr>
+        </table>
+      </div>
+      <p v-else id="no-feedback">No feedback to display for this category</p>
     </div>
-    <div id="feedbacks-container">
-      <table v-if="feedbacks.length > 0">
-        <col width="70%" />
-        <col width="30%" />
-        <tr class="feedback" v-for="f in feedbacks" :key="f.id">
-          <td
-            v-if="f.type == 'bucket'"
-            id="feedback-time-bucket"
-            colspan="2"
-          >{{ f.dateBucketMonthDay }}</td>
-          <td v-if="f.type == 'feedback'" id="feedback-text">{{ f.text }}</td>
-          <td v-if="f.type == 'feedback'" id="feedback-time">{{ f.voteDatetime.format("hh:mm a") }}</td>
-        </tr>
-      </table>
-      <p v-else id="no-feedback">No feedback given for this category</p>
-    </div>
+    <p v-else id="no-feedback">No feedback to display</p>
   </div>
 </template>
 
@@ -56,20 +73,15 @@ export default {
       )
     };
   },
-  watch: {
-    votes: {
-      handler: function() {
-        this.renderSmileys();
-        this.currentVoteLevelId = mostCommonVoteLevelId(
-          this.$store.state.voteLevels,
-          this.votes
-        );
-      },
-      deep: true
-    }
-  },
   computed: {
-    feedbacks: function() {
+    allFeedbacksLength: function() {
+      return this.votes.reduce((acc, v) => {
+        if (v.feedback != null && v.feedback != undefined) {
+          return acc + 1;
+        } else return acc;
+      }, 0);
+    },
+    categoryFeedbacks: function() {
       const dateBucketsDict = this.votes
         .filter(v => v.voteLevelId == this.currentVoteLevelId)
         .reduce((acc, v) => {
@@ -135,7 +147,20 @@ export default {
     }
   },
   mounted: function() {
-    this.$nextTick(() => this.renderSmileys());
+    this.$nextTick(() => {
+      if (this.allFeedbacksLength > 0) {
+        this.renderSmileys();
+        this.currentVoteLevelId = mostCommonVoteLevelId(
+          this.$store.state.voteLevels,
+          this.votes
+        );
+      }
+    });
+  },
+  updated: function() {
+    if (this.allFeedbacksLength > 0) {
+      this.renderSmileys();
+    }
   }
 };
 </script>
@@ -151,6 +176,18 @@ h3 {
   height: 450px;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+.free-tier-hidden {
+  position: relative;
+  color: transparent;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+#pro-tier-prompt {
+  position: absolute;
+  color: black;
+  font-weight: bold;
+  text-shadow: none;
+  top: 30%;
 }
 #vote-level-tabs {
   width: 100%;
