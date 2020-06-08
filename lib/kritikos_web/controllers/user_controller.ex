@@ -2,7 +2,7 @@ defmodule KritikosWeb.UserController do
   use KritikosWeb, :controller
   use KritikosWeb.GuardedController
   alias Kritikos.Auth
-  import Logger
+  require Logger
 
   plug KritikosWeb.Plug.EnsureAuthenticated,
        [store: :token] when action in [:update_password, :verify_email]
@@ -16,6 +16,9 @@ defmodule KritikosWeb.UserController do
         rescue
           e in Bamboo.ApiError ->
             Logger.error(IO.inspect(e))
+
+          _ ->
+            Logger.error("Mailer failure")
         end
 
         conn
@@ -54,7 +57,7 @@ defmodule KritikosWeb.UserController do
 
         true
       rescue
-        _e in Bamboo.ApiError -> false
+        _ -> false
       end
 
     conn
