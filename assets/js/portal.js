@@ -24,8 +24,9 @@ new Vue({
                 result = signin(this.email, this.password)
             }
             result.then((response) => {
+                console.log(response)
                 if (response.user) {
-                    if (ref) {
+                    if (ref != null) {
                         window.location = ref
                     } else {
                         window.location = "/dashboard"

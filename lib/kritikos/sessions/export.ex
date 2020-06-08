@@ -10,7 +10,7 @@ defmodule Kritikos.Sessions.Export do
     prompt_question = Sessions.get_open(keyword).prompt_question
 
     qr_code_svg =
-      EQRCode.encode(Kritikos.Application.fetch_host() <> keyword)
+      EQRCode.encode(Kritikos.Application.fetch_host() <> "/" <> keyword)
       |> EQRCode.svg(width: 200)
 
     html =
