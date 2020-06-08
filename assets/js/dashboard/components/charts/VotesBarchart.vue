@@ -26,20 +26,13 @@ export default {
       return this.$store.getters.isMobile;
     }
   },
-  watch: {
-    votes: {
-      handler: function() {
-        this.votesProcessed = this.votes;
-        this.renderBarChart(this.votesProcessed);
-      },
-      deep: true
-    }
-  },
   components: { HelperTooltip },
   methods: {
     renderBarChart: function(votes) {
       if (votes.length == 0 || !votes) return;
-      d3.selectAll("g").remove();
+      d3.select("#bar-chart")
+        .selectAll("*")
+        .remove();
 
       const data = votes.reduce((acc, v) => {
         // creates an object with vote levels as keys and count as members
@@ -98,8 +91,7 @@ export default {
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", "0.71em")
-        .attr("text-anchor", "end")
-        .text("Count");
+        .attr("text-anchor", "end");
 
       g.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -159,6 +151,9 @@ export default {
         .attr("font-size", voteCountFontsize)
         .text(d => data[d]);
     }
+  },
+  updated: function() {
+    this.renderBarChart(this.votes);
   },
   mounted: function() {
     this.renderBarChart(this.votes);
