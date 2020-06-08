@@ -2,6 +2,7 @@ defmodule KritikosWeb.UserController do
   use KritikosWeb, :controller
   use KritikosWeb.GuardedController
   alias Kritikos.Auth
+  import Logger
 
   plug KritikosWeb.Plug.EnsureAuthenticated,
        [store: :token] when action in [:update_password, :verify_email]
@@ -9,8 +10,13 @@ defmodule KritikosWeb.UserController do
   def create(conn, %{"user" => user_params}, nil) do
     case Auth.register_user(user_params) do
       {:ok, user} ->
-        KritikosWeb.Email.welcome(user.email, Auth.sign_user_token(user.id, "email_verify"))
-        |> KritikosWeb.Mailer.deliver_now()
+        try do
+          KritikosWeb.Email.welcome(user.email, Auth.sign_user_token(user.id, "email_verify"))
+          |> KritikosWeb.Mailer.deliver_now()
+        rescue
+          e in Bamboo.ApiError ->
+            Logger.error(IO.inspect(e))
+        end
 
         conn
         |> put_session(:user, user)
@@ -42,13 +48,13 @@ defmodule KritikosWeb.UserController do
     token = Auth.sign_user_token(user.id, "email_verify")
 
     send_status =
-      case KritikosWeb.Email.verify_email(user.email, token)
-           |> KritikosWeb.Mailer.deliver_now() do
-        %Bamboo.Email{} ->
-          true
+      try do
+        KritikosWeb.Email.verify_email(user.email, token)
+        |> KritikosWeb.Mailer.deliver_now()
 
-        _ ->
-          false
+        true
+      rescue
+        _e in Bamboo.ApiError -> false
       end
 
     conn

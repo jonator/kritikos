@@ -47,7 +47,7 @@
                 <ol>
                   <li>
                     View up to
-                    <b>400</b> vote/feedback responses.
+                    <b>400</b> feedback responses.
                   </li>
                   <li>Full-featured dashboard</li>
                   <li>External app integrations (coming soon)</li>
@@ -61,7 +61,7 @@
                 <ol>
                   <li>
                     View
-                    <b>unlimited</b> vote/feedback responses
+                    <b>unlimited</b> feedback responses
                   </li>
                   <li>Full-featured dashboard</li>
                   <li>External app integrations (coming soon)</li>

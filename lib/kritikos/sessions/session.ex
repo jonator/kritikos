@@ -26,7 +26,7 @@ defmodule Kritikos.Sessions.Session do
     |> cast_assoc(:tags, with: &Tag.create_changeset/2)
     |> validate_required([:keyword, :user_id])
     |> assoc_constraint(:user)
-    |> validate_length(:keyword, min: 3, max: 15)
+    |> validate_length(:keyword, min: 3, max: 30)
     |> validate_format(:keyword, ~r/^[A-Za-z0-9_-]*$/,
       message: "invalid format (must only contain A-Z, a-z, 0-9, _, and no spaces)"
     )
