@@ -57,9 +57,10 @@
       <transition name="slide-fade">
         <tr v-if="infoDrawerOpen">
           <td>Tags</td>
-          <td id="tags-list">
+          <td v-if="session.tags.length > 0" id="tags-list">
             <div v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</div>
           </td>
+          <td v-else>(no tags)</td>
         </tr>
       </transition>
       <tr>
@@ -125,6 +126,11 @@ export default {
         next();
       })
       .catch(() => next(false));
+  },
+  mounted: function() {
+    // scrolls view to top of session in mobile browsers
+    var parentContainer = document.getElementById("subview-container");
+    parentContainer.scrollTo(0, 0);
   }
 };
 </script>

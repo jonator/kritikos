@@ -8,6 +8,9 @@ import plugins from "./plugins";
 
 Vue.use(Vuex);
 
+// Only display oldest 'x' free votes
+initialState.sessions.reduce((acc, s) => acc.concat(s.votes.filter(v => v.feedback != null && v.feedback != undefined)), []).sort((a, b) => a.feedback.id - b.feedback.id).map(utils.presentVote)
+
 export default new Vuex.Store({
     state: {
         userRecord: initialState.userRecord,

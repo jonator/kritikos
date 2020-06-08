@@ -17,13 +17,12 @@
       <div class="features">
         <ol>
           <li>
-            <i>Unlimited</i> sessions
+            View up to
+            <b>400</b> vote/feedback responses.
           </li>
           <li>Full-featured dashboard</li>
-          <li>External app integrations</li>
-          <li>
-            <i>Full</i> support
-          </li>
+          <li>External app integrations (coming soon)</li>
+          <li>Base support</li>
         </ol>
       </div>
       <PoweredByStripeSvg id="powered-by-stripe" />

@@ -18,18 +18,18 @@ export default {
             if (existingSession) {
                 Object.assign(existingSession, utils.presentSession(newSession))
             } else {
-                var s = utils.presentSession(newSession)
-                state.sessions.push(s)
+                state.sessions.push(utils.presentSession(newSession))
             }
         } else if (model["vote"]) {
             const newVote = model["vote"]
             var vote = state.sessions.reduce((acc, s) => acc.concat(s.votes), []).find(v => v.id == newVote.id)
             var session = state.sessions.find(s => s.id == newVote.sessionId)
             if (vote && session) {
-                Object.assign(vote, newVote)
+                Object.assign(vote, utils.presentVote(newVote))
             } else if (session) {
-                session.votes.push(newVote)
+                session.votes.push(utils.presentVote(newVote))
             }
+            session.activity = utils.calcSessionVoteActivity(session.votes)
         } else {
             console.error("INVALID MODEL", model)
         }
