@@ -83,7 +83,7 @@ defmodule KritikosWeb.DashboardController do
       socket_token: token,
       user_record: user_record,
       sessions: user_sessions,
-      initial_message: Keyword.get(opts, :message)
+      initial_message: Keyword.get(opts, :initial_message)
     )
   end
 
