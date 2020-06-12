@@ -16,7 +16,7 @@
       </transition-group>
       <h3>
         Closed sessions
-        <helper-tooltip>Closed sessions no longer provide a feedback form at the session link, and only hold data that was collected while it was open.</helper-tooltip>
+        <helper-tooltip>Closed sessions no longer allow new votes or feedback, and only hold data that was collected while it was open.</helper-tooltip>
       </h3>
       <transition-group
         tag="div"

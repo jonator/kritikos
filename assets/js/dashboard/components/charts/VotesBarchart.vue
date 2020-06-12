@@ -1,9 +1,6 @@
 <template>
   <div id="votes-barchart-container">
-    <h3>
-      Vote count by category
-      <helper-tooltip>This chart illustrates the number of recorded votes for a given vote level category: frown, neutral, and happy.</helper-tooltip>
-    </h3>
+    <h3>Vote count by category</h3>
     <svg v-if="votes.length > 0 && !isMobile" width="400" height="400" id="bar-chart" />
     <svg v-else-if="votes.length > 0 && isMobile" width="325" height="325" id="bar-chart" />
     <p v-else>No votes to display</p>
@@ -12,7 +9,6 @@
 
 <script>
 import * as d3 from "d3";
-import HelperTooltip from "../HelperTooltip.vue";
 
 export default {
   props: ["votes"],
@@ -26,7 +22,6 @@ export default {
       return this.$store.getters.isMobile;
     }
   },
-  components: { HelperTooltip },
   methods: {
     renderBarChart: function(votes) {
       if (votes.length == 0 || !votes) return;
