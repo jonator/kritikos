@@ -7,7 +7,7 @@ defmodule Kritikos.Sessions.Export do
   end
 
   def generate_session_qr_code_grid_pdf(keyword) do
-    prompt_question = Sessions.get_open(keyword).prompt_question
+    prompt_question = Sessions.get_prompt_question(keyword)
 
     qr_code_svg =
       EQRCode.encode(Kritikos.Application.fetch_host() <> "/" <> keyword)
