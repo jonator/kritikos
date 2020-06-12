@@ -42,6 +42,7 @@ defmodule KritikosWeb.PromptController do
     case Votes.update_or_submit_feedback(vote_id, text) do
       {:ok, feedback} ->
         update_host_dashboard_model(vote_id)
+
         render(conn, "feedback.json", feedback: feedback)
 
       {:error, reason} ->
@@ -53,8 +54,9 @@ defmodule KritikosWeb.PromptController do
 
   def submit_feedback(conn, %{"vote_id" => vid_string} = params) do
     {vote_id, ""} = Integer.parse(vid_string)
+    new_params = Map.put(params, "vote_id", vote_id)
 
-    submit_feedback(conn, Map.put(params, "vote_id", vote_id))
+    submit_feedback(conn, new_params)
   end
 
   def submit_vote(%{assigns: %{session_owner: true}} = conn, %{
@@ -64,23 +66,26 @@ defmodule KritikosWeb.PromptController do
 
   def submit_vote(conn, %{"keyword" => keyword, "level" => level}) when is_integer(level) do
     {:ok, vote} =
-      case get_session(conn, :vote) do
-        %{vote_id: voted_id, keyword: ^keyword} ->
-          Votes.update_vote(voted_id, %{vote_level_id: level})
-
-        _ ->
+      case get_session(conn, :vote_id) do
+        nil ->
           Votes.submit_vote(keyword, level)
+
+        vote_id ->
+          Votes.update_vote(vote_id, %{vote_level_id: level})
       end
 
     update_host_dashboard_model(vote.id)
 
-    render(conn, "vote.json", vote: vote)
+    conn
+    |> put_session(:vote_id, vote.id)
+    |> render("vote.json", vote: vote)
   end
 
   def submit_vote(conn, %{"level" => level} = params) do
     {int_vote_level, ""} = Integer.parse(level)
+    new_params = Map.put(params, "level", int_vote_level)
 
-    submit_vote(conn, Map.put(params, "level", int_vote_level))
+    submit_vote(conn, new_params)
   end
 
   def thanks(conn, %{"keyword" => kw}) do
@@ -123,11 +128,19 @@ defmodule KritikosWeb.PromptController do
     Plug.Conn.assign(conn, :session_owner, is_owner)
   end
 
-  defp update_host_dashboard_model(vote_id) do
-    vote = Kritikos.Votes.get_vote(vote_id, preload: [{:session, :user}, :feedback])
-
-    KritikosWeb.DashboardChannel.broadcast_model_update(vote.session.user.id, %{
+  defp update_host_dashboard_model(%Votes.Vote{session: %_{user: %_{id: user_id}}} = vote) do
+    KritikosWeb.DashboardChannel.broadcast_model_update(user_id, %{
       vote: Map.drop(vote, [:session])
     })
   end
+
+  defp update_host_dashboard_model(%Votes.Vote{} = vote),
+    do:
+      Votes.include_assoc(vote, [{:session, :user}, :feedback])
+      |> update_host_dashboard_model()
+
+  defp update_host_dashboard_model(vote_id),
+    do:
+      Votes.get_vote(vote_id, preload: [{:session, :user}, :feedback])
+      |> update_host_dashboard_model()
 end

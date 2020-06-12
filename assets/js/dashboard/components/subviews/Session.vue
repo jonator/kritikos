@@ -55,12 +55,11 @@
         </tr>
       </transition>
       <transition name="slide-fade">
-        <tr v-if="infoDrawerOpen">
+        <tr v-if="infoDrawerOpen && session.tags.length > 0">
           <td>Tags</td>
-          <td v-if="session.tags.length > 0" id="tags-list">
+          <td id="tags-list">
             <span v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</span>
           </td>
-          <td v-else>(no tags)</td>
         </tr>
       </transition>
       <tr>
