@@ -7,7 +7,7 @@
 <div id="live-session">
     <div id="question">
         <%= if @prompt_question == nil do %>
-            What did you think?
+            How was it?
         <% else %>
             <%= @prompt_question %>
         <% end %>

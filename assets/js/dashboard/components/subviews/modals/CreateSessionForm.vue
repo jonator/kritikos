@@ -29,7 +29,11 @@
           <HelperTooltip>Will be the initial prompt presented to the users. Must not exceed 50 characters.</HelperTooltip>
         </td>
         <td>
-          <input type="text" placeholder="How was your experience?" v-model="promptQuestion" />
+          <input
+            type="text"
+            placeholder="default: How was your experience?, example: Rate our bathroom!"
+            v-model="promptQuestion"
+          />
         </td>
       </tr>
       <tr>
