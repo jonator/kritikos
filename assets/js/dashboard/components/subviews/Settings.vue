@@ -115,6 +115,15 @@
             <a href="/privacy_policy" target="_blank">Privacy policy</a>
           </td>
         </tr>
+        <tr>
+          <td class="link-external">
+            FAQ
+            <i class="gg-external"></i>
+          </td>
+          <td>
+            <a href="https://kritikos.frequently.io" target="_blank">kritikos.frequently.io</a>
+          </td>
+        </tr>
       </table>
     </div>
     <div v-if="$store.state.userRecord.isAdmin" id="admin">
