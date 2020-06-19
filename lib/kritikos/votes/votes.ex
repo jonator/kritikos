@@ -57,4 +57,6 @@ defmodule Kritikos.Votes do
   def vote_levels_descriptions do
     Repo.all(from(v in VoteLevel, select: {v.id, v.description})) |> Map.new()
   end
+
+  def include_assoc(%Vote{} = vote, key), do: Repo.preload(vote, key)
 end

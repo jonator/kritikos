@@ -89,5 +89,5 @@ defmodule Kritikos.Sessions do
   def get_for_user(user_id, preload: keys), do: get_for_user(user_id) |> Repo.preload(keys)
 
   def get_prompt_question(keyword),
-    do: get_open(keyword).prompt_question || "How was your experience?"
+    do: get_open(keyword).prompt_question || "How was it?"
 end
