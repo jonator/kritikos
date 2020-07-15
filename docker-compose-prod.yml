@@ -2,15 +2,15 @@
 version: '3'
 services:
     db:
-        image: postgres/alpine
+        image: postgres:alpine
         env_file:
-            -.env
+            - .env
         ports:
-            -"5432:5432"
+            - "5432:5432"
     web:
         image: jator/kritikos:release-v0.1.17
         depends_on:
-            -db
+            - db
     nginx:
         image: nginx:1.17-alpine
         ports:

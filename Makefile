@@ -17,7 +17,7 @@ mix_test:
 
 build:
 	docker build --force-rm --build-arg secret=$(SECRET) \
-		--build-arg db_pass=$(DB_PASS) \
+		--build-arg db_pass=$(POSTGRES_PASSWORD) \
 		--build-arg mailgun_api_key=$(MAILGUN_API_KEY) \
 		--build-arg stripe_api_key=$(STRIPE_API_KEY) \
 		-t jator/$(APP_NAME):release-$(APP_VSN) \

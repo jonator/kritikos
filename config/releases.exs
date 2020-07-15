@@ -7,7 +7,7 @@ config :kritikos, Kritikos.Repo,
   username: "postgres",
   password: System.fetch_env!("POSTGRES_PASSWORD"),
   database: "kritikosdb",
-  hostname: "db"
+  hostname: "db",
   pool_size: 15
 
 config :kritikos, KritikosWeb.Mailer,
