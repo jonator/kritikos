@@ -1,15 +1,21 @@
 # https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
 version: '3'
 services:
+    db:
+        image: postgres/alpine
+        env_file:
+            -.env
+        ports:
+            -"5432:5432"
     web:
-        image: jator/kritikos:release-v0.1.8
+        image: jator/kritikos:release-v0.1.17
+        depends_on:
+            -db
     nginx:
         image: nginx:1.17-alpine
         ports:
             - "80:80"
             - "443:443"
-        links:
-            - "web"
         volumes:
             - ./data/nginx:/etc/nginx/conf.d
             - ./data/certbot/conf:/etc/letsencrypt
