@@ -60,8 +60,49 @@
             <h1><span class="step-number">3.</span> View your feedback</h1>
             <ul><li>See visualized data in a simple web dashboard</li></ul>
             <%= svg_image("detailed_analysis", "landing", class: "mobile_browsing insert left bottom") %>
-            <button id=" <%= button.id %>" class="start-button" onclick="buttonOnClick('<%= button.href %>')">get feedback!</button>
+            <button id=" <%= button.id %>" class="start-button" onclick="buttonOnClick('<%= button.href %>')">Register for free!</button>
         <div>
+    </section>
+    <section>
+        <div id="use-cases" class="wrap info">
+            <h1>Kritikos is feedback collected via the internet</h1>
+            <p>Some ways you can share your session link:</p>
+
+            <div id="qr-code" class="use-case">
+                <h4>QR codes</h4>
+                <ul>
+                    <li>Restaraunt menus</li>
+                    <li>Bathrooms</li>
+                    <li>Business cards</li>
+                    <li>Break rooms</li>
+                    <li>Receipts</li>
+                    <li><i>And many more...</i></li>
+                </ul>
+            </div>
+
+            <div id="html-iframe" class="use-case">
+                <h4>Embedded HTML</h4>
+
+                <ul>
+                    <li>Personal website</li>
+                    <li>Blog</li>
+                    <li>Web widget</li>
+                    <li><i>And many more...</i></li>
+                </ul>
+            </div>
+
+            <div id="url" class="use-case">
+                <h4>Web URL</h4>
+
+                <ul>
+                    <li>In emails</li>
+                    <li>On business meetings</li>
+                    <li>Through messaging apps</li>
+                    <li>In online lectures</li>
+                    <li><i>And many more...</i></li>
+                </ul>
+            </div>
+        </div>
     </section>
     <section>
         <div id="testimonials" class="wrap info">

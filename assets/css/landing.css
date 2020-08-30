@@ -164,6 +164,17 @@ section button {
     padding-right: 0;
 }
 
+.use-case {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.use-case h4 {
+    margin: auto;
+}
+.use-case ul {
+    text-align: left;
+}
+
 .testimonial {
     display: grid;
     grid-template-columns: 100px 1fr;
