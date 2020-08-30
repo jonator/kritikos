@@ -140,7 +140,7 @@
                     </div>
 
                     <a class="button" href="/portal?register=true">Create account</a>
-                    <small>Upgrade anytime</small>
+                    <small>No card required</small>
                 </div>
                 <div id="price-professional" class="tier">
                     <img src="images/k_logo_pro.jpg" />
