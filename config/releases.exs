@@ -5,9 +5,9 @@ config :kritikos, KritikosWeb.Endpoint, secret_key_base: System.fetch_env!("SECR
 
 config :kritikos, Kritikos.Repo,
   username: "postgres",
-  password: System.fetch_env!("DB_PASS"),
+  password: System.fetch_env!("POSTGRES_PASSWORD"),
   database: "kritikosdb",
-  socket_dir: "/tmp/cloudsql/kritikos-257816:us-central1:kritikos-db",
+  hostname: "db",
   pool_size: 15
 
 config :kritikos, KritikosWeb.Mailer,
