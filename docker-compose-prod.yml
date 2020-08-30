@@ -1,14 +1,22 @@
 # https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
 version: '3'
+
+# mkdir -p /var/lib/postgresql/data && docker volume create --driver local --opt type=none --opt device=/var/lib/postgresql/data --opt o=bind db_data
+volumes:
+    db_data:
+        external: true
+
 services:
     db:
         image: postgres:alpine
         env_file:
             - .env
+        volumes:
+            - db_data:/var/lib/postgresql/data
         ports:
             - "5432:5432"
     web:
-        image: jator/kritikos:release-v0.1.17
+        image: jator/kritikos:release-v0.1.18
         depends_on:
             - db
     nginx:
@@ -16,6 +24,9 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        depends_on:
+            - web
+            - pgadmin
         volumes:
             - ./data/nginx:/etc/nginx/conf.d
             - ./data/certbot/conf:/etc/letsencrypt
