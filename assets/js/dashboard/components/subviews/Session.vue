@@ -3,7 +3,7 @@
     <div id="actions">
       <button v-on:click="$router.go(-1)">back</button>
     </div>
-    <h2>Results for {{ session.name }}</h2>
+    <h2>{{ session.name }}</h2>
     <div v-if="sessionIsEnded" id="closed-session-actions">
       <button id="delete-session" class="warning" @click="deleteSession">delete session</button>
     </div>
@@ -25,10 +25,6 @@
             >export</button>
           </div>
         </td>
-      </tr>
-      <tr>
-        <td>Activity</td>
-        <td>{{ session.activity }}</td>
       </tr>
       <transition name="slide-fade">
         <tr v-if="infoDrawerOpen">
@@ -84,53 +80,53 @@ import moment from "moment";
 export default {
   components: { HelperTooltip, VotesBarchart, Feedback },
   computed: {
-    session: function() {
-      var s = this.$store.state.sessions.find(s => {
+    session: function () {
+      var s = this.$store.state.sessions.find((s) => {
         return s.keyword == this.$route.params.keyword;
       });
       s.startMoment = moment(s.startDatetime);
       s.endMoment = moment(s.endDatetime);
       return s;
     },
-    sessionIsEnded: function() {
+    sessionIsEnded: function () {
       return (
         this.session.endDatetime != null &&
         this.session.endDatetime != undefined
       );
     },
-    infoDrawerOpen: function() {
+    infoDrawerOpen: function () {
       return this.$store.state.sessionInfoDrawerOpen;
-    }
+    },
   },
   methods: {
-    endSession: function() {
+    endSession: function () {
       this.$store.dispatch("END_SESSION", this.session.keyword);
     },
-    toggleInfoDrawer: function() {
+    toggleInfoDrawer: function () {
       this.$store.dispatch("TOGGLE_SESSION_INFO_DRAWER");
     },
-    deleteSession: function() {
+    deleteSession: function () {
       this.$store.dispatch("DELETE_SESSION", this.session.id).then(() => {
         this.$router.replace({ path: "/sessions" });
       });
-    }
+    },
   },
   beforeRouteUpdate(to, from, next) {
     this.$store
       .dispatch("FETCH_SESSION", { keyword: to.params.keyword })
       .then(() => {
-        this.session = this.$store.state.sessions.find(s => {
+        this.session = this.$store.state.sessions.find((s) => {
           return s.keyword == to.params.keyword;
         });
         next();
       })
       .catch(() => next(false));
   },
-  mounted: function() {
+  mounted: function () {
     // scrolls view to top of session in mobile browsers
     var parentContainer = document.getElementById("subview-container");
     parentContainer.scrollTo(0, 0);
-  }
+  },
 };
 </script>
 

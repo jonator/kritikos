@@ -29,7 +29,6 @@ export default {
             } else if (session) {
                 session.votes.push(utils.presentVote(newVote))
             }
-            session.activity = utils.calcSessionVoteActivity(session.votes)
         } else {
             console.error("INVALID MODEL", model)
         }

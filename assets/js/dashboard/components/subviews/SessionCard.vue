@@ -13,7 +13,6 @@
     <a v-bind:href="session.link" target="_blank">{{ session.link }}</a>
     <span v-if="session.votes != null">{{ session.votes.length }} votes</span>
     <span v-else>Keyword: {{ session.keyword }}</span>
-    <span>Activity: {{ session.activity }}</span>
     <div id="button-wrapper">
       <button v-on:click="$router.push('/sessions/'+session.keyword)">Details</button>
       <button
@@ -29,12 +28,12 @@
 export default {
   props: ["sessionId"],
   computed: {
-    session: function() {
+    session: function () {
       return this.$store.getters.filteredSessions.find(
-        s => s.id == this.sessionId
+        (s) => s.id == this.sessionId
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

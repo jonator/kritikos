@@ -1,6 +1,6 @@
 <template>
   <div id="feedback-container">
-    <h3>Feedback by category</h3>
+    <h3>Comments</h3>
     <div v-if="allFeedbacksLength > 0" id="feedback-content-wrapper">
       <div id="vote-level-tabs">
         <div
@@ -51,10 +51,10 @@ import moment from "moment";
 
 function mostCommonVoteLevelId(voteLevels, votes) {
   var count = {};
-  voteLevels.forEach(vl => {
+  voteLevels.forEach((vl) => {
     count[vl.id] = 0;
   });
-  votes.forEach(v => {
+  votes.forEach((v) => {
     if (v.feedback != undefined || v.feedback) count[v.voteLevelId]++;
   });
   const counts = Object.values(count);
@@ -65,25 +65,25 @@ function mostCommonVoteLevelId(voteLevels, votes) {
 
 export default {
   props: ["votes"],
-  data: function() {
+  data: function () {
     return {
       currentVoteLevelId: mostCommonVoteLevelId(
         this.$store.state.voteLevels,
         this.votes
-      )
+      ),
     };
   },
   computed: {
-    allFeedbacksLength: function() {
+    allFeedbacksLength: function () {
       return this.votes.reduce((acc, v) => {
         if (v.feedback != null && v.feedback != undefined) {
           return acc + 1;
         } else return acc;
       }, 0);
     },
-    categoryFeedbacks: function() {
+    categoryFeedbacks: function () {
       const dateBucketsDict = this.votes
-        .filter(v => v.voteLevelId == this.currentVoteLevelId)
+        .filter((v) => v.voteLevelId == this.currentVoteLevelId)
         .reduce((acc, v) => {
           if (v.feedback != undefined) {
             const feedbackMoment = moment(v.voteDatetime);
@@ -110,7 +110,7 @@ export default {
             acc[monthAndDay].unshift({
               type: "feedback",
               ...v.feedback,
-              voteDatetime: feedbackMoment
+              voteDatetime: feedbackMoment,
             });
             acc[monthAndDay].sort((a, b) => b.voteDatetime - a.voteDatetime);
             return acc;
@@ -129,10 +129,10 @@ export default {
           acc.push({ type: "bucket", dateBucketMonthDay: dateBucket });
           return acc.concat(dateBucketsDict[dateBucket]);
         }, []);
-    }
+    },
   },
   methods: {
-    renderSmileys: function() {
+    renderSmileys: function () {
       const voteLevels = this.$store.state.voteLevels;
       const htmlTabs = document.getElementsByClassName("vote-level-tab");
       for (var i = 0; i < voteLevels.length; i++) {
@@ -142,11 +142,11 @@ export default {
         innerSVG.setAttribute("width", "40");
       }
     },
-    selectVoteLevelTab: function(voteLevelId) {
+    selectVoteLevelTab: function (voteLevelId) {
       this.currentVoteLevelId = voteLevelId;
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.$nextTick(() => {
       if (this.allFeedbacksLength > 0) {
         this.renderSmileys();
@@ -157,11 +157,11 @@ export default {
       }
     });
   },
-  updated: function() {
+  updated: function () {
     if (this.allFeedbacksLength > 0) {
       this.renderSmileys();
     }
-  }
+  },
 };
 </script>
 
