@@ -26,10 +26,6 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td>Activity</td>
-        <td>{{ session.activity }}</td>
-      </tr>
       <transition name="slide-fade">
         <tr v-if="infoDrawerOpen">
           <td>Vote count</td>
