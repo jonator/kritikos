@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Email do
+  @moduledoc """
+  Defines emails for Kritikos feedbackers.
+  """
   use Bamboo.Phoenix, view: KritikosWeb.EmailView
 
   def welcome(recipient, verify_email_token) do

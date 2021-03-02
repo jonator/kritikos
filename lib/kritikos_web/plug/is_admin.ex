@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Plug.IsAdmin do
+  @moduledoc """
+  Ensures user connection has admin status.
+  """
   import Plug.Conn
   alias Kritikos.Auth.User
 

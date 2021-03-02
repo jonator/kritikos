@@ -1,4 +1,7 @@
 defmodule Kritikos.Votes.Vote do
+  @moduledoc """
+  Defines user's Kritikos Vote schema.
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Kritikos.Sessions.Session

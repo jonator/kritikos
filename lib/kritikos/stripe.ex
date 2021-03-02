@@ -1,4 +1,7 @@
 defmodule Kritikos.Stripe do
+  @moduledoc """
+  Integration of the Stripe API client.
+  """
   alias Kritikos.{Auth, Auth.User}
   require Logger
 
@@ -62,29 +65,31 @@ defmodule Kritikos.Stripe do
 
   def get_user_subscription_status(nil), do: "free"
 
-  def get_user_subscription_status(customer_id) do
-    pro_plan_id = get_pro_plan().id
+  def get_user_subscription_status(customer_id),
+    do: get_pro_plan().id |> retrieve_user_subscription_status(customer_id)
 
-    case Stripe.Customer.retrieve(customer_id) do
-      {:ok,
-       %Stripe.Customer{
-         subscriptions: %Stripe.List{
-           data: sub_list
-         }
-       }} ->
-        if Enum.any?(sub_list, fn sub ->
-             sub.plan.id == pro_plan_id and sub.status == "active"
-           end) do
-          "pro"
-        else
-          "free"
-        end
+  defp retrieve_user_subscription_status(pro_plan_id, customer_id),
+    do: Stripe.Customer.retrieve(customer_id) |> customer_subscription_status(pro_plan_id)
 
-      {:error, _reason} = e ->
-        _ = stripe_error(e)
-        "free"
+  defp customer_subscription_status(
+         {:ok,
+          %Stripe.Customer{
+            subscriptions: %Stripe.List{
+              data: sub_list
+            }
+          }},
+         pro_plan_id
+       ) do
+    if Enum.any?(sub_list, fn sub ->
+         sub.plan.id == pro_plan_id and sub.status == "active"
+       end) do
+      "pro"
+    else
+      "free"
     end
   end
+
+  defp customer_subscription_status({:error, _reason}, _), do: "free"
 
   defp get_pro_plan() do
     %Stripe.Product{id: id} = get_pro_product()

@@ -1,4 +1,7 @@
 defmodule Kritikos.ReleaseTasks do
+  @moduledoc """
+  Defines routines to be run during the app release lifecycle.
+  """
   @app :kritikos
   alias Kritikos.Repo
   alias Kritikos.Votes.VoteLevel

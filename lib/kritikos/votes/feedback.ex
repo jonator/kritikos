@@ -1,4 +1,7 @@
 defmodule Kritikos.Votes.Feedback do
+  @moduledoc """
+  Defines textual Kritikos feedback schema associated with a Kritikos vote.
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Kritikos.Votes.Vote

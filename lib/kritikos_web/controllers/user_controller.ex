@@ -15,7 +15,7 @@ defmodule KritikosWeb.UserController do
           |> KritikosWeb.Mailer.deliver_now!()
         rescue
           e in Bamboo.ApiError ->
-            Logger.error(IO.inspect(e))
+            Logger.error(e)
 
           _ ->
             Logger.error("Mailer failure")

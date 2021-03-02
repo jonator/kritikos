@@ -45,34 +45,32 @@ defmodule KritikosWeb.FormatHelpers do
   defp camel_case(item, list), do: list ++ [String.capitalize(item)]
 
   def filter_missing_assocs_and_metadata(map) do
-    Enum.reduce(map, %{}, fn {key, value}, acc ->
-      case value do
-        %Ecto.Association.NotLoaded{} ->
-          acc
-
-        %_{__meta__: %Ecto.Schema.Metadata{}} = schema ->
-          m = Map.from_struct(schema) |> Map.delete(:__meta__)
-          Map.put(acc, key, filter_missing_assocs_and_metadata(m))
-
-        [_ | _] = list ->
-          new_list =
-            Enum.map(list, fn listitem ->
-              case listitem do
-                %_{__meta__: %Ecto.Schema.Metadata{}} = schema ->
-                  Map.from_struct(schema)
-                  |> Map.delete(:__meta__)
-                  |> filter_missing_assocs_and_metadata()
-
-                _ ->
-                  listitem
-              end
-            end)
-
-          Map.put(acc, key, new_list)
-
-        _ ->
-          Map.put(acc, key, value)
-      end
-    end)
+    Enum.reduce(map, %{}, fn {key, value}, acc -> accumulate_key_values(key, value, acc) end)
   end
+
+  defp accumulate_key_values(_key, %Ecto.Association.NotLoaded{}, acc), do: acc
+
+  defp accumulate_key_values(key, %_{__meta__: %Ecto.Schema.Metadata{}} = schema, acc) do
+    m = Map.from_struct(schema) |> Map.delete(:__meta__)
+    Map.put(acc, key, filter_missing_assocs_and_metadata(m))
+  end
+
+  defp accumulate_key_values(key, [_ | _] = list, acc) do
+    new_list =
+      Enum.map(list, fn listitem ->
+        case listitem do
+          %_{__meta__: %Ecto.Schema.Metadata{}} = schema ->
+            Map.from_struct(schema)
+            |> Map.delete(:__meta__)
+            |> filter_missing_assocs_and_metadata()
+
+          _ ->
+            listitem
+        end
+      end)
+
+    Map.put(acc, key, new_list)
+  end
+
+  defp accumulate_key_values(key, value, acc), do: Map.put(acc, key, value)
 end

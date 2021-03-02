@@ -1,4 +1,7 @@
 defmodule Kritikos.Helpers do
+  @moduledoc """
+  General helpers for Kritikos app functionality.
+  """
   alias Kritikos.Repo
 
   def get_schema(schema, id, opts \\ [])

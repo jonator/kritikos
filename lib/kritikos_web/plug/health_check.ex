@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Plug.HealthCheck do
+  @moduledoc """
+  Appends server health status to user connection by ensuring paths are consistent.
+  """
   import Plug.Conn
 
   def init(opts), do: opts

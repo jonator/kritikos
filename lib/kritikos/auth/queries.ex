@@ -1,4 +1,7 @@
 defmodule Kritikos.Auth.Queries do
+  @moduledoc """
+  Defines database queries associated with user authentication.
+  """
   import Ecto.Query, warn: false
   alias Kritikos.Auth.User
 

@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Plug.AdminOnly do
+  @moduledoc """
+  Plug redirects non admin user connections.
+  """
   @behaviour Plug
   import Plug.Conn
   alias Kritikos.Auth.User
