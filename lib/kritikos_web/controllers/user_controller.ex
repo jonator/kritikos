@@ -12,10 +12,10 @@ defmodule KritikosWeb.UserController do
       {:ok, user} ->
         try do
           KritikosWeb.Email.welcome(user.email, Auth.sign_user_token(user.id, "email_verify"))
-          |> KritikosWeb.Mailer.deliver_now()
+          |> KritikosWeb.Mailer.deliver_now!()
         rescue
           e in Bamboo.ApiError ->
-            Logger.error(IO.inspect(e))
+            Logger.error(e)
 
           _ ->
             Logger.error("Mailer failure")
@@ -53,7 +53,7 @@ defmodule KritikosWeb.UserController do
     send_status =
       try do
         KritikosWeb.Email.verify_email(user.email, token)
-        |> KritikosWeb.Mailer.deliver_now()
+        |> KritikosWeb.Mailer.deliver_now!()
 
         true
       rescue

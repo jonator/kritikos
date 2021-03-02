@@ -1,4 +1,7 @@
 defmodule Kritikos.Sessions.Queries do
+  @moduledoc """
+  Composes Kritikos voting session database queries.
+  """
   import Ecto.Query, warn: false
   alias Kritikos.Auth
   alias Kritikos.Sessions.Session

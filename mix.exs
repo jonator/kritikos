@@ -5,7 +5,7 @@ defmodule Kritikos.MixProject do
     [
       app: :kritikos,
       version: "0.1.20",
-      elixir: "~> 1.10.0",
+      elixir: "~> 1.11.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -56,7 +56,8 @@ defmodule Kritikos.MixProject do
       {:eqrcode, "~> 0.1.6"},
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:phoenix_live_dashboard, "~> 0.1"},
-      {:bamboo, "~> 1.5.0"},
+      {:bamboo, "~> 2.0"},
+      {:bamboo_phoenix, "~> 1.0"},
       # to get billing portal
       {:stripity_stripe,
        git: "https://github.com/code-corps/stripity_stripe",

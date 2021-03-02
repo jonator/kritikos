@@ -1,4 +1,7 @@
 defmodule Kritikos.Votes do
+  @moduledoc """
+  Fetch and update Kritikos Votes.
+  """
   import Ecto.Query
   alias Kritikos.Repo
   alias __MODULE__.VoteLevel

@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Plug.EnsureAuthenticated do
+  @moduledoc """
+  Plug pipeline that ensures a user's connection contains a valid cookie or token.
+  """
   @behaviour Plug
   import Plug.Conn
   alias Kritikos.{Auth, Auth.User}
@@ -9,38 +12,32 @@ defmodule KritikosWeb.Plug.EnsureAuthenticated do
   def call(conn, store: store_type) do
     case store_type do
       :cookie ->
-        case get_session(conn, :user) do
-          nil ->
-            redirect_to_portal(conn)
-
-          user ->
-            if user.is_active do
-              assign(conn, :user, user)
-            else
-              redirect_to_portal(conn)
-            end
-        end
+        verify_cookie(conn, get_session(conn, :user))
 
       :token ->
-        case conn.params["token"] do
+        verify_token(conn, conn.params["token"])
+    end
+  end
+
+  defp verify_cookie(conn, nil), do: redirect_to_portal(conn)
+  defp verify_cookie(conn, %User{is_active: true} = user), do: assign(conn, :user, user)
+  defp verify_cookie(conn, %User{}), do: redirect_to_portal(conn)
+
+  defp verify_token(conn, nil), do: invalid_token_resp(conn)
+
+  defp verify_token(conn, token) do
+    case Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt(), token, max_age: 86_400) do
+      {:ok, user_id} ->
+        case Auth.get_active_user(user_id) do
+          %User{} = user ->
+            assign(conn, :user, user)
+
           nil ->
-            invalid_token_resp(conn)
-
-          token ->
-            case Phoenix.Token.verify(KritikosWeb.Endpoint, token_salt(), token, max_age: 86_400) do
-              {:ok, user_id} ->
-                case Auth.get_active_user(user_id) do
-                  %User{} = user ->
-                    assign(conn, :user, user)
-
-                  nil ->
-                    invalid_token_resp(conn, "inactive user")
-                end
-
-              {:error, reason} ->
-                invalid_token_resp(conn, Atom.to_string(reason))
-            end
+            invalid_token_resp(conn, "inactive user")
         end
+
+      {:error, reason} ->
+        invalid_token_resp(conn, Atom.to_string(reason))
     end
   end
 

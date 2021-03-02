@@ -1,4 +1,7 @@
 defmodule Kritikos.Sessions.Export do
+  @moduledoc """
+  Allows user to export Kritikos sessions into external formats such as QR codes.
+  """
   alias Kritikos.Sessions
 
   def export_qr_code(keyword) do

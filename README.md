@@ -2,7 +2,7 @@
 
 Web server for the Kritikos app.
 
-## Dev Setup
+## Development
 
 1. Run postgres container on port 5432
 
@@ -27,16 +27,16 @@ Web server for the Kritikos app.
 
 ## Deployment
 
-1. Get the following secrets, put into `./rel/`
-
-    i. Google Auth Cloud SQL Service Account JSON artifact
-
-2. Update version in mix.exs and run
+1. Update version in `mix.exs` and run
 
     `make build`
 
-3. Push to registry (replace version)
+2. Push to registry (replace version)
 
     `make push`
 
-4. SSH into root@kritikos.app droplet, update `docker-compose.yaml` to reflect newer web image version on registry, run `docker-compose up -d`
+3. SSH into root@kritikos.app droplet, update `docker-compose.yaml` to reflect newer web image version on registry, run `docker-compose up -d`
+
+    OR
+
+1. Run `make deploy` after updating version in `mix.exs`

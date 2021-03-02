@@ -1,4 +1,7 @@
 defmodule KritikosWeb.DashboardChannel do
+  @moduledoc """
+  Broadcases certain model updates to user WebSocket connections/channels.
+  """
   use Phoenix.Channel
   alias Phoenix.PubSub
 

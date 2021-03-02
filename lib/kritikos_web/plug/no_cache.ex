@@ -1,4 +1,7 @@
 defmodule KritikosWeb.Plug.NoCache do
+  @moduledoc """
+  Plug disables browser cache on user connection.
+  """
   @behaviour Plug
   alias Plug.Conn
 

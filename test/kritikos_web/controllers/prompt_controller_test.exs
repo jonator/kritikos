@@ -32,7 +32,7 @@ defmodule KritikosWeb.PromptControllerTest do
     test "get first session page", %{conn: conn, session: session} do
       conn = get(conn, "/" <> session.keyword)
 
-      assert html_response(conn, 200) =~ "<div id=\"question\">\ncustom?    </div>"
+      assert html_response(conn, 200) =~ "<div id=\"question\">"
     end
 
     test "get feedback page form", %{conn: conn, vote: vote, session: %{keyword: keyword}} do

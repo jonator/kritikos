@@ -1,4 +1,7 @@
 defmodule Kritikos.Sessions.Tag do
+  @moduledoc """
+  Defines user's tag associations with Kritikos sessions.
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Kritikos.Sessions.Session

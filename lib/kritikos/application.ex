@@ -1,4 +1,7 @@
 defmodule Kritikos.Application do
+  @moduledoc """
+  Defines root Kritikos processes.
+  """
   use Application
 
   def start(_type, _args) do
