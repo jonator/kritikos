@@ -5,7 +5,9 @@
     </div>
     <h2>{{ session.name }}</h2>
     <div v-if="sessionIsEnded" id="closed-session-actions">
-      <button id="delete-session" class="warning" @click="deleteSession">delete session</button>
+      <button id="delete-session" class="warning" @click="deleteSession">
+        delete session
+      </button>
     </div>
     <table>
       <col width="200" />
@@ -13,7 +15,11 @@
         <td>
           <div id="url-wrapper">
             Public URL
-            <HelperTooltip>This link is used by your audience to provide feedback through a simple web applet. Click to preview. Your input will not affect feedback data.</HelperTooltip>
+            <HelperTooltip
+              >This link is used by your audience to provide feedback through a
+              simple web applet. Click to preview. Your input will not affect
+              feedback data.</HelperTooltip
+            >
           </div>
         </td>
         <td id="public-link-cell">
@@ -21,8 +27,15 @@
           <div id="session-actions" v-if="!sessionIsEnded">
             <button class="warning" v-on:click="endSession">close</button>
             <button
-              v-on:click="$store.dispatch('OPEN_MODAL', {form: 'ExportSession', initialState: {keyword: session.keyword}})"
-            >export</button>
+              v-on:click="
+                $store.dispatch('OPEN_MODAL', {
+                  form: 'ExportSession',
+                  initialState: { keyword: session.keyword },
+                })
+              "
+            >
+              export
+            </button>
           </div>
         </td>
       </tr>
@@ -41,26 +54,38 @@
       <transition name="slide-fade">
         <tr v-if="infoDrawerOpen">
           <td>Start date/time</td>
-          <td>{{ session.startMoment.format("LLLL") }} ({{ session.startMoment.fromNow() }})</td>
+          <td>
+            {{ session.startMoment.format("LLLL") }} ({{
+              session.startMoment.fromNow()
+            }})
+          </td>
         </tr>
       </transition>
       <transition name="slide-fade">
         <tr v-if="sessionIsEnded && infoDrawerOpen">
           <td>End date/time</td>
-          <td>{{ session.endMoment.format("LLLL") }} ({{ session.endMoment.fromNow() }})</td>
+          <td>
+            {{ session.endMoment.format("LLLL") }} ({{
+              session.endMoment.fromNow()
+            }})
+          </td>
         </tr>
       </transition>
       <transition name="slide-fade">
         <tr v-if="infoDrawerOpen && session.tags.length > 0">
           <td>Tags</td>
           <td id="tags-list">
-            <span v-for="tag in session.tags" :key="tag.id">{{ tag.text }}</span>
+            <span v-for="tag in session.tags" :key="tag.id">{{
+              tag.text
+            }}</span>
           </td>
         </tr>
       </transition>
       <tr>
         <td>
-          <a v-on:click="toggleInfoDrawer">{{ infoDrawerOpen ? "Less" : "More" }} info</a>
+          <a v-on:click="toggleInfoDrawer"
+            >{{ infoDrawerOpen ? "Less" : "More" }} info</a
+          >
         </td>
       </tr>
     </table>

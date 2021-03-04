@@ -1,6 +1,6 @@
 # Kritikos
 
-Web server for the Kritikos app.
+A simple web app for collecting feedback from anyone via short prompts.
 
 ## Development
 
@@ -14,7 +14,7 @@ Web server for the Kritikos app.
 
 3. Setup client assets (js, svg, css, etc.)
 
-    `cd assets && npm install`
+    `cd assets && npm i && cd -`
 
 3. Install elixir (on mac)
 
@@ -27,16 +27,6 @@ Web server for the Kritikos app.
 
 ## Deployment
 
-1. Update version in `mix.exs` and run
+1. Update version in `mix.exs`
 
-    `make build`
-
-2. Push to registry (replace version)
-
-    `make push`
-
-3. SSH into root@kritikos.app droplet, update `docker-compose.yaml` to reflect newer web image version on registry, run `docker-compose up -d`
-
-    OR
-
-1. Run `make deploy` after updating version in `mix.exs`
+2. Run `make deploy`

@@ -11,22 +11,37 @@
           <HelperTooltip>Only visible to you.</HelperTooltip>
         </td>
         <td>
-          <input type="text" placeholder="example: Dining room" v-model="name" />
+          <input
+            type="text"
+            placeholder="example: Dining room"
+            v-model="name"
+          />
         </td>
       </tr>
       <tr>
         <td>Keyword</td>
         <td>
-          <HelperTooltip>Will be in the URL that your audience will use to provide feedback. It must be unique and short, with only letters, numbers, and underscores/hyphens.</HelperTooltip>
+          <HelperTooltip
+            >Will be in the URL that your audience will use to provide feedback.
+            It must be unique and short, with only letters, numbers, and
+            underscores/hyphens.</HelperTooltip
+          >
         </td>
         <td>
-          <input type="text" placeholder="example: dining_room_south" v-model="keyword" />
+          <input
+            type="text"
+            placeholder="example: dining_room_south"
+            v-model="keyword"
+          />
         </td>
       </tr>
       <tr>
         <td>Prompt question</td>
         <td>
-          <HelperTooltip>Will be the initial prompt presented to the users. Must not exceed 50 characters.</HelperTooltip>
+          <HelperTooltip
+            >Will be the prompt presented to the users. Must not exceed 50
+            characters.</HelperTooltip
+          >
         </td>
         <td>
           <input
@@ -39,9 +54,11 @@
       <tr>
         <td>Tags</td>
         <td>
-          <HelperTooltip
-            :vPosition="'top'"
-          >Can be used for identifying and categorizing your sessions. Tags are optional. (Max 10) Examples include seasons (spring, winter, etc.), months, days, classes, and many more.</HelperTooltip>
+          <HelperTooltip :vPosition="'top'"
+            >Can be used for identifying and categorizing your sessions. Tags
+            are optional. (Max 10) Examples include seasons (spring, winter,
+            etc.), months, days, classes, and many more.</HelperTooltip
+          >
         </td>
         <td>
           <VueTagsInput
@@ -50,10 +67,10 @@
             :tags="tags"
             :allow-edit-tags="true"
             :maxlength="15"
-            :add-on-key="[13,' ']"
+            :add-on-key="[13, ' ']"
             :max-tags="10"
             :placeholder="'Type tag and press enter'"
-            @tags-changed="newTags => tags = newTags"
+            @tags-changed="(newTags) => (tags = newTags)"
           />
         </td>
       </tr>
@@ -64,7 +81,9 @@
         id="create-session-button"
         class="confirm"
         @click="confirmCreateSession"
-      >create session</button>
+      >
+        create session
+      </button>
     </div>
   </div>
 </template>
@@ -77,21 +96,21 @@ import utils from "../../../../utils";
 export default {
   name: "CreateSessionForm",
   components: { VueTagsInput, HelperTooltip },
-  data: function() {
+  data: function () {
     return this.$store.state.modalState;
   },
   computed: {
-    isMobile: function() {
+    isMobile: function () {
       return utils.isMobile();
-    }
+    },
   },
   methods: {
-    confirmCreateSession: function() {
+    confirmCreateSession: function () {
       const newSession = {
         name: this.name,
         keyword: this.keyword,
         promptQuestion: this.promptQuestion,
-        tags: this.tags
+        tags: this.tags,
       };
       if (this.$store.getters.filtersAreSet) {
         if (confirm("Are you sure? Creating a session will clear filters")) {
@@ -100,8 +119,8 @@ export default {
       } else {
         this.$store.dispatch("CREATE_SESSION", newSession);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
