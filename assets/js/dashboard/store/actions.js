@@ -128,5 +128,13 @@ export default {
                 else resolve()
             })
         ])
+    },
+    VIEW_VOTE_IDS: ({ commit }, { session_id, viewed_ids }) => {
+        const body = {
+            "vote_ids": viewed_ids
+        }
+        apiRequestWithTokenAndErrors("POST", "/votes/view", body, commit, (resp, didError) => {
+            if (!didError) commit("setVotesViewed", { session_id, viewed_ids })
+        })
     }
 }

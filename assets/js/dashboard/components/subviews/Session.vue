@@ -126,6 +126,16 @@ export default {
     // scrolls view to top of session in mobile browsers
     var parentContainer = document.getElementById("subview-container");
     parentContainer.scrollTo(0, 0);
+
+    let unviewed_vote_ids = this.session.votes
+      .filter((v) => !v.viewed)
+      .map((v) => v.id);
+    if (unviewed_vote_ids.length > 0) {
+      this.$store.dispatch("VIEW_VOTE_IDS", {
+        session_id: this.session.id,
+        viewed_ids: unviewed_vote_ids,
+      });
+    }
   },
 };
 </script>

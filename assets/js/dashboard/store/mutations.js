@@ -55,5 +55,10 @@ export default {
     },
     toggleSessionInfoDrawer: (state) => {
         state.sessionInfoDrawerOpen = !state.sessionInfoDrawerOpen
+    },
+    setVotesViewed: (state, { session_id, viewed_ids }) => {
+        state.sessions.filter(s => s.id == session_id)[0].votes.forEach(v => {
+            if (viewed_ids.includes(v.id)) v.viewed = true;
+        })
     }
 }

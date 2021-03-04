@@ -12,6 +12,7 @@ defmodule Kritikos.Votes.Vote do
     belongs_to :session, Session
     has_one :feedback, Feedback
     field :vote_level_id, :id
+    field :viewed, :boolean, default: false
   end
 
   @doc false
@@ -28,7 +29,14 @@ defmodule Kritikos.Votes.Vote do
 
   def update_changeset(vote, attrs) do
     vote
-    |> cast(attrs, [:vote_level_id])
+    |> cast(attrs, [:vote_level_id, :viewed])
     |> foreign_key_constraint(:vote_level_id)
+    |> validate_change(:viewed, fn :viewed, val ->
+      if val == true do
+        []
+      else
+        [viewed: "cannot be unviewed"]
+      end
+    end)
   end
 end

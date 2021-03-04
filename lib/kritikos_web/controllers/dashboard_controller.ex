@@ -3,6 +3,7 @@ defmodule KritikosWeb.DashboardController do
   use KritikosWeb.GuardedController
   alias Kritikos.Sessions
   alias Kritikos.{Auth, Auth.User}
+  alias Kritikos.Votes
 
   plug KritikosWeb.Plug.EnsureAuthenticated, store: :cookie
   plug KritikosWeb.Plug.IsAdmin, email: "jonathanator0@gmail.com"
@@ -60,6 +61,16 @@ defmodule KritikosWeb.DashboardController do
 
   def dashboard(conn, _params, user) do
     render_dashboard(conn, user)
+  end
+
+  def user_view_votes(conn, %{"vote_ids" => vote_ids}, _user) do
+    case Votes.update_vote_ids_viewed(vote_ids) do
+      {_update_cnt, updated_ids} ->
+        render(conn, "viewed_votes.json", ids: updated_ids)
+
+      _ ->
+        render(conn, "error.json", message: "problem updating viewed votes")
+    end
   end
 
   defp render_dashboard(conn, %User{} = user, opts \\ []) do

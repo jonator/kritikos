@@ -2,9 +2,8 @@ defmodule Kritikos.Votes do
   @moduledoc """
   Fetch and update Kritikos Votes.
   """
-  import Ecto.Query
   alias Kritikos.Repo
-  alias __MODULE__.VoteLevel
+  alias __MODULE__.Queries
   alias Kritikos.Helpers
   alias Kritikos.Sessions
   alias Kritikos.Votes.{Vote, Feedback}
@@ -57,9 +56,8 @@ defmodule Kritikos.Votes do
     end
   end
 
-  def vote_levels_descriptions do
-    Repo.all(from(v in VoteLevel, select: {v.id, v.description})) |> Map.new()
-  end
-
   def include_assoc(%Vote{} = vote, key), do: Repo.preload(vote, key)
+
+  def update_vote_ids_viewed(vote_ids),
+    do: Queries.all_with_ids(vote_ids) |> Repo.update_all(set: [viewed: true])
 end

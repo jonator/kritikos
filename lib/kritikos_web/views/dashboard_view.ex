@@ -43,4 +43,8 @@ defmodule KritikosWeb.DashboardView do
 
     {:safe, json}
   end
+
+  def render("viewed_votes.json", %{ids: vote_ids}) do
+    %{vote_ids: vote_ids}
+  end
 end
