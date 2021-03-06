@@ -63,7 +63,8 @@ defmodule Kritikos.MixProject do
        git: "https://github.com/code-corps/stripity_stripe",
        ref: "337807d3f3ee8ac419ce97a684620cd8df0195d8"},
       {:pdf_generator, "~> 0.6.2"},
-      {:sneeze, "~> 1.2"}
+      {:sneeze, "~> 1.2"},
+      {:quantum, "~> 3.0"}
     ]
   end
 

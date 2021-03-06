@@ -28,6 +28,10 @@ defmodule KritikosWeb.DashboardView do
     Routes.static_path(assigns[:conn], "/js/dashboard.js")
   end
 
+  def render("viewed_votes.json", %{ids: vote_ids}) do
+    %{vote_ids: vote_ids}
+  end
+
   def vote_data_js_object do
     votes = Kritikos.Repo.all(Kritikos.Votes.VoteLevel)
 
@@ -42,9 +46,5 @@ defmodule KritikosWeb.DashboardView do
       |> Jason.encode(escape: :javascript_safe, pretty: true)
 
     {:safe, json}
-  end
-
-  def render("viewed_votes.json", %{ids: vote_ids}) do
-    %{vote_ids: vote_ids}
   end
 end

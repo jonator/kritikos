@@ -11,6 +11,12 @@ defmodule Kritikos.Votes do
   def get_vote(vote_id, opts \\ [])
   def get_vote(vote_id, opts), do: Helpers.get_schema(Vote, vote_id, opts)
 
+  def unviewed_votes_in_datetimes(start_datetime, end_datetime) do
+    Queries.votes_in_time_range(Vote, start_datetime, end_datetime)
+    |> Queries.viewed_votes(false)
+    |> Repo.all()
+  end
+
   def submit_vote(session_keyword, vote_level_id) do
     case Sessions.get_open(session_keyword) do
       nil ->

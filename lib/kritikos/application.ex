@@ -8,7 +8,8 @@ defmodule Kritikos.Application do
     children = [
       Kritikos.Repo,
       {Phoenix.PubSub, name: Kritikos.PubSub},
-      KritikosWeb.Endpoint
+      KritikosWeb.Endpoint,
+      Kritikos.Scheduler
     ]
 
     opts = [strategy: :one_for_one, name: Kritikos.Supervisor]

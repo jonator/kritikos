@@ -27,3 +27,17 @@ config :stripity_stripe, public_key: "pk_live_pACFhKCetdquYeu9VjZygWIe00tKCzLOTm
 config :logger, level: :info
 
 config :phoenix, :serve_endpoints, true
+
+config :kritikos, Kritikos.Scheduler,
+  jobs: [
+    weekly_votes_unviewed: [
+      # https://crontab.guru/#@weekly
+      schedule: "@weekly",
+      task: {KritikosWeb.VotesReports, :unviewed_prior, [:weekly]}
+    ],
+    monthly_votes_unviewed: [
+      # https://crontab.guru/#1_*_1_1-12_*
+      schedule: "1 * 1 1-12 *",
+      task: {KritikosWeb.VotesReports, :unviewed_prior, [:monthly]}
+    ]
+  ]

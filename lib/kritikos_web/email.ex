@@ -1,6 +1,6 @@
 defmodule KritikosWeb.Email do
   @moduledoc """
-  Defines emails for Kritikos feedbackers.
+  Defines emails to Kritikos users.
   """
   use Bamboo.Phoenix, view: KritikosWeb.EmailView
 
