@@ -105,4 +105,18 @@ defmodule KritikosWeb.DashboardController do
   def privacy_policy(conn, _params, _user) do
     render(conn, "privacy_policy.html")
   end
+
+  def unsubscribe_email(conn, _params, user) do
+    case Auth.update_user(user, %{is_email_active: false}) do
+      {:ok, _struct} ->
+        render_dashboard(conn, user,
+          initial_message: %{error: false, message: "Unsubscribe successful"}
+        )
+
+      {:error, _changeset} ->
+        render_dashboard(conn, user,
+          initial_message: %{error: true, message: "Unsubscribe unsuccessful"}
+        )
+    end
+  end
 end

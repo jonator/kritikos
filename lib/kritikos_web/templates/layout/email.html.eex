@@ -107,6 +107,8 @@ footer img {
 <img src="https://kritikos.app/images/kritikos_logo.png" alt="Kritikos" />
 <br>© Kritikos.app
 <a href="https://kritikos.app">Kritikos</a>
+<br>
+<a href="<%= Kritikos.Application.fetch_host() %>/dashboard/unsubscribe_email">Unsubscribe</a>
 </footer>
 </div>
 </body>
