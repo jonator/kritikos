@@ -3,7 +3,7 @@ ARG app_name=kritikos
 ENV MIX_ENV=prod TERM=xterm PORT=8080
 WORKDIR /opt/app
 RUN apk update \
-    && apk --no-cache --update add nodejs nodejs-npm build-base git \
+    && apk --no-cache --update add nodejs npm build-base git \
     && mix local.rebar --force \
     && mix local.hex --force
 COPY . .

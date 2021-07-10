@@ -50,11 +50,15 @@ module.exports = (env, options) => ({
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({ filename: '../css/[name].css' }),
-    new CopyWebpackPlugin([
+    new CopyWebpackPlugin(
       {
-        from: 'static/',
-        to: '../'
+        patterns: [
+          {
+            from: 'static/',
+            to: '../'
+          }
+        ]
       }
-    ])
+    )
   ]
 });
