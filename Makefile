@@ -32,4 +32,3 @@ push:
 	docker push jator/$(APP_NAME):release-$(APP_VSN)
 
 deploy: help mix_test build push
-	ssh root@kritikos.app 'sed -i "s|jator/kritikos:release-.*|jator/kritikos:release-$(APP_VSN)|g" ./docker-compose.yaml && docker-compose up -d'
